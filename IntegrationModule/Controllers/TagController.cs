@@ -2,25 +2,25 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IntegrationModule.Controllers
+namespace MVC.Controllers
 {
-    [Route("api/genres")]
+    [Route("api/tags")]
     [ApiController]
-    public class GenreController : ControllerBase
+    public class TagController : ControllerBase
     {
         private readonly RwaMoviesContext _dbContext;
 
-        public GenreController(RwaMoviesContext dbContext)
+        public TagController(RwaMoviesContext dbContext)
         {
             _dbContext = dbContext;
         }
 
         [HttpGet("[action]")]
-        public ActionResult<IEnumerable<Genre>> GetAll()
+        public ActionResult<IEnumerable<Tag>> GetAll()
         {
             try
             {
-                return _dbContext.Genres;
+                return _dbContext.Tags;
             }
             catch (Exception ex)
             {
@@ -31,11 +31,11 @@ namespace IntegrationModule.Controllers
         }
 
         [HttpGet("[action]")]
-        public ActionResult<IEnumerable<Genre>> Search(string searchPart)
+        public ActionResult<IEnumerable<Tag>> Search(string searchPart)
         {
             try
             {
-                var dbGenres = _dbContext.Genres.Where(x => x.Name.Contains(searchPart));
+                var dbGenres = _dbContext.Tags.Where(x => x.Name.Contains(searchPart));
                 return Ok(dbGenres);
             }
             catch (Exception ex)
@@ -47,11 +47,11 @@ namespace IntegrationModule.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Genre> Get(int id)
+        public ActionResult<Tag> Get(int id)
         {
             try
             {
-                var dbGenre = _dbContext.Genres.FirstOrDefault(x => x.Id == id);
+                var dbGenre = _dbContext.Tags.FirstOrDefault(x => x.Id == id);
                 if (dbGenre == null)
                     return NotFound($"Could not find genre with id {id}");
 
@@ -66,18 +66,18 @@ namespace IntegrationModule.Controllers
         }
 
         [HttpPost()]
-        public ActionResult<Genre> Post(Genre genre)
+        public ActionResult<Genre> Post(Tag tag)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                _dbContext.Genres.Add(genre);
+                _dbContext.Tags.Add(tag);
 
                 _dbContext.SaveChanges();
 
-                return Ok(genre);
+                return Ok(tag);
             }
             catch (Exception ex)
             {
@@ -88,22 +88,22 @@ namespace IntegrationModule.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Genre> Put(int id, Genre genre)
+        public ActionResult<Tag> Put(int id, Tag tag)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var dbGenre = _dbContext.Genres.FirstOrDefault(x => x.Id == id);
-                if (dbGenre == null)
+                var dbTag = _dbContext.Tags.FirstOrDefault(x => x.Id == id);
+                if (dbTag == null)
                     return NotFound($"Could not find genre with id {id}");
 
-                dbGenre.Name = genre.Name;
+                dbTag.Name = tag.Name;
 
                 _dbContext.SaveChanges();
 
-                return Ok(dbGenre);
+                return Ok(dbTag);
             }
             catch (Exception ex)
             {
@@ -118,15 +118,15 @@ namespace IntegrationModule.Controllers
         {
             try
             {
-                var dbGenre = _dbContext.Genres.FirstOrDefault(x => x.Id == id);
-                if (dbGenre == null)
+                var dbTag = _dbContext.Tags.FirstOrDefault(x => x.Id == id);
+                if (dbTag == null)
                     return NotFound($"Could not find genre with id {id}");
 
-                _dbContext.Genres.Remove(dbGenre);
+                _dbContext.Tags.Remove(dbTag);
 
                 _dbContext.SaveChanges();
 
-                return Ok(dbGenre);
+                return Ok(dbTag);
             }
             catch (Exception ex)
             {
@@ -136,8 +136,6 @@ namespace IntegrationModule.Controllers
             }
         }
 
-
-
-
     }
 }
+
