@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BL.BLModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace BL.DALModels;
