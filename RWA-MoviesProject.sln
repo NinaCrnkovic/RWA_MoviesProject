@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVC", "MVC\MVC.csproj", "{7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{FE5E7FDF-2EEF-4BAD-9FD4-F64F8FDCA314}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationModule", "IntegrationModule\IntegrationModule.csproj", "{9C49FC18-C13B-4B2C-B800-EFFAFC8129CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationModule", "IntegrationModule\IntegrationModule.csproj", "{9C49FC18-C13B-4B2C-B800-EFFAFC8129CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

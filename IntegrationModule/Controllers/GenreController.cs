@@ -72,7 +72,7 @@ namespace IntegrationModule.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-
+   
                 _dbContext.Genres.Add(genre);
 
                 _dbContext.SaveChanges();

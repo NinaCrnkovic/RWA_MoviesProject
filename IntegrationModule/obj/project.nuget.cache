@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "+Y11ENesJl2J0SBEMvjA4SKVgCEjUgyg/9VMLEnLr4rNXfDd/j9UH0OF8W3Tfpi1dJOy1yxgUId5Apx4bBT9YQ==",
+  "dgSpecHash": "vgeIC/ITEYvC7F5sdLw+K//FKvm/eKsyj9mNAc63FPH5JMul9udUTdsi/npjKM/+c/OLYhrthW36SysICylYPA==",
   "success": true,
   "projectFilePath": "C:\\Users\\38598\\Documents\\Faks\\4.semestar 2022-23\\RWA\\RWA-MoviesProject\\RWA-MoviesProject\\IntegrationModule\\IntegrationModule.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,8 @@
     "C:\\Users\\38598\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\38598\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.14\\microsoft.aspnetcore.authentication.jwtbearer.6.0.14.nupkg.sha512",
+    "C:\\Users\\38598\\.nuget\\packages\\microsoft.aspnetcore.authentication.openidconnect\\6.0.14\\microsoft.aspnetcore.authentication.openidconnect.6.0.14.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\microsoft.data.sqlclient\\5.0.1\\microsoft.data.sqlclient.5.0.1.nupkg.sha512",

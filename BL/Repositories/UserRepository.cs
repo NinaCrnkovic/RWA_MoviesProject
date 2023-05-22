@@ -13,7 +13,7 @@ namespace BL.Repositories
     public interface IUserRepository
     {
         IEnumerable<BLUser> GetAll();
-     
+
 
     }
     public class UserRepository : IUserRepository

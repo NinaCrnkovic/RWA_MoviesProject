@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "thC2DJ7rQ7O4zT9+Xc2I0K7JEvnCVtuVv/jBcCXPF3SeX9MCYC2CjPuDcqo9j3evVHVVaWs8pAZsIjOSczdD6g==",
+  "dgSpecHash": "X+infA0CeuPWINy05bnquiXN1/MFW6Riif5vTWCNGk3NIcF8ERl2q0eFO5oDAB3VcnANAsu7fMiO3KmcvDJHBg==",
   "success": true,
   "projectFilePath": "C:\\Users\\38598\\Documents\\Faks\\4.semestar 2022-23\\RWA\\RWA-MoviesProject\\RWA-MoviesProject\\MVC\\MVC.csproj",
   "expectedPackageFiles": [
@@ -12,6 +12,8 @@
     "C:\\Users\\38598\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\messagepackanalyzer\\2.1.152\\messagepackanalyzer.2.1.152.nupkg.sha512",
+    "C:\\Users\\38598\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.14\\microsoft.aspnetcore.authentication.jwtbearer.6.0.14.nupkg.sha512",
+    "C:\\Users\\38598\\.nuget\\packages\\microsoft.aspnetcore.authentication.openidconnect\\6.0.14\\microsoft.aspnetcore.authentication.openidconnect.6.0.14.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\6.0.0\\microsoft.aspnetcore.razor.language.6.0.0.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\5.0.0\\microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\microsoft.build\\17.3.2\\microsoft.build.17.3.2.nupkg.sha512",

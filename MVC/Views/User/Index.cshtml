@@ -1,14 +1,15 @@
 ﻿@model IEnumerable<MVC.ViewModels.VMUser>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "User";
 }
 
-<h1>Index</h1>
+<h1>User</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <button class="btn btn-primary" asp-action="Create">Create New</button>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -96,11 +97,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CountryOfResidenceId)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+             <td>
+                 <button class="btn btn-primary" onclick="location.href='@Url.Action("Edit", new { /*id=item.PrimaryKey */ })'">Edit</button>
+                 <button class="btn btn-primary" onclick="location.href='@Url.Action("Details", new { /* id=item.PrimaryKey */ })'">Details</button>
+                 <button class="btn btn-danger" onclick="location.href='@Url.Action("Delete", new { /* id=item.PrimaryKey */ })'">Delete</button>
             </td>
+
         </tr>
 }
     </tbody>

@@ -8,7 +8,7 @@ namespace MVC.Controllers
     [ApiController]
     public class TagController : ControllerBase
     {
-        private readonly RwaMoviesContext _dbContext;
+        private readonly BL.DALModels.RwaMoviesContext _dbContext;
 
         public TagController(RwaMoviesContext dbContext)
         {

@@ -20,11 +20,11 @@ namespace BL.Repositories
     public class CountryRepository
     {
         private readonly RwaMoviesContext _dbContext;
-         private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
         public CountryRepository(RwaMoviesContext dbContext, IMapper mapper)
         {
               _dbContext = dbContext;
-            _mapper = mapper;
+              _mapper = mapper;
         }
         public IEnumerable<BLCountry> GetAll()
         {
