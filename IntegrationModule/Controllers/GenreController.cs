@@ -41,7 +41,7 @@ namespace IntegrationModule.Controllers
         {
             try
             {
-                var dbGenres = _genreRepository.GetAll().Where(x => x.Name.Contains(searchPart));
+                var dbGenres = _genreRepository.GetAll().Where(x => x.Name.ToLower().Contains(searchPart.ToLower()));
                 var genres = _mapper.Map<IEnumerable<Genre>>(dbGenres);
                 return Ok(genres);
             }
@@ -131,11 +131,11 @@ namespace IntegrationModule.Controllers
                 _genreRepository.Delete(id);
                 return Ok(blGenre);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    "An error occurred while deleting the genre.");
+                    "An error occurred while deleting the genre." + ex);
             }
         }
 

@@ -73,14 +73,36 @@ namespace BL.Repositories
 
         public void Delete(int id)
         {
-            var dbGenre = _dbContext.Genres.Find(id);
-            if (dbGenre == null)
+            
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
-                throw new InvalidOperationException("Genre not found");
-            }
+                try
+                {
+                    var dbGenre = _dbContext.Genres.Find(id);
+                    if (dbGenre == null)
+                    {
+                        throw new InvalidOperationException("Genre not found");
+                    }
 
-            _dbContext.Genres.Remove(dbGenre);
-            _dbContext.SaveChanges();
+                    // Retrieve all videos associated with the genre
+                    var videos = _dbContext.Videos.Where(v => v.GenreId == id);
+
+                    // Remove the videos associated with the genre
+                    _dbContext.Videos.RemoveRange(videos);
+
+                    _dbContext.SaveChanges();
+                    // Remove the genre
+                    _dbContext.Genres.Remove(dbGenre);
+
+                    _dbContext.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    throw; // Rethrow the exception to handle it at a higher level
+                }
+            }
         }
     }
 }

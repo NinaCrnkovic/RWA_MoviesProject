@@ -38,36 +38,6 @@ namespace BL.Repositories
             return blVideos;
         }
 
-        //public IEnumerable<BLVideo> GetFiltered(string searchName, string sortBy)
-        //{
-        //    var query = _dbContext.Videos.AsQueryable();
-
-        //    if (!string.IsNullOrEmpty(searchName))
-        //    {
-        //        query = query.Where(v => v.Name.Contains(searchName));
-        //    }
-
-        //    //switch (sortBy)
-        //    //{
-        //    //    case "id":
-        //    //        query = query.OrderBy(v => v.Id);
-        //    //        break;
-        //    //    case "name":
-        //    //        query = query.OrderBy(v => v.Name);
-        //    //        break;
-        //    //    case "totalTime":
-        //    //        query = query.OrderBy(v => v.TotalSeconds);
-        //    //        break;
-        //    //    default:
-        //    //        query = query.OrderBy(v => v.Id);
-        //    //        break;
-        //    //}
-
-        //    var dbVideos = query.ToList();
-        //    var blVideos = _mapper.Map<IEnumerable<BLVideo>>(dbVideos);
-
-        //    return blVideos;
-        //}
 
         public BLVideo GetById(int id)
         {

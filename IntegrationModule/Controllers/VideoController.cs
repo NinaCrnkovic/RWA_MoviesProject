@@ -65,6 +65,24 @@ namespace IntegrationModule.Controllers
             }
         }
 
+        [HttpGet("[action]")]
+        public ActionResult<IEnumerable<Video>> SearchVideo(string searchPart)
+        {
+            try
+            {
+                var dbVideo = _videoRepository.GetAll().Where(x => x.Name.ToLower().Contains(searchPart.ToLower()));
+                var videos = _mapper.Map<IEnumerable<Video>>(dbVideo);
+                return Ok(videos);
+            }
+            catch (Exception)
+            {
+                return StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    "There has been a problem while fetching the data you requested");
+            }
+        }
+
+
         [HttpGet("[action]/{id}")]
         public ActionResult<Video> GetVideoById(int id)
         {

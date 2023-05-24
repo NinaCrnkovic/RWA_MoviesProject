@@ -15,7 +15,7 @@ namespace IntegrationModule.Mapping
             CreateMap<BL.BLModels.BLVideo, Models.Video>();
             CreateMap<BL.BLModels.BLVideoTag, Models.VideoTag>();
 
-
+            CreateMap<Models.User, BL.BLModels.BLUser>();
             CreateMap<Models.Genre, BL.BLModels.BLGenre >();
             CreateMap<Models.Tag, BL.BLModels.BLTag>();
             CreateMap<Models.Video, BL.BLModels.BLVideo>();

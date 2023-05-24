@@ -42,7 +42,7 @@ namespace MVC.Controllers
         {
             try
             {
-                var dbTags = _tagRepository.GetAll().Where(x => x.Name.Contains(searchPart));
+                var dbTags = _tagRepository.GetAll().Where(x => x.Name.ToLower().Contains(searchPart.ToLower()));
                 var tags = _mapper.Map<IEnumerable<Tag>>(dbTags);
                 return Ok(tags);
             }

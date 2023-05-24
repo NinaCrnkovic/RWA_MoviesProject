@@ -24,6 +24,7 @@ namespace BL.Mapping
             CreateMap<BLModels.BLGenre, DALModels.Genre>();
             CreateMap<BLModels.BLTag, DALModels.Tag>();
             CreateMap<BLModels.BLVideo, DALModels.Video>();
+            CreateMap<BLModels.BLUser, DALModels.User>();
         }
     }
 }

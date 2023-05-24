@@ -14,6 +14,9 @@ namespace MVC.Mapping
             CreateMap<BL.BLModels.BLTag, ViewModels.VMTag>();
             CreateMap<BL.BLModels.BLVideo, ViewModels.VMVideo>();
             CreateMap<BL.BLModels.BLVideoTag,ViewModels.VMVideoTag>();
+
+            CreateMap<ViewModels.VMUser, BL.BLModels.BLUser>();
+            CreateMap<ViewModels.VMVideo, BL.BLModels.BLVideo>();
         }
     }
 }
