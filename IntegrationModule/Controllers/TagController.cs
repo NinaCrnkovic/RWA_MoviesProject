@@ -1,4 +1,7 @@
-﻿using BL.DALModels;
+﻿using AutoMapper;
+using BL.BLModels;
+using BL.DALModels;
+using BL.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,37 +11,42 @@ namespace MVC.Controllers
     [ApiController]
     public class TagController : ControllerBase
     {
-        private readonly BL.DALModels.RwaMoviesContext _dbContext;
+        private readonly ITagRepository _tagRepository;
+        private readonly IMapper _mapper;
 
-        public TagController(RwaMoviesContext dbContext)
+        public TagController(ITagRepository tagRepository, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _tagRepository = tagRepository;
+            _mapper = mapper;
         }
 
         [HttpGet("[action]")]
-        public ActionResult<IEnumerable<Tag>> GetAll()
+        public ActionResult<IEnumerable<Tag>> GetAllTags()
         {
             try
             {
-                return _dbContext.Tags;
+                var blTags = _tagRepository.GetAll();
+                var tags = _mapper.Map<IEnumerable<Tag>>(blTags);
+                return Ok(tags);
             }
             catch (Exception ex)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    "There has been a problem while fetching the data you requested");
+                    "There has been a problem while fetching the data you requested: " + ex);
             }
         }
 
         [HttpGet("[action]")]
-        public ActionResult<IEnumerable<Tag>> Search(string searchPart)
+        public ActionResult<IEnumerable<Tag>> SearchTag(string searchPart)
         {
             try
             {
-                var dbGenres = _dbContext.Tags.Where(x => x.Name.Contains(searchPart));
-                return Ok(dbGenres);
+                var dbTags = _tagRepository.GetAll().Where(x => x.Name.Contains(searchPart));
+                var tags = _mapper.Map<IEnumerable<Tag>>(dbTags);
+                return Ok(tags);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
@@ -46,40 +54,19 @@ namespace MVC.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<Tag> Get(int id)
+        [HttpGet("[action]/{id}")]
+        public ActionResult<Tag> GetTagById(int id)
         {
             try
             {
-                var dbGenre = _dbContext.Tags.FirstOrDefault(x => x.Id == id);
-                if (dbGenre == null)
-                    return NotFound($"Could not find genre with id {id}");
+                var blTag = _tagRepository.GetById(id);
+                if (blTag == null)
+                    return NotFound($"Could not find tag with id {id}");
 
-                return Ok(dbGenre);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(
-                    StatusCodes.Status500InternalServerError,
-                    "There has been a problem while fetching the data you requested");
-            }
-        }
-
-        [HttpPost()]
-        public ActionResult<Genre> Post(Tag tag)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
-                _dbContext.Tags.Add(tag);
-
-                _dbContext.SaveChanges();
-
+                var tag = _mapper.Map<Tag>(blTag);
                 return Ok(tag);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
@@ -87,55 +74,71 @@ namespace MVC.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public ActionResult<Tag> Put(int id, Tag tag)
+        [HttpPost("[action]")]
+        public ActionResult<Tag> CreateTag(Tag tag)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var dbTag = _dbContext.Tags.FirstOrDefault(x => x.Id == id);
-                if (dbTag == null)
-                    return NotFound($"Could not find genre with id {id}");
+                tag.Id = 0;
+                var blTag = _mapper.Map<BLTag>(tag);
+                var newTag = _tagRepository.Add(blTag);
+                var createdTag = _mapper.Map<Tag>(newTag);
 
-                dbTag.Name = tag.Name;
-
-                _dbContext.SaveChanges();
-
-                return Ok(dbTag);
+                return Ok(createdTag);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    "There has been a problem while fetching the data you requested");
+                    "An error occurred while creating the tag.");
             }
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult<Genre> Delete(int id)
+        [HttpPut("[action]/{id}")]
+        public ActionResult<Tag> UpdateTag(int id, Tag tag)
         {
             try
             {
-                var dbTag = _dbContext.Tags.FirstOrDefault(x => x.Id == id);
-                if (dbTag == null)
-                    return NotFound($"Could not find genre with id {id}");
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-                _dbContext.Tags.Remove(dbTag);
+                var blTag = _mapper.Map<BLTag>(tag);
+                var updatedTag = _tagRepository.Update(id, blTag);
+                var modifiedTag = _mapper.Map<Tag>(updatedTag);
 
-                _dbContext.SaveChanges();
-
-                return Ok(dbTag);
+                return Ok(modifiedTag);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    "There has been a problem while fetching the data you requested");
+                    "An error occurred while updating the tag.");
             }
         }
 
+        [HttpDelete("[action]/{id}")]
+        public ActionResult<Tag> Delete(int id)
+        {
+            try
+            {
+                var blTag = _tagRepository.GetById(id);
+                if (blTag == null)
+                    return NotFound($"Could not find tag with id {id}");
+
+                _tagRepository.Delete(id);
+                return Ok(blTag);
+            }
+            catch (Exception)
+            {
+                return StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    "An error occurred while deleting the tag.");
+            }
+        }
     }
+
 }
 

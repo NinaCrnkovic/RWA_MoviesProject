@@ -31,7 +31,7 @@ namespace IntegrationModule.Services
 
             byte[] hash =
                 KeyDerivation.Pbkdf2(
-                    password: request.Email,
+                    password: request.Password,
                     salt: salt,
                     prf: KeyDerivationPrf.HMACSHA256,
                     iterationCount: 100000,
@@ -42,28 +42,27 @@ namespace IntegrationModule.Services
             byte[] securityToken = RandomNumberGenerator.GetBytes(256 / 8);
             string b64SecToken = Convert.ToBase64String(securityToken);
 
-       
+            // Id: Next id
+            int nextId = 1;
+            if (_users.Any())
+            {
+                nextId = _users.Max(x => x.Id) + 1;
+            }
 
             // New user
             var newUser = new User
             {
-                CreatedAt = DateTime.Now,
-                DeletedAt = null,
+                Id = nextId,
                 Username = request.Username,
-                FirstName = request.FirstName,
                 Email = request.Email,
                 Phone = request.Phone,
                 IsConfirmed = false,
                 SecurityToken = b64SecToken,
                 PwdSalt = b64Salt,
                 PwdHash = b64Hash,
-            
+                //Role = request.Role
             };
-                   
-
-
-
-        _users.Add(newUser);
+            _users.Add(newUser);
 
             return newUser;
         }
@@ -101,7 +100,11 @@ namespace IntegrationModule.Services
             return hash.SequenceEqual(calcHash);
         }
 
-    
+        //public string GetRole(string username)
+        //{
+        //    var target = _users.Single(x => x.Username == username);
+        //    return target.Role;
+        //}
 
         public Tokens JwtTokens(JwtTokensRequest request)
         {
@@ -113,7 +116,7 @@ namespace IntegrationModule.Services
             // Get secret key bytes
             var jwtKey = _configuration["JWT:Key"];
             var jwtKeyBytes = Encoding.UTF8.GetBytes(jwtKey);
-     
+            //var role = GetRole(request.Username);
 
             // Create a token descriptor (represents a token, kind of a "template" for token)
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -122,7 +125,7 @@ namespace IntegrationModule.Services
                 {
                     new System.Security.Claims.Claim(ClaimTypes.Name, request.Username),
                     new System.Security.Claims.Claim(JwtRegisteredClaimNames.Sub, request.Username),
-                  
+                    //new System.Security.Claims.Claim(ClaimTypes.Role, role)
                 }),
                 Issuer = _configuration["JWT:Issuer"],
                 Audience = _configuration["JWT:Audience"],
@@ -142,7 +145,6 @@ namespace IntegrationModule.Services
                 Token = serializedToken
             };
         }
-
 
         public void ChangePassword(ChangePasswordRequest request)
         {

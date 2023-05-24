@@ -1,4 +1,7 @@
-﻿using BL.DALModels;
+﻿using AutoMapper;
+using BL.BLModels;
+using BL.DALModels;
+using BL.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,20 +11,25 @@ namespace IntegrationModule.Controllers
     [ApiController]
     public class VideoController : ControllerBase
     {
-        private readonly RwaMoviesContext _dbContext;
+        private readonly IVideoRepository _videoRepository;
+        private readonly IMapper _mapper;
 
-        public VideoController(RwaMoviesContext dbContext)
+        public VideoController(IVideoRepository videoRepository, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _videoRepository = videoRepository;
+            _mapper = mapper;
         }
 
-        [HttpGet]
+
+        [HttpGet("[action]")]
         public ActionResult<IEnumerable<Video>> GetAll(string name, int page = 1, int pageSize = 10, string sortBy = "id")
         {
             try
             {
-                var query = _dbContext.Videos.AsQueryable();
-
+                var blVideo = _videoRepository.GetAll();
+                var videos = _mapper.Map<IEnumerable<Video>>(blVideo);
+        
+                var query = videos.AsQueryable();
                 // Filtriranje po nazivu
                 if (!string.IsNullOrEmpty(name))
                 {
@@ -45,11 +53,11 @@ namespace IntegrationModule.Controllers
                 // Straničenje
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
 
-                var videos = query.ToList();
+                videos = query.ToList();
 
                 return Ok(videos);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
@@ -57,18 +65,19 @@ namespace IntegrationModule.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<Video> Get(int id)
+        [HttpGet("[action]/{id}")]
+        public ActionResult<Video> GetVideoById(int id)
         {
             try
             {
-                var video = _dbContext.Videos.FirstOrDefault(v => v.Id == id);
-                if (video == null)
-                    return NotFound($"Could not find video with id {id}");
+                var blVideo = _videoRepository.GetById(id);
+                if (blVideo == null)
+                    return NotFound($"Could not find genre with id {id}");
 
+                var video = _mapper.Map<Video>(blVideo);
                 return Ok(video);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
@@ -76,20 +85,22 @@ namespace IntegrationModule.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult<Video> Post(Video video)
+        [HttpPost("[action]")]
+        public ActionResult<Video> CreateVideo(Video video)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                _dbContext.Videos.Add(video);
-                _dbContext.SaveChanges();
+               video.Id = 0;
+                var blVideo = _mapper.Map<BLVideo>(video);
+                var newVideo = _videoRepository.Add(blVideo);
+                var createdVideo = _mapper.Map<Video>(newVideo);
 
-                return Ok(video);
+                return Ok(createdVideo);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
@@ -97,31 +108,21 @@ namespace IntegrationModule.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public ActionResult<Video> Put(int id, Video video)
+        [HttpPut("[action]/{id}")]
+        public ActionResult<Video> UpdateVideo(int id, Video video)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var dbVideo = _dbContext.Videos.FirstOrDefault(v => v.Id == id);
-                if (dbVideo == null)
-                    return NotFound($"Could not find video with id {id}");
+                var blVideo = _mapper.Map<BLVideo>(video);
+                var updatedVideo = _videoRepository.Update(id, blVideo);
+                var modifiedVideo = _mapper.Map<Video>(updatedVideo);
 
-                dbVideo.Name = video.Name;
-                dbVideo.Description = video.Description;
-                dbVideo.Image = video.Image;
-                dbVideo.TotalSeconds = video.TotalSeconds;
-                dbVideo.StreamingUrl = video.StreamingUrl;
-                dbVideo.Genre = video.Genre;
-                dbVideo.VideoTags = video.VideoTags;
-
-                _dbContext.SaveChanges();
-
-                return Ok(dbVideo);
+                return Ok(modifiedVideo);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
@@ -129,21 +130,20 @@ namespace IntegrationModule.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult<Video> Delete(int id)
+        [HttpDelete("[action]/{id}")]
+        public ActionResult<Video> DeleteVideo(int id)
         {
             try
             {
-                var dbVideo = _dbContext.Videos.FirstOrDefault(v => v.Id == id);
-                if (dbVideo == null)
-                    return NotFound($"Could not find video with id {id}");
+                var blVideo = _videoRepository.GetById(id);
+                if (blVideo == null)
+                    return NotFound($"Could not find genre with id {id}");
+                _videoRepository.Delete(id);
+          
 
-                _dbContext.Videos.Remove(dbVideo);
-                _dbContext.SaveChanges();
-
-                return Ok(dbVideo);
+                return Ok(blVideo);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,

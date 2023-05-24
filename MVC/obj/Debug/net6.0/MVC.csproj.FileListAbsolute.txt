@@ -291,3 +291,5 @@ C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-Movie
 C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\obj\Debug\net6.0\MVC.pdb
 C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\obj\Debug\net6.0\MVC.genruntimeconfig.cache
 C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\obj\Debug\net6.0\ref\MVC.dll
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll

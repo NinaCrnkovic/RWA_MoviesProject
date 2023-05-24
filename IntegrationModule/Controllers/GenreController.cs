@@ -1,4 +1,7 @@
-﻿using BL.DALModels;
+﻿using AutoMapper;
+using BL.BLModels;
+using BL.DALModels;
+using BL.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,21 +11,41 @@ namespace IntegrationModule.Controllers
     [ApiController]
     public class GenreController : ControllerBase
     {
-        private readonly RwaMoviesContext _dbContext;
-
-        public GenreController(RwaMoviesContext dbContext)
+        private readonly IGenreRepository _genreRepository;
+        private readonly IMapper _mapper;
+        public GenreController(IGenreRepository genreRepository, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _genreRepository = genreRepository;
+            _mapper = mapper;
         }
 
         [HttpGet("[action]")]
-        public ActionResult<IEnumerable<Genre>> GetAll()
+        public ActionResult<IEnumerable<Genre>> GetAllGenres()
         {
             try
             {
-                return _dbContext.Genres;
+                var blGenres = _genreRepository.GetAll();
+                var genres = _mapper.Map<IEnumerable<Genre>>(blGenres);
+                return Ok(genres);
             }
             catch (Exception ex)
+            {
+                return StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    "There has been a problem while fetching the data you requested" +ex);
+            }
+        }
+
+        [HttpGet("[action]")]
+        public ActionResult<IEnumerable<Genre>> SearchGenre(string searchPart)
+        {
+            try
+            {
+                var dbGenres = _genreRepository.GetAll().Where(x => x.Name.Contains(searchPart));
+                var genres = _mapper.Map<IEnumerable<Genre>>(dbGenres);
+                return Ok(genres);
+            }
+            catch (Exception)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
@@ -30,56 +53,19 @@ namespace IntegrationModule.Controllers
             }
         }
 
-        [HttpGet("[action]")]
-        public ActionResult<IEnumerable<Genre>> Search(string searchPart)
+        [HttpGet("[action]/{id}")]
+        public ActionResult<Genre> GetGenreById(int id)
         {
             try
             {
-                var dbGenres = _dbContext.Genres.Where(x => x.Name.Contains(searchPart));
-                return Ok(dbGenres);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(
-                    StatusCodes.Status500InternalServerError,
-                    "There has been a problem while fetching the data you requested");
-            }
-        }
-
-        [HttpGet("{id}")]
-        public ActionResult<Genre> Get(int id)
-        {
-            try
-            {
-                var dbGenre = _dbContext.Genres.FirstOrDefault(x => x.Id == id);
-                if (dbGenre == null)
+                var blGenre = _genreRepository.GetById(id);
+                if (blGenre == null)
                     return NotFound($"Could not find genre with id {id}");
 
-                return Ok(dbGenre);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(
-                    StatusCodes.Status500InternalServerError,
-                    "There has been a problem while fetching the data you requested");
-            }
-        }
-
-        [HttpPost()]
-        public ActionResult<Genre> Post(Genre genre)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-   
-                _dbContext.Genres.Add(genre);
-
-                _dbContext.SaveChanges();
-
+                var genre = _mapper.Map<Genre>(blGenre);
                 return Ok(genre);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
@@ -87,52 +73,69 @@ namespace IntegrationModule.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public ActionResult<Genre> Put(int id, Genre genre)
+        [HttpPost("[action]")]
+        public ActionResult<Genre> CreateGenre(Genre genre)
+        {
+            try
+            {
+                if(!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                genre.Id = 0;
+                var blGenre = _mapper.Map<BLGenre>(genre);
+                var newGenre = _genreRepository.Add(blGenre);
+                var createdGenre = _mapper.Map<Genre>(newGenre);
+
+                return Ok(createdGenre);
+            }
+            catch (Exception)
+            {
+                return StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    "An error occurred while creating the genre.");
+            }
+        }
+
+        [HttpPut("[action]/{id}")]
+        public ActionResult<Genre> UpdateGenre(int id, Genre genre)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var dbGenre = _dbContext.Genres.FirstOrDefault(x => x.Id == id);
-                if (dbGenre == null)
-                    return NotFound($"Could not find genre with id {id}");
+            
 
-                dbGenre.Name = genre.Name;
+                var blGenre = _mapper.Map<BLGenre>(genre);
+                var updatedGenre = _genreRepository.Update(id, blGenre);
+                var modifiedGenre = _mapper.Map<Genre>(updatedGenre);
 
-                _dbContext.SaveChanges();
-
-                return Ok(dbGenre);
+                return Ok(modifiedGenre);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    "There has been a problem while fetching the data you requested");
+                    "An error occurred while updating the genre.");
             }
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult<Genre> Delete(int id)
+        [HttpDelete("[action]/{id}")]
+        public ActionResult<Genre> DeleteGenre(int id)
         {
             try
             {
-                var dbGenre = _dbContext.Genres.FirstOrDefault(x => x.Id == id);
-                if (dbGenre == null)
+                var blGenre = _genreRepository.GetById(id);
+                if (blGenre == null)
                     return NotFound($"Could not find genre with id {id}");
-
-                _dbContext.Genres.Remove(dbGenre);
-
-                _dbContext.SaveChanges();
-
-                return Ok(dbGenre);
+                _genreRepository.Delete(id);
+                return Ok(blGenre);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    "There has been a problem while fetching the data you requested");
+                    "An error occurred while deleting the genre.");
             }
         }
 

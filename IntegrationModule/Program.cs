@@ -1,5 +1,8 @@
 using BL.DALModels;
+using BL.Repositories;
+using IntegrationModule.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -34,7 +37,16 @@ builder.Services
         };
     });
 
-// Use authentication / authorization middleware
+
+
+builder.Services.Configure<ApiBehaviorOptions>(options => {
+    options.SuppressModelStateInvalidFilter = true;
+});
+
+builder.Services.AddSingleton<IUserService, UserService>();
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<IVideoRepository, VideoRepository>();
 
 
 var app = builder.Build();

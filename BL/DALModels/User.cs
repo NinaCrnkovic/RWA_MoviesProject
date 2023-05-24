@@ -9,7 +9,7 @@ public partial class User
 
     public DateTime CreatedAt { get; set; }
 
-    public DateTime? DeletedAt { get; set; }
+    public DateTime DeletedAt { get; set; }
 
     public string Username { get; set; } = null!;
 
@@ -23,11 +23,11 @@ public partial class User
 
     public string PwdSalt { get; set; } = null!;
 
-    public string? Phone { get; set; }
+    public string Phone { get; set; }
 
     public bool IsConfirmed { get; set; }
 
-    public string? SecurityToken { get; set; }
+    public string SecurityToken { get; set; }
 
     public int CountryOfResidenceId { get; set; }
 

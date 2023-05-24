@@ -2,10 +2,8 @@
 
 namespace IntegrationModule.Models
 {
-    public class UserRegisterRequest
+    public class UserUpdateRequest
     {
-        [Required, StringLength(50, MinimumLength = 6)]
-        public string Username { get; set; }
         [Required]
 
         public string Password { get; set; }
@@ -23,8 +21,6 @@ namespace IntegrationModule.Models
         public string Phone { get; set; }
 
 
-        //[Required]
-        //public string Role { get; set; }
 
         public int CountryOfResidenceId { get; set; }
     }

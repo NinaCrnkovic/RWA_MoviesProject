@@ -17,6 +17,8 @@ builder.Services.AddAutoMapper(
     );
 
  builder.Services.AddScoped<IUserRepository, UserRepository>();
+ builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+
 
 var app = builder.Build();
 

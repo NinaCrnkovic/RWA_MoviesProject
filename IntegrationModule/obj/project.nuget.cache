@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "vgeIC/ITEYvC7F5sdLw+K//FKvm/eKsyj9mNAc63FPH5JMul9udUTdsi/npjKM/+c/OLYhrthW36SysICylYPA==",
+  "dgSpecHash": "bENI+9og0r6ktDtbvKOPoqQNtQjOHJVgOVBHhl9SE9cBemYQBQis4E5fuJaU3syz+YRdkDiUs6GTjO9hItbdGg==",
   "success": true,
   "projectFilePath": "C:\\Users\\38598\\Documents\\Faks\\4.semestar 2022-23\\RWA\\RWA-MoviesProject\\RWA-MoviesProject\\IntegrationModule\\IntegrationModule.csproj",
   "expectedPackageFiles": [
@@ -21,6 +21,7 @@
     "C:\\Users\\38598\\.nuget\\packages\\microsoft.entityframeworkcore.design\\7.0.5\\microsoft.entityframeworkcore.design.7.0.5.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\7.0.5\\microsoft.entityframeworkcore.relational.7.0.5.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\7.0.5\\microsoft.entityframeworkcore.sqlserver.7.0.5.nupkg.sha512",
+    "C:\\Users\\38598\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\7.0.5\\microsoft.entityframeworkcore.tools.7.0.5.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\microsoft.extensions.caching.memory\\7.0.0\\microsoft.extensions.caching.memory.7.0.0.nupkg.sha512",
