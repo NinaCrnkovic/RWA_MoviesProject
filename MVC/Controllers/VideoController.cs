@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BL.BLModels;
 using BL.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using MVC.ViewModels;
@@ -23,6 +24,25 @@ namespace MVC.Controllers
             var blVideo = _videoRepo.GetAll();
             var vmVideo = _mapper.Map<IEnumerable<VMVideo>>(blVideo);
             return View(vmVideo);
+        }
+
+        public IActionResult Create()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(VMVideo video)
+        {
+           
+                var blVideo = _mapper.Map<BLVideo>(video);
+                var newVideo = _videoRepo.Add(blVideo);
+                var vmVideo = _mapper.Map<VMVideo>(newVideo);
+
+          
+
+            return View(video);
         }
     }
 }

@@ -14,6 +14,6 @@ namespace BL.BLModels
 
         public string Name { get; set; } = null!;
 
-        public virtual ICollection<BLUser> Users { get; set; } = new List<BLUser>();
+        
     }
 }

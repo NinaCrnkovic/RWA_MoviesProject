@@ -15,10 +15,34 @@ namespace IntegrationModule.Mapping
             CreateMap<BL.BLModels.BLVideo, Models.Video>();
             CreateMap<BL.BLModels.BLVideoTag, Models.VideoTag>();
 
+
+            CreateMap<BL.BLModels.BLChangePasswordRequest, Models.ChangePasswordRequest>();
+      
+            CreateMap<BL.BLModels.BLUserRegisterRequest, Models.UserRegisterRequest>();
+            CreateMap<BL.BLModels.BLUserRegisterResponse, Models.UserRegisterResponse>();
+            CreateMap<BL.BLModels.BLUserUpdateRequest, Models.UserUpdateRequest>();
+            CreateMap<BL.BLModels.BLJwtTokensRequest, Models.JwtTokensRequest>();
+
+            CreateMap<Models.UserRegisterRequest, BL.BLModels.BLUserRegisterRequest>();
+            CreateMap<Models.UserRegisterResponse, BL.BLModels.BLUserRegisterResponse>();
+            CreateMap<Models.ChangePasswordRequest, BL.BLModels.BLChangePasswordRequest>();
+ 
+            CreateMap<Models.UserUpdateRequest, BL.BLModels.BLUserUpdateRequest>();
+            CreateMap<Models.JwtTokensRequest, BL.BLModels.BLJwtTokensRequest>();
+
+
+
             CreateMap<Models.User, BL.BLModels.BLUser>();
+            CreateMap<Models.Country, BL.BLModels.BLCountry>();
             CreateMap<Models.Genre, BL.BLModels.BLGenre >();
+            CreateMap<Models.Image, BL.BLModels.BLImage>();
+            CreateMap<Models.Notification, BL.BLModels.BLNotification>();
             CreateMap<Models.Tag, BL.BLModels.BLTag>();
             CreateMap<Models.Video, BL.BLModels.BLVideo>();
+            CreateMap<Models.VideoTag, BL.BLModels.BLVideoTag>();
+
+
+
         }
     }
 }

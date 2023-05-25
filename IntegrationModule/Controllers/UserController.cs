@@ -4,7 +4,7 @@ using BL.Repositories;
 using IntegrationModule.Mapping;
 //using BL.DALModels;
 using IntegrationModule.Models;
-using IntegrationModule.Services;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -104,7 +104,7 @@ namespace IntegrationModule.Controllers
         //    {
         //        return BadRequest(ex.Message);
         //    }
-        }
+        //}
 
 
      }

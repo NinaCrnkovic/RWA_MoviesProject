@@ -11,20 +11,23 @@ namespace BL.Mapping
     {
         public AutomapperProfile()
         {
-           CreateMap<DALModels.User, BLModels.BLUser>();
-           CreateMap<DALModels.Video, BLModels.BLVideo>();
-           CreateMap<DALModels.VideoTag, BLModels.BLVideoTag>();
-           CreateMap<DALModels.Tag, BLModels.BLTag>();
-           CreateMap<DALModels.Genre, BLModels.BLGenre>();
-           CreateMap<DALModels.Country, BLModels.BLCountry>();
-           CreateMap<DALModels.Image, BLModels.BLImage>();
-           CreateMap<DALModels.Notification, BLModels.BLNotification>();
+            CreateMap<DALModels.User, BLModels.BLUser>();
+            CreateMap<DALModels.Video, BLModels.BLVideo>();
+            CreateMap<DALModels.VideoTag, BLModels.BLVideoTag>();
+            CreateMap<DALModels.Tag, BLModels.BLTag>();
+            CreateMap<DALModels.Genre, BLModels.BLGenre>();
+            CreateMap<DALModels.Country, BLModels.BLCountry>();
+            CreateMap<DALModels.Image, BLModels.BLImage>();
+            CreateMap<DALModels.Notification, BLModels.BLNotification>();
+
+            
 
 
             CreateMap<BLModels.BLGenre, DALModels.Genre>();
             CreateMap<BLModels.BLTag, DALModels.Tag>();
             CreateMap<BLModels.BLVideo, DALModels.Video>();
             CreateMap<BLModels.BLUser, DALModels.User>();
+            CreateMap<BLModels.BLNotification, DALModels.Notification>();
         }
     }
 }

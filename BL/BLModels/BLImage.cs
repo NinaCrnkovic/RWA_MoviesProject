@@ -12,6 +12,6 @@ namespace BL.BLModels
 
         public string Content { get; set; } = null!;
 
-        public virtual ICollection<BLVideo> Videos { get; set; } = new List<BLVideo>();
+   
     }
 }

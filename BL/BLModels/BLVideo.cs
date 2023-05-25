@@ -25,10 +25,6 @@ namespace BL.BLModels
 
         public int? ImageId { get; set; }
 
-        //public virtual BLGenre Genre { get; set; } = null!;
-
-        //public virtual BLImage Image { get; set; }
-
-        //public virtual ICollection<BLVideoTag> VideoTags { get; set; } = new List<BLVideoTag>();
+       
     }
 }

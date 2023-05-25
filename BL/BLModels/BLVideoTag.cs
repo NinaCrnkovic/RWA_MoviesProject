@@ -11,7 +11,5 @@ public partial class BLVideoTag
 
     public int TagId { get; set; }
 
-    public virtual BLTag Tag { get; set; } = null!;
 
-    public virtual BLVideo Video { get; set; } = null!;
 }

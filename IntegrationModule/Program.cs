@@ -1,6 +1,7 @@
 using BL.DALModels;
 using BL.Repositories;
-using IntegrationModule.Services;
+using BL.Services;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,8 @@ builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IVideoRepository, VideoRepository>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+
 
 
 var app = builder.Build();

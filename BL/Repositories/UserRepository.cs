@@ -25,10 +25,10 @@ namespace BL.Repositories
         void Delete(int id);
 
 
-        User Add(UserRegisterRequest request);
-        void ValidateEmail(ValidateEmailRequest request);
-        Tokens JwtTokens(JwtTokensRequest request);
-        void ChangePassword(ChangePasswordRequest request);
+        User Add(BLUserRegisterRequest request);
+        void ValidateEmail(BLValidateEmailRequest request);
+        BLTokens JwtTokens(BLJwtTokensRequest request);
+        void ChangePassword(BLChangePasswordRequest request);
     }
 
     public class UserRepository : IUserRepository
@@ -103,7 +103,7 @@ namespace BL.Repositories
 
 
 
-        public User Add(UserRegisterRequest request)
+        public User Add(BLUserRegisterRequest request)
         {
             // Username: Normalize and check if username exists
             var normalizedUsername = request.Username.ToLower().Trim();
@@ -152,7 +152,7 @@ namespace BL.Repositories
             return newUser;
         }
 
-        public void ValidateEmail(ValidateEmailRequest request)
+        public void ValidateEmail(BLValidateEmailRequest request)
         {
             var target = _users.FirstOrDefault(x =>
                 x.Username == request.Username && x.SecurityToken == request.B64SecToken);
@@ -191,7 +191,7 @@ namespace BL.Repositories
         //    return target.Role;
         //}
 
-        public Tokens JwtTokens(JwtTokensRequest request)
+        public BLTokens JwtTokens(BLJwtTokensRequest request)
         {
             var isAuthenticated = Authenticate(request.Username, request.Password);
 
@@ -225,13 +225,13 @@ namespace BL.Repositories
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var serializedToken = tokenHandler.WriteToken(token);
 
-            return new Tokens
+            return new BLTokens
             {
                 Token = serializedToken
             };
         }
 
-        public void ChangePassword(ChangePasswordRequest request)
+        public void ChangePassword(BLChangePasswordRequest request)
         {
             var isAuthenticated = Authenticate(request.Username, request.OldPassword);
 
