@@ -33,7 +33,7 @@ namespace BL.Repositories
 
         public BLNotification GetById(int id)
         {
-            return _dbContext.Notifications.Find(id);
+            return _dbContext.Notifications.FirstOrDefault(s => s.Id == id);
         }
 
         public void Add(BLNotification notification)
@@ -50,7 +50,7 @@ namespace BL.Repositories
 
         public void Delete(int id)
         {
-            var notification = _dbContext.Notifications.Find(id);
+            var notification = _dbContext.Notifications.FirstOrDefault(s => s.Id == id);
             if (notification == null)
             {
                 throw new InvalidOperationException("Notification not found");

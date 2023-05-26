@@ -20,6 +20,7 @@ builder.Services.AddAutoMapper(
  builder.Services.AddScoped<IUserRepository, UserRepository>();
  builder.Services.AddScoped<IGenreRepository, GenreRepository>();
  builder.Services.AddScoped<IVideoRepository, VideoRepository>();
+ builder.Services.AddScoped<IImageRepository, ImageRepository>();
 
 
 var app = builder.Build();
@@ -36,6 +37,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Video}/{action=Video}/{id?}");
+    pattern: "{controller=User}/{action=Index}/{id?}");
 
 app.Run();

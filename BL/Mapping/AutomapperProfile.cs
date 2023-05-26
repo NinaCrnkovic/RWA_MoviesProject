@@ -28,6 +28,9 @@ namespace BL.Mapping
             CreateMap<BLModels.BLVideo, DALModels.Video>();
             CreateMap<BLModels.BLUser, DALModels.User>();
             CreateMap<BLModels.BLNotification, DALModels.Notification>();
+            CreateMap<BLModels.BLVideoTag, DALModels.VideoTag>();
+            CreateMap<BLModels.BLCountry, DALModels.Country>();
+            CreateMap<BLModels.BLImage, DALModels.Image>();
         }
     }
 }

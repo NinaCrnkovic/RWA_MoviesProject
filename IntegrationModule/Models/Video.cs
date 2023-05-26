@@ -5,11 +5,11 @@ namespace IntegrationModule.Models;
 
 public partial class Video
 {
-    public int Id { get; set; }
+    public int Id { get; } = 0;
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; } = DateTime.Now;
 
-    public string Name { get; set; } = null!;
+    public string Name { get; set; } 
 
     public string Description { get; set; }
 

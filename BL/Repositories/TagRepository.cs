@@ -39,7 +39,7 @@ namespace BL.Repositories
 
         public BLTag GetById(int id)
         {
-            var dbTag = _dbContext.Tags.Find(id);
+            var dbTag = _dbContext.Tags.FirstOrDefault(s => s.Id == id);
             var blTag = _mapper.Map<BLTag>(dbTag);
 
             return blTag;
@@ -58,7 +58,7 @@ namespace BL.Repositories
 
         public BLTag Update(int id, BLTag tag)
         {
-            var dbTag = _dbContext.Tags.Find(id);
+            var dbTag = _dbContext.Tags.FirstOrDefault(s => s.Id == id);
             if (dbTag == null)
             {
                 throw new InvalidOperationException("Tag not found");
@@ -73,7 +73,7 @@ namespace BL.Repositories
 
         public void Delete(int id)
         {
-            var dbTag = _dbContext.Tags.Find(id);
+            var dbTag = _dbContext.Tags.FirstOrDefault(s => s.Id == id);
             if (dbTag == null)
             {
                 throw new InvalidOperationException("Tag not found");

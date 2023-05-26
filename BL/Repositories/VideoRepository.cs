@@ -41,7 +41,7 @@ namespace BL.Repositories
 
         public BLVideo GetById(int id)
         {
-            var dbVideo = _dbContext.Videos.Find(id);
+            var dbVideo = _dbContext.Videos.FirstOrDefault(s => s.Id == id);
             var blVideo = _mapper.Map<BLVideo>(dbVideo);
 
             return blVideo;
@@ -60,13 +60,19 @@ namespace BL.Repositories
 
         public BLVideo Update(int id, BLVideo video)
         {
-            var dbVideo = _dbContext.Videos.Find(id);
+            var dbVideo = _dbContext.Videos.FirstOrDefault(s => s.Id == id);
             if (dbVideo == null)
             {
                 throw new InvalidOperationException("Video not found");
             }
+       
+            dbVideo.Name = video.Name;
+            dbVideo.Description = video.Description;
+            dbVideo.StreamingUrl = video.StreamingUrl;
+            dbVideo.GenreId = video.GenreId;
+            dbVideo.ImageId = video.ImageId;
+            dbVideo.TotalSeconds = video.TotalSeconds;
 
-            _mapper.Map(video, dbVideo);
             _dbContext.SaveChanges();
 
             var updatedBlVideo = _mapper.Map<BLVideo>(dbVideo);
@@ -75,7 +81,7 @@ namespace BL.Repositories
 
         public void Delete(int id)
         {
-            var dbVideo = _dbContext.Videos.Find(id);
+            var dbVideo = _dbContext.Videos.FirstOrDefault(s => s.Id == id);
             if (dbVideo == null)
             {
                 throw new InvalidOperationException("Video not found");

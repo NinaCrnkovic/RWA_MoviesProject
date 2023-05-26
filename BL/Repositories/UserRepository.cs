@@ -53,14 +53,19 @@ namespace BL.Repositories
             var blUsers = _mapper.Map<IEnumerable<BLUser>>(dbUsers);
 
             return blUsers;
+
+        
         }
 
         public BLUser GetById(int id)
         {
-            var dbUser = _dbContext.Users.Find(id);
+            var dbUser = _dbContext.Users.FirstOrDefault(s => s.Id == id);
             var blUser = _mapper.Map<BLUser>(dbUser);
 
             return blUser;
+
+
+         
         }
 
         public BLUser Add(BLUser user)

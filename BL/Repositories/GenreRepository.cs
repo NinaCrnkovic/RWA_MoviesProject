@@ -39,7 +39,7 @@ namespace BL.Repositories
 
         public BLGenre GetById(int id)
         {
-            var dbGenre = _dbContext.Genres.Find(id);
+            var dbGenre = _dbContext.Genres.FirstOrDefault(s => s.Id == id);
             var blGenre = _mapper.Map<BLGenre>(dbGenre);
 
             return blGenre;
@@ -58,7 +58,7 @@ namespace BL.Repositories
 
         public BLGenre Update(int id, BLGenre genre)
         {
-            var dbGenre = _dbContext.Genres.Find(id);
+            var dbGenre = _dbContext.Genres.FirstOrDefault(s => s.Id == id);
             if (dbGenre == null)
             {
                 throw new InvalidOperationException("Genre not found");
@@ -78,7 +78,7 @@ namespace BL.Repositories
             {
                 try
                 {
-                    var dbGenre = _dbContext.Genres.Find(id);
+                    var dbGenre = _dbContext.Genres.FirstOrDefault(s => s.Id == id);
                     if (dbGenre == null)
                     {
                         throw new InvalidOperationException("Genre not found");

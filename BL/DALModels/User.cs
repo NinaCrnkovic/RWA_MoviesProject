@@ -11,17 +11,17 @@ public partial class User
 
     public DateTime DeletedAt { get; set; }
 
-    public string Username { get; set; } = null!;
+    public string Username { get; set; } 
 
-    public string FirstName { get; set; } = null!;
+    public string FirstName { get; set; }
 
-    public string LastName { get; set; } = null!;
+    public string LastName { get; set; } 
 
-    public string Email { get; set; } = null!;
+    public string Email { get; set; } 
 
-    public string PwdHash { get; set; } = null!;
+    public string PwdHash { get; set; }
 
-    public string PwdSalt { get; set; } = null!;
+    public string PwdSalt { get; set; } 
 
     public string Phone { get; set; }
 

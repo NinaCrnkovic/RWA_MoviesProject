@@ -34,6 +34,6 @@ namespace BL.BLModels
 
         public int CountryOfResidenceId { get; set; }
 
-        public virtual BLCountry CountryOfResidence { get; set; } = null!;
+        //public virtual BLCountry CountryOfResidence { get; set; } = null!;
     }
 }

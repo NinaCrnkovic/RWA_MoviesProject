@@ -140,11 +140,11 @@ namespace IntegrationModule.Controllers
 
                 return Ok(modifiedVideo);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    "There has been a problem while fetching the data you requested");
+                    "There has been a problem while fetching the data you requested" + ex);
             }
         }
 
