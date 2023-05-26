@@ -7,7 +7,6 @@
 <h1>Video</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
     <button class="btn btn-primary" onclick="location.href='@Url.Action("Create")'">Create</button>
 </p>
 
@@ -16,16 +15,23 @@
 <form method="get">
     <div class="form-row">
         <div class="col">
-            <input type="text" class="form-control" name="videoName" placeholder="Video Name">
+            @{
+                string videoName = (string)ViewData["VideoName"] ?? ViewContext.HttpContext.Request.Cookies["VideoName"];
+            }
+            <input type="text" class="form-control" name="videoName" placeholder="Video Name" value="@videoName">
         </div>
         <div class="col">
-            <input type="text" class="form-control" name="genreName" placeholder="Genre Name">
+            @{
+                string genreName = (string)ViewData["GenreName"] ?? ViewContext.HttpContext.Request.Cookies["GenreName"];
+            }
+            <input type="text" class="form-control" name="genreName" placeholder="Genre Name" value="@genreName">
         </div>
         <div class="col">
             <button type="submit" class="btn btn-primary">Search</button>
         </div>
     </div>
 </form>
+
 
 <table class="table">
     <thead>

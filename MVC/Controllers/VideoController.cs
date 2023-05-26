@@ -2,6 +2,7 @@
 using BL.BLModels;
 using BL.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MVC.ViewModels;
 
 namespace MVC.Controllers
@@ -48,6 +49,23 @@ namespace MVC.Controllers
                 vmVideo = vmVideo.Where(v => v.GenreName.Contains(genreName));
             }
 
+            // Dodaje filtere u URL
+            ViewData["VideoName"] = videoName;
+            ViewData["GenreName"] = genreName;
+
+            // Dodavanje filtera u kolačiće
+      
+            if (!string.IsNullOrEmpty(videoName))
+            {
+                Response.Cookies.Append("VideoName", videoName);
+            }
+
+            if (!string.IsNullOrEmpty(genreName))
+            {
+                Response.Cookies.Append("GenreName", genreName);
+            }
+
+
             return View(vmVideo);
         }
 
@@ -64,10 +82,16 @@ namespace MVC.Controllers
 
         public IActionResult Create()
         {
+            var blGenres = _genreRepo.GetAll();
+            var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
+            ViewBag.Genres = new SelectList(vmGenres, "Id", "Name");
+            var blImages = _imageRepo.GetAll();
+            var vmImages = _mapper.Map<IEnumerable<VMImage>>(blImages);
+            ViewBag.Images = new SelectList(vmImages, "Id", "Content");
 
             return View();
         }
-
+ 
         [HttpPost]
         public IActionResult Create(VMVideo video)
         {
@@ -76,19 +100,29 @@ namespace MVC.Controllers
                 var blVideo = _mapper.Map<BLVideo>(video);
                 var newVideo = _videoRepo.Add(blVideo);
                 var vmVideo = _mapper.Map<VMVideo>(newVideo);
+
+                var blGenres = _genreRepo.GetAll();
+                var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
+                ViewBag.Genres = new SelectList(vmGenres, "Id", "Name");
+                var blImages = _imageRepo.GetAll();
+                var vmImages = _mapper.Map<IEnumerable<VMImage>>(blImages);
+                ViewBag.Images = new SelectList(vmImages, "Id", "Content");
+
                 return RedirectToAction(nameof(Video));
             }
             catch (Exception)
             {
+                var blGenres = _genreRepo.GetAll();
+                var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
+                ViewBag.Genres = new SelectList(vmGenres, "Id", "Name");
+                var blImages = _imageRepo.GetAll();
+                var vmImages = _mapper.Map<IEnumerable<VMImage>>(blImages);
+                ViewBag.Images = new SelectList(vmImages, "Id", "Content");
 
                 return View(video);
             }
-           
-                         
         }
 
-       
-       
 
         public IActionResult Edit(int id)
         {
@@ -98,26 +132,44 @@ namespace MVC.Controllers
                 return NotFound();
             }
             var vmVideo = _mapper.Map<VMVideo>(blVideo);
+
+            var blGenres = _genreRepo.GetAll();
+            var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
+            ViewBag.Genres = new SelectList(vmGenres, "Id", "Name");
+
+            var blImages = _imageRepo.GetAll();
+            var vmImages = _mapper.Map<IEnumerable<VMImage>>(blImages);
+            ViewBag.Images = new SelectList(vmImages, "Id", "Content");
+
             return View(vmVideo);
         }
 
         [HttpPost]
         public IActionResult Edit(int id, VMVideo video)
         {
-           try
+            try
             {
                 var blVideo = _mapper.Map<BLVideo>(video);
-           
                 _videoRepo.Update(id, blVideo);
-                return RedirectToAction("Video");
+                return RedirectToAction(nameof(Video));
             }
-            catch(Exception)
+            catch (Exception)
             {
-               
+                var blGenres = _genreRepo.GetAll();
+                var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
+                ViewBag.Genres = new SelectList(vmGenres, "Id", "Name");
+
+                var blImages = _imageRepo.GetAll();
+                var vmImages = _mapper.Map<IEnumerable<VMImage>>(blImages);
+                ViewBag.Images = new SelectList(vmImages, "Id", "Content");
+
                 return View(video);
             }
-            
         }
+
+
+
+
 
         public IActionResult Delete(int id)
         {

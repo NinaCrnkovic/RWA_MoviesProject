@@ -24,9 +24,9 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
+             <div class="form-group">
                 <label asp-for="GenreId" class="control-label"></label>
-                <input asp-for="GenreId" class="form-control" />
+                <select asp-for="GenreId" asp-items="@ViewBag.Genres" class="form-control"></select>
                 <span asp-validation-for="GenreId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,9 +39,9 @@
                 <input asp-for="StreamingUrl" class="form-control" />
                 <span asp-validation-for="StreamingUrl" class="text-danger"></span>
             </div>
-            <div class="form-group">
+           <div class="form-group">
                 <label asp-for="ImageId" class="control-label"></label>
-                <input asp-for="ImageId" class="form-control" />
+                <select asp-for="ImageId" asp-items="@ViewBag.Images" class="form-control"></select>
                 <span asp-validation-for="ImageId" class="text-danger"></span>
             </div>
             <div class="form-group">
