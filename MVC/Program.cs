@@ -22,6 +22,8 @@ builder.Services.AddAutoMapper(
  builder.Services.AddScoped<IVideoRepository, VideoRepository>();
  builder.Services.AddScoped<IImageRepository, ImageRepository>();
  builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+ builder.Services.AddScoped<ITagRepository, TagRepository>();
+ builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 
 
 var app = builder.Build();

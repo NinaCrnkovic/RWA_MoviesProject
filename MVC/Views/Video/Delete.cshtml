@@ -63,6 +63,8 @@
     
     <form asp-action="Delete">
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+       <div>
+    <button class="btn btn-primary" onclick="location.href='@Url.Action("Video")'">Back to List</button>
+</div>
     </form>
 </div>

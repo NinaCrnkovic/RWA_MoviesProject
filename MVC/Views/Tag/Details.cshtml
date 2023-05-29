@@ -1,4 +1,4 @@
-﻿@model MVC.ViewModels.VMCountry
+﻿@model MVC.ViewModels.VMTag
 
 @{
     ViewData["Title"] = "Details";
@@ -7,7 +7,7 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Country</h4>
+    <h4>Tag</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -15,12 +15,6 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Code)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Code)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
@@ -31,8 +25,7 @@
     </dl>
 </div>
 <div>
-    <button class="btn btn-primary" onclick="location.href='@Url.Action("Edit", new { id = Model.Id })'">Edit</button>
+       <button class="btn btn-primary" onclick="location.href='@Url.Action("Edit", new { id = Model.Id })'">Edit</button>
 
-    <button class="btn btn-primary" onclick="location.href='@Url.Action("Country")'">Back to List</button>
-
+    <button class="btn btn-primary" onclick="location.href='@Url.Action("Tag")'">Back to List</button>
 </div>

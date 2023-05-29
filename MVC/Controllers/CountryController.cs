@@ -21,7 +21,7 @@ namespace MVC.Controllers
 
 
   
-    public IActionResult Country()
+        public IActionResult Country()
         {
 
             var blCountry = _countryRepo.GetAll();
@@ -69,6 +69,60 @@ namespace MVC.Controllers
 
                 return View(country);
             }
+        }
+
+
+        public IActionResult Edit(int id)
+        {
+            var blCountry = _countryRepo.GetById(id);
+            if (blCountry == null)
+            {
+                return NotFound();
+            }
+            var vmCountry = _mapper.Map<VMCountry>(blCountry);
+
+           
+
+            return View(vmCountry);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, VMCountry country)
+        {
+            try
+            {
+                var blCountry = _mapper.Map<BLCountry>(country);
+                _countryRepo.Update(id, blCountry);
+                return RedirectToAction(nameof(Country));
+            }
+            catch (Exception)
+            {
+                 return View(country);
+            }
+        }
+
+
+        public IActionResult Delete(int id)
+        {
+            var blCountry = _countryRepo.GetById(id);
+            if (blCountry == null)
+            {
+                return NotFound();
+            }
+            var vmCountry = _mapper.Map<VMCountry>(blCountry);
+            return View(vmCountry);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id, VMCountry country)
+        {
+            var blCountry = _countryRepo.GetById(id);
+            if (blCountry == null)
+            {
+                return NotFound();
+            }
+            _countryRepo.Delete(id);
+            return RedirectToAction("Country");
         }
 
     }
