@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{FE5E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationModule", "IntegrationModule\IntegrationModule.csproj", "{9C49FC18-C13B-4B2C-B800-EFFAFC8129CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC-PublicModule", "MVC-PublicModule\MVC-PublicModule.csproj", "{0721861B-9E38-48A2-A85D-4E91D1A70F8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9C49FC18-C13B-4B2C-B800-EFFAFC8129CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C49FC18-C13B-4B2C-B800-EFFAFC8129CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C49FC18-C13B-4B2C-B800-EFFAFC8129CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0721861B-9E38-48A2-A85D-4E91D1A70F8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0721861B-9E38-48A2-A85D-4E91D1A70F8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0721861B-9E38-48A2-A85D-4E91D1A70F8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0721861B-9E38-48A2-A85D-4E91D1A70F8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

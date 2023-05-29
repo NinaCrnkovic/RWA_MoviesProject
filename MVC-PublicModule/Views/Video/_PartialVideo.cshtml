@@ -1,0 +1,23 @@
+﻿@model IEnumerable<MVC_PublicModule.ViewModels.VMVideo>
+@{
+    ViewData["Title"] = "Video";
+}
+
+@foreach (var video in Model)
+{
+    <div class="card col-4 services-card">
+        <div class="services-img-window">
+            <img src="@video.ImageContent" class="card-img-top img-fluid">
+        </div>
+        <div class="card-body">
+            <h3 class="card-title">@video.Name</h3>
+            <p class="card-text">@video.Description</p>
+            <p class="card-text">Duration: @video.TotalSeconds</p>
+            <p class="card-text">Genre: @video.GenreName</p>
+        
+
+            <a class="btn btn-secondary" href="@Url.Action("Details", "Video", new { id = video.Id })">Play Video</a>
+        </div>
+    </div>
+}
+

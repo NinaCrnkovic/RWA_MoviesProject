@@ -1,0 +1,64 @@
+﻿@model IEnumerable<MVC_PublicModule.ViewModels.VMVideo>
+
+@{
+    ViewData["Title"] = "Video";
+
+    int numRows = 4;
+    int cardsPerRow = (int)Math.Ceiling((double)Model.Count() / numRows);
+}
+<section>
+    <header>
+        <h2>Our Videos</h2>
+     
+    </header>
+    <!-- Forma za filtriranje -->
+<form method="get">
+    <div class="form-row">
+        <div class="col">
+            @{
+                string videoName = (string)ViewData["VideoName"] ?? ViewContext.HttpContext.Request.Cookies["VideoName"];
+            }
+            <input type="text" class="form-control" name="videoName" placeholder="Video Name" value="@videoName">
+        </div>
+        <div class="col">
+            @{
+                string genreName = (string)ViewData["GenreName"] ?? ViewContext.HttpContext.Request.Cookies["GenreName"];
+            }
+            <input type="text" class="form-control" name="genreName" placeholder="Genre Name" value="@genreName">
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+</form>
+
+    <div class="container">
+
+        @for(var i = 0; i < numRows; i++)
+        {
+            <div class="row p-4 justify-content-around">
+                @await Component.InvokeAsync("RowNumber", i)
+                @*<vc:row-number number=i></vc:row-number>*@
+                @foreach (var item in Model.Skip(i * cardsPerRow).Take(cardsPerRow))
+                {
+                    ViewData["video"] = item;
+                   @* @Html.Partial("_PartialVideo.cshtml")*@
+                    <partial name="_PartialVideo.cshtml" />
+                }
+            </div>
+        }
+    </div>
+
+</section>
+
+@section Scripts 
+{
+    <script>
+        console.log("Services page loaded");
+
+        $(".card-title").each(function (idx, title) {
+            title.innerText = capitalCase(title.innerText)
+        });
+
+    </script>
+}
