@@ -12,7 +12,7 @@ namespace BL.BLModels
 
         public DateTime CreatedAt { get; set; }
 
-        public DateTime DeletedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public string Username { get; set; } 
 

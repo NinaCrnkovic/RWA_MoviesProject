@@ -1,0 +1,61 @@
+﻿@using MVC_PublicModule.ViewModels
+@model VMLogin
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Login";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MVC_PublicModule</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MVC_PublicModule.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="centered-container">
+        <div class="container">
+         
+
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <h1 class="text-center">Login</h1>
+                    <form asp-action="Login" class="mt-4">
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <label asp-for="Username" class="control-label"></label>
+                            <input asp-for="Username" class="form-control" />
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Password" class="control-label"></label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="StaySignedIn" /> @Html.DisplayNameFor(model => model.StaySignedIn)
+                            </label>
+                        </div>
+                        <input type="hidden" asp-for="RedirectUrl" class="form-control" />
+                        <div class="form-group text-center">
+                            <input type="submit" value="Login" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
+

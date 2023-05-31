@@ -9,6 +9,10 @@
 <div>
     <h4>Video</h4>
     <hr />
+    <div>
+    <iframe  width="560" height="315" src=@Model.StreamingUrl title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+    <div class="cont-table">
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
@@ -35,12 +39,6 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.GenreName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.GenreName)
-        </dd>
-        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.TotalSeconds)
         </dt>
         <dd class="col-sm-10">
@@ -52,30 +50,24 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.StreamingUrl)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageId)
+
+         <dt class="col-sm-2">
+             Genre
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ImageId)
-        </dd>
+         <dd class="col-sm-10">
+             @ViewBag.GenreName
+         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.GenreName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.GenreName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageContent)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ImageContent)
-        </dd>
+              Image
+         </dt>
+         <dd class="col-sm-10">
+            @ViewBag.ImageName
+         </dd>
     </dl>
 </div>
-
-<div>
-    <iframe width="560" height="315" src=@Model.StreamingUrl title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
+
+
 
 <div>
        <button class="btn btn-primary" onclick="location.href='@Url.Action("Video")'">Back to List</button>

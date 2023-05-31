@@ -77,8 +77,18 @@ namespace MVC.Controllers
                 return NotFound();
             }
             var vmVideo = _mapper.Map<VMVideo>(blVideo);
+
+            // Dohvatite naziv žanra i naziv slike
+            var genre = _genreRepo.GetById(vmVideo.GenreId);
+            var image = _imageRepo.GetById(vmVideo.ImageId);
+
+            // Pohranite nazive u ViewBag
+            ViewBag.GenreName = genre?.Name;
+            ViewBag.ImageName = image?.Content;
+
             return View(vmVideo);
         }
+
 
         public IActionResult Create()
         {

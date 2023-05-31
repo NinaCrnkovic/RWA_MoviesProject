@@ -17,6 +17,10 @@ namespace BL.Repositories
         BLVideo Add(BLVideo video);
         BLVideo Update(int id, BLVideo video);
         void Delete(int id);
+
+        IEnumerable<BLVideo> GetFilteredData(string term);
+        IEnumerable<BLVideo> GetPagedData(int page, int size, string orderBy, string direction);
+        int GetTotalCount();
     }
 
     public class VideoRepository : IVideoRepository
@@ -38,6 +42,58 @@ namespace BL.Repositories
             return blVideos;
         }
 
+
+
+        public int GetTotalCount() => _dbContext.Videos.Count();
+
+        public IEnumerable<BLVideo> GetFilteredData(string term)
+        {
+            // It seems more flexible to check both name or description for the search term
+            var dbVideos = _dbContext.Videos.Where(x =>
+                x.Name.Contains(term) );
+
+            var blVideos = _mapper.Map<IEnumerable<BLVideo>>(dbVideos);
+
+            return blVideos;
+        }
+
+        public IEnumerable<BLVideo> GetPagedData(int page, int size, string orderBy, string direction)
+        {
+            // All of this should go to repository
+            IEnumerable<Video> dbVideo = _dbContext.Videos.AsEnumerable();
+
+            // Ordering
+            if (string.Compare(orderBy, "id", true) == 0)
+            {
+                dbVideo = dbVideo.OrderBy(x => x.Id);
+            }
+            else if (string.Compare(orderBy, "name", true) == 0)
+            {
+                dbVideo = dbVideo.OrderBy(x => x.Name);
+            }
+            else if (string.Compare(orderBy, "description", true) == 0)
+            {
+                dbVideo = dbVideo.OrderBy(x => x.Description);
+            }
+            else
+            {
+                // default: order by Id
+                dbVideo = dbVideo.OrderBy(x => x.Id);
+            }
+
+            // For descending order we just reverse it
+            if (string.Compare(direction, "desc", true) == 0)
+            {
+                dbVideo = dbVideo.Reverse();
+            }
+
+            // Now we can page the correctly ordered items
+            dbVideo = dbVideo.Skip(page * size).Take(size);
+
+            var blVideo = _mapper.Map<IEnumerable<BLVideo>>(dbVideo);
+
+            return blVideo;
+        }
 
         public BLVideo GetById(int id)
         {

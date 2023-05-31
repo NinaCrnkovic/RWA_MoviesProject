@@ -1,18 +1,25 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    string username = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MVC_PublicModule</title>
+    <title>WatchZone - Public Module</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MVC_PublicModule.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MVC-PublicModule.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MVC_PublicModule</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Video" asp-action="Video">WatchZone</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,8 +30,18 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Video" asp-action="Video">Video</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Details" asp-route-username="@username">My Page - @username</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        @if (!string.IsNullOrEmpty(username))
+                        {
+                            <li class="nav-item">
+                                <form asp-controller="User" asp-action="Logout" class="d-inline">
+                                    <button type="submit" class="btn btn-outline-primary">Logout @username</button>
+                                </form>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -36,9 +53,10 @@
         </main>
     </div>
 
+
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - MVC_PublicModule - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 -WatchZone - Public Module - <a asp-area="" asp-controller="User" asp-action="Home">Login</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -1,5 +1,6 @@
 using BL.DALModels;
 using BL.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,12 @@ builder.Services.AddAutoMapper(
     typeof(MVC_PublicModule.Mapping.AutomapperProfile),
     typeof(BL.Mapping.AutomapperProfile)
     );
+
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
@@ -37,9 +44,13 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
+
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Video}/{action=Video}/{id?}");
+    pattern: "{controller=User}/{action=Home}/{id?}");
+
+
 
 app.Run();

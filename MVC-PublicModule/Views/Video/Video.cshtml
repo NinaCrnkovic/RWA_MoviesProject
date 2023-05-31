@@ -2,63 +2,94 @@
 
 @{
     ViewData["Title"] = "Video";
-
-    int numRows = 4;
-    int cardsPerRow = (int)Math.Ceiling((double)Model.Count() / numRows);
 }
+
 <section>
     <header>
-        <h2>Our Videos</h2>
-     
+      <h2 class="text-white">Our Videos</h2>
     </header>
-    <!-- Forma za filtriranje -->
-<form method="get">
-    <div class="form-row">
-        <div class="col">
-            @{
-                string videoName = (string)ViewData["VideoName"] ?? ViewContext.HttpContext.Request.Cookies["VideoName"];
-            }
-            <input type="text" class="form-control" name="videoName" placeholder="Video Name" value="@videoName">
-        </div>
-        <div class="col">
-            @{
-                string genreName = (string)ViewData["GenreName"] ?? ViewContext.HttpContext.Request.Cookies["GenreName"];
-            }
-            <input type="text" class="form-control" name="genreName" placeholder="Genre Name" value="@genreName">
-        </div>
-        <div class="col">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-    </div>
-</form>
 
-    <div class="container">
-
-        @for(var i = 0; i < numRows; i++)
-        {
-            <div class="row p-4 justify-content-around">
-                @await Component.InvokeAsync("RowNumber", i)
-                @*<vc:row-number number=i></vc:row-number>*@
-                @foreach (var item in Model.Skip(i * cardsPerRow).Take(cardsPerRow))
-                {
-                    ViewData["video"] = item;
-                   @* @Html.Partial("_PartialVideo.cshtml")*@
-                    <partial name="_PartialVideo.cshtml" />
+    <form id="search-form" method="get">
+        <div class="form-row">
+            <div class="col">
+                @{
+                    string videoName = (string)ViewData["VideoName"] ?? ViewContext.HttpContext.Request.Cookies["VideoName"];
                 }
+                <input type="text" class="form-control" name="videoName" placeholder="Video Name" value="@videoName">
             </div>
-        }
+            <div class="col">
+                @{
+                    string genreName = (string)ViewData["GenreName"] ?? ViewContext.HttpContext.Request.Cookies["GenreName"];
+                }
+                <input type="text" class="form-control" name="genreName" placeholder="Genre Name" value="@genreName">
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <div id="video-container" class="container">
+        @Html.Partial("VideoTableBodyPartial", Model)
     </div>
 
+    <nav>
+         <ul class="pagination justify-content-center">
+            @{
+                int currentPage = (int)ViewData["page"];
+                int totalPages = (int)ViewData["totalPages"];
+            }
+
+            @if (currentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/Video?page=@(currentPage - 1)&size=@ViewData["size"]&orderBy=@ViewData["orderBy"]&direction=@ViewData["direction"]">Previous</a>
+                </li>
+            }
+
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link" href="/Video/Video?page=@i&size=@ViewData["size"]&orderBy=@ViewData["orderBy"]&direction=@ViewData["direction"]">@i</a>
+                </li>
+            }
+
+            @if (currentPage < totalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/Video?page=@(currentPage + 1)&size=@ViewData["size"]&orderBy=@ViewData["orderBy"]&direction=@ViewData["direction"]">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
 </section>
 
 @section Scripts 
 {
     <script>
-        console.log("Services page loaded");
+        $(document).ready(function () {
+            $("#search-form").submit(function (event) {
+                event.preventDefault();
 
-        $(".card-title").each(function (idx, title) {
-            title.innerText = capitalCase(title.innerText)
+                var videoName = $("input[name=videoName]").val();
+                var genreName = $("input[name=genreName]").val();
+
+                loadVideos(videoName, genreName);
+            });
         });
 
+        function loadVideos(videoName, genreName) {
+            $.ajax({
+                type: "GET",
+                url: "/Video/VideoTableBodyPartial",
+                data: { videoName: videoName, genreName: genreName },
+                success: function (data) {
+                    $("#video-container").html(data);
+                },
+                error: function (data) {
+                    console.error("Ajax GET error", data);
+                }
+            });
+        }
     </script>
 }
