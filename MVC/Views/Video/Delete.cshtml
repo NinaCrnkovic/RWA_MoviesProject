@@ -3,14 +3,14 @@
 @{
     ViewData["Title"] = "Delete";
 }
-
+<div class="row justify-content-center">
 <h1>Delete</h1>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>VMVideo</h4>
+    <h4>Video</h4>
     <hr />
-    <dl class="row">
+    <dl class="row justify-content-center">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
         </dt>
@@ -62,9 +62,10 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="submit" value="Delete" class="btn btn-danger" /> 
        <div>
     <button class="btn btn-primary" onclick="location.href='@Url.Action("Video")'">Back to List</button>
 </div>
     </form>
+</div>
 </div>

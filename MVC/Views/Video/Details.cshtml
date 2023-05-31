@@ -4,13 +4,14 @@
     ViewData["Title"] = "Details";
 }
 
+<div class="row justify-content-center">
 <h1>Details</h1>
 
 <div>
     <h4>Video</h4>
     <hr />
 
-    <dl class="row">
+    <dl class="row justify-content-center" >
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
         </dt>
@@ -66,4 +67,5 @@
     <button class="btn btn-primary" onclick="location.href='@Url.Action("Edit", new { id = Model.Id })'">Edit</button>
     <button class="btn btn-danger" onclick="location.href='@Url.Action("Delete", new { id = Model.Id })'">Delete</button>
     <button class="btn btn-primary" onclick="location.href='@Url.Action("Video")'">Back to List</button>
+</div>
 </div>
