@@ -15,5 +15,5 @@ public partial class Country
     [StringLength(100, MinimumLength =1)]
     public string Name { get; set; } 
 
-   // public virtual ICollection<User> Users { get; set; } = new List<User>();
+    public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

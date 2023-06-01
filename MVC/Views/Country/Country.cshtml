@@ -9,7 +9,7 @@
 <h1>Country</h1>
 
 <p>
-    <button class="btn btn-primary" onclick="location.href='@Url.Action("Create")'">Create New</button>
+    <button class="btn btn-primary btn-create" onclick="location.href='@Url.Action("Create")'">Create New Country</button>
 </p>
 
 @{
@@ -24,8 +24,8 @@
         {
             <div class="card col-4 services-card">
                 <div class="card-body">
-                    <h5 class="card-title">@item.Name</h5>
-                    <p class="card-text">@item.Code</p>
+                     <h5 class="card-title text-dark">@item.Name</h5>
+                     <p class="card-text text-dark">@item.Code</p>
                    <div style="white-space: nowrap">
                 <button class="btn btn-primary mr-2" onclick="location.href='@Url.Action("Edit", new {id=item.Id})'">Edit</button>
                 <button class="btn btn-primary mr-2" onclick="location.href='@Url.Action("Details", new {id=item.Id})'">Details</button>

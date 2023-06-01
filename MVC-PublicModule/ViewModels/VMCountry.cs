@@ -9,6 +9,6 @@ namespace MVC_PublicModule.ViewModels
         public string Code { get; set; }
         public string Name { get; set; } 
 
-        //public virtual ICollection<VMUser> Users { get; set; } = new List<VMUser>();
+        public virtual ICollection<VMUser> Users { get; set; } = new List<VMUser>();
     }
 }

@@ -7,24 +7,18 @@
 <h1>Video</h1>
 
 <p>
-    <button class="btn btn-primary" onclick="location.href='@Url.Action("Create")'">Create</button>
+    <button class="btn btn-primary btn-create" onclick="location.href='@Url.Action("Create")'">Create New Video</button>
 </p>
 
 
 <!-- Forma za filtriranje -->
-<form method="get">
+<form id="search-form" method="get">
     <div class="form-row">
         <div class="col">
-            @{
-                string videoName = (string)ViewData["VideoName"] ?? ViewContext.HttpContext.Request.Cookies["VideoName"];
-            }
-            <input type="text" class="form-control" name="videoName" placeholder="Video Name" value="@videoName">
+            <input type="text" class="form-control" name="videoName" placeholder="Video Name" value="@ViewBag.VideoName">
         </div>
         <div class="col">
-            @{
-                string genreName = (string)ViewData["GenreName"] ?? ViewContext.HttpContext.Request.Cookies["GenreName"];
-            }
-            <input type="text" class="form-control" name="genreName" placeholder="Genre Name" value="@genreName">
+            <input type="text" class="form-control" name="genreName" placeholder="Genre Name" value="@ViewBag.GenreName">
         </div>
         <div class="col">
             <button type="submit" class="btn btn-primary">Search</button>

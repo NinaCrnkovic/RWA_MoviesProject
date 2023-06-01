@@ -39,6 +39,11 @@ namespace BL.Repositories
         BLUser GetConfirmedUser(string username, string password);
         void ChangePassword(string username, string newPassword);
 
+        BLUser UpdateUser(int id, BLUser user);
+        void DeleteUser(int id);
+
+        void SoftDeleteUser(int id);
+
     }
 
     public class UserRepository : IUserRepository
@@ -56,6 +61,7 @@ namespace BL.Repositories
             _mapper = mapper;
             _configuration = configuration;
         }
+
 
 
 
@@ -418,6 +424,52 @@ namespace BL.Repositories
             return b64SecToken;
         }
 
+        public BLUser UpdateUser(int id, BLUser user)
+        {
+            var dbUser = _dbContext.Users.FirstOrDefault(u => u.Id == id);
+            if (dbUser == null)
+            {
+                throw new InvalidOperationException("User not found");
+            }
+
+            dbUser.FirstName = user.FirstName;
+            dbUser.LastName = user.LastName;
+            dbUser.Email = user.Email;
+            dbUser.Phone = user.Phone;
+            dbUser.CountryOfResidenceId = user.CountryOfResidenceId;
+
+            _dbContext.SaveChanges();
+
+            var blUser = _mapper.Map<BLUser>(dbUser);
+            return blUser;
+        }
+
+        public void DeleteUser(int id)
+        {
+            var dbUser = _dbContext.Users.FirstOrDefault(u => u.Id == id);
+            if (dbUser == null)
+            {
+                throw new InvalidOperationException("User not found");
+            }
+
+            _dbContext.Users.Remove(dbUser);
+            _dbContext.SaveChanges();
+
+        }
+
+        public void SoftDeleteUser(int id)
+        {
+            var dbUser = _dbContext.Users.FirstOrDefault(u => u.Id == id);
+            if (dbUser == null)
+            {
+                throw new InvalidOperationException("User not found");
+            }
+
+            dbUser.DeletedAt = DateTime.Now;
+            _dbContext.SaveChanges();
+
+            
+        }
 
 
     }

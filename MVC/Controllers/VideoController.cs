@@ -26,37 +26,37 @@ namespace MVC.Controllers
         }
         public IActionResult Video(string videoName, string genreName)
         {
-
             var blVideo = _videoRepo.GetAll();
             var vmVideo = _mapper.Map<IEnumerable<VMVideo>>(blVideo);
+
             foreach (var video in vmVideo)
             {
                 var blGenre = _genreRepo.GetById(video.GenreId);
                 video.GenreName = blGenre.Name;
+
                 var blImage = _imageRepo.GetById(video.ImageId);
                 video.ImageContent = blImage.Content;
-               
             }
+
             // Filtriranje prema nazivu videosadržaja
             if (!string.IsNullOrEmpty(videoName))
             {
-                vmVideo = vmVideo.Where(v => v.Name.Contains(videoName));
+                vmVideo = vmVideo.Where(v => v.Name.IndexOf(videoName, StringComparison.OrdinalIgnoreCase) >= 0);
             }
 
             // Filtriranje prema nazivu žanra
             if (!string.IsNullOrEmpty(genreName))
             {
-                vmVideo = vmVideo.Where(v => v.GenreName.Contains(genreName));
+                vmVideo = vmVideo.Where(v => v.GenreName.IndexOf(genreName, StringComparison.OrdinalIgnoreCase) >= 0);
             }
 
-            // Dodaje filtere u URL
-            ViewData["VideoName"] = videoName;
-            ViewData["GenreName"] = genreName;
+            // Dodaje filtere u ViewBag
+            ViewBag.VideoName = videoName;
+            ViewBag.GenreName = genreName;
 
-            // Dodavanje filtera u kolačiće
-      
-            if (!string.IsNullOrEmpty(videoName))
-            {
+            // Pohranjivanje filtera u kolačiće
+            if(!string.IsNullOrEmpty(videoName))
+{
                 Response.Cookies.Append("VideoName", videoName);
             }
 
@@ -64,10 +64,9 @@ namespace MVC.Controllers
             {
                 Response.Cookies.Append("GenreName", genreName);
             }
-
-
             return View(vmVideo);
         }
+
 
         public IActionResult Details(int id)
         {

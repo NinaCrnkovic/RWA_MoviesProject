@@ -2,13 +2,60 @@
 
 @{
     ViewData["Title"] = "User";
+    var countryList = (SelectList)ViewBag.Country;
 }
 
 <h1>User</h1>
 
 <p>
-    <button class="btn btn-primary" asp-action="Create">Create New</button>
+    <button class="btn btn-primary btn-create" onclick="location.href='@Url.Action("Create")'">Create New User</button>
 </p>
+
+<div class="row justify-content-center">
+    <div class="form-row justify-content-center">
+        <div class="form-group col-md-3 mx-auto">
+            <label for="firstName">First Name:</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" />
+        </div>
+        <div class="form-group col-md-3 mx-auto">
+            <label for="lastName">Last Name:</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" />
+        </div>
+        <div class="form-group col-md-3 mx-auto">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username" />
+        </div>
+        <div class="form-group col-md-3 mx-auto">
+            <label for="country">Country:</label>
+            @Html.DropDownList("countryId", countryList, "All", new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-12 text-center">
+            <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+            <button class="btn btn-primary" onclick="resetFilters()">Reset Filters</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function applyFilters() {
+        var firstName = $('#firstName').val();
+        var lastName = $('#lastName').val();
+        var username = $('#username').val();
+        var countryId = $('#countryId').val();
+
+        var url = '@Url.Action("Index")' + '?firstName=' + firstName + '&lastName=' + lastName + '&username=' + username + '&countryId=' + countryId;
+        location.href = url;
+    }
+
+    function resetFilters() {
+        $('#firstName').val('');
+        $('#lastName').val('');
+        $('#username').val('');
+        $('#countryId').val(0);
+        applyFilters();
+    }
+</script>
 
 <table class="table">
     <thead>
@@ -34,23 +81,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PwdHash)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PwdSalt)
-            </th>
+         
             <th>
                 @Html.DisplayNameFor(model => model.Phone)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IsConfirmed)
             </th>
+        
             <th>
-                @Html.DisplayNameFor(model => model.SecurityToken)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CountryOfResidenceId)
+              Country
             </th>
             <th></th>
         </tr>
@@ -79,29 +119,22 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PwdHash)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PwdSalt)
-            </td>
+       
             <td>
                 @Html.DisplayFor(modelItem => item.Phone)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsConfirmed)
             </td>
+       
             <td>
-                @Html.DisplayFor(modelItem => item.SecurityToken)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CountryOfResidenceId)
+               @Html.Display((string)countryList.FirstOrDefault(c => c.Value == item.CountryOfResidenceId.ToString())?.Text)
             </td>
              <td style="white-space: nowrap">
               
                 <button class="btn btn-primary mr-2" onclick="location.href='@Url.Action("Edit", new {id=item.Id})'">Edit</button>
                 <button class="btn btn-primary mr-2" onclick="location.href='@Url.Action("Details", new {id=item.Id})'">Details</button>
-                <button class="btn btn-danger " onclick="location.href='@Url.Action("Delete",  new {id=item.Id})'">Delete</button>
+                <button class="btn btn-danger mr-2" onclick="location.href='@Url.Action("Delete",  new {id=item.Id})'">Delete</button>
       
             </td>
 

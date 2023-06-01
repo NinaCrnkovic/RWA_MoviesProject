@@ -1,16 +1,22 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+
+using MVC.ViewModels;
+
+using Microsoft.Extensions.Logging;
 using BL.BLModels;
 using BL.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using MVC.ViewModels;
 
 namespace MVC.Controllers
 {
     public class GenreController : Controller
-{
+    {
         private readonly ILogger<GenreController> _logger;
         private readonly IGenreRepository _genreRepo;
         private readonly IMapper _mapper;
+
         public GenreController(ILogger<GenreController> logger, IGenreRepository genreRepo, IMapper mapper)
         {
             _logger = logger;
@@ -106,5 +112,14 @@ namespace MVC.Controllers
             return RedirectToAction(nameof(Genre));
         }
 
+        [HttpGet]
+        public IActionResult GetAllGenres()
+        {
+            var blGenres = _genreRepo.GetAll();
+            var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
+            return Json(vmGenres);
+        }
     }
 }
+
+

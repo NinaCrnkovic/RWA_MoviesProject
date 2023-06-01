@@ -24,7 +24,7 @@
                 <input type="text" class="form-control" name="genreName" placeholder="Genre Name" value="@genreName">
             </div>
             <div class="col">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary btn-create">Search</button>
             </div>
         </div>
     </form>
@@ -67,29 +67,39 @@
 @section Scripts 
 {
     <script>
-        $(document).ready(function () {
-            $("#search-form").submit(function (event) {
-                event.preventDefault();
+    $(document).ready(function () {
+        $("#search-form").submit(function (event) {
+            event.preventDefault();
 
-                var videoName = $("input[name=videoName]").val();
-                var genreName = $("input[name=genreName]").val();
+            var videoName = $("input[name=videoName]").val();
+            var genreName = $("input[name=genreName]").val();
+            var orderBy = "@ViewData["orderBy"]";
+            var direction = "@ViewData["direction"]";
 
-                loadVideos(videoName, genreName);
-            });
+            loadVideos(videoName, genreName, orderBy, direction);
         });
+    });
 
-        function loadVideos(videoName, genreName) {
-            $.ajax({
-                type: "GET",
-                url: "/Video/VideoTableBodyPartial",
-                data: { videoName: videoName, genreName: genreName },
-                success: function (data) {
-                    $("#video-container").html(data);
-                },
-                error: function (data) {
-                    console.error("Ajax GET error", data);
-                }
-            });
-        }
-    </script>
+    function loadVideos(videoName, genreName, orderBy, direction) {
+        $.ajax({
+            type: "GET",
+            url: "/Video/VideoTableBodyPartial",
+            data: { videoName: videoName, genreName: genreName, orderBy: orderBy, direction: direction },
+            success: function (data) {
+                $("#video-container").html(data);
+            },
+            error: function (data) {
+                console.error("Ajax GET error", data);
+            }
+        });
+    }
+</script>
+
+
+
+
+
+
+
+
 }

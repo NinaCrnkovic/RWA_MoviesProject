@@ -82,7 +82,7 @@ namespace MVC_PublicModule.Controllers
                 video.GenreName = blGenre?.Name;
 
                 var blImage = _imageRepo.GetById(video.ImageId);
-                video.ImageContent = blImage?.Content; // Pridružite URL slike
+                video.ImageContent = blImage?.Content; 
             }
 
             ViewData["page"] = page;

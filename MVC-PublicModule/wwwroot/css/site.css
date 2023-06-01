@@ -73,6 +73,57 @@ dl.row dd {
         text-align: left;
   
     }
+.btn-pink {
+    background: linear-gradient(to right, rgb(247, 2, 194) 0%, rgb(65, 12, 57) 50%, rgb(247, 2, 194) 100%);
+    color: white;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+    .btn-pink:hover {
+        background: linear-gradient(to right, rgb(65, 12, 57) 0%, rgb(247, 2, 194) 50%, rgb(65, 12, 57) 100%);
+    }
+
+.btn-blue {
+    background: linear-gradient(to right, rgb(2, 145, 253) 0%, rgb(44, 20, 92) 50%, rgb(2, 145, 253) 100%);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+    .btn-blue:hover {
+        background: linear-gradient(to right, rgb(44, 20, 92) 0%, rgb(2, 145, 253) 50%, rgb(44, 20, 92) 100%);
+    }
+
+.btn-create {
+    background: linear-gradient(to right, rgb(247, 2, 194),rgb(2, 145, 253));
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+    .btn-create:hover {
+        background: linear-gradient(to right, rgb(2, 145, 253), rgb(247, 2, 194));
+    }
 
 
+.navbar {
+    background-color: black;
+}
 
+.navbar-light .navbar-nav .nav-link {
+    color: white;
+}

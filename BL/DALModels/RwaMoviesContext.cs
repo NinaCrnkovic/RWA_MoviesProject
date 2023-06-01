@@ -89,10 +89,10 @@ public partial class RwaMoviesContext : DbContext
             entity.Property(e => e.SecurityToken).HasMaxLength(256);
             entity.Property(e => e.Username).HasMaxLength(50);
 
-            //entity.HasOne(d => d.CountryOfResidence).WithMany(p => p.Users)
-            //    .HasForeignKey(d => d.CountryOfResidenceId)
-            //    .OnDelete(DeleteBehavior.ClientSetNull)
-            //    .HasConstraintName("FK_User_Country");
+            entity.HasOne(d => d.CountryOfResidence).WithMany(p => p.Users)
+                .HasForeignKey(d => d.CountryOfResidenceId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_User_Country");
         });
 
         modelBuilder.Entity<Video>(entity =>

@@ -60,12 +60,12 @@
             @Html.DisplayFor(model => model.ImageId)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" /> 
-       <div>
-    <button class="btn btn-primary" onclick="location.href='@Url.Action("Video")'">Back to List</button>
-</div>
-    </form>
-</div>
-</div>
+    </div>
+    </div>
+    <div>
+        <form asp-action="Delete">
+            <input type="submit" value="Delete" class="btn btn-danger d-inline-block ml-2" />
+        </form>
+        <button class="btn btn-primary d-inline-block ml-2" onclick="location.href='@Url.Action("Video")'">Back to List</button>
+    </div>
+
