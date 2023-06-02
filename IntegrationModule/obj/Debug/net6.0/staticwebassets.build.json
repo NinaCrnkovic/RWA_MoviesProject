@@ -1,11 +1,54 @@
 {
   "Version": 1,
-  "Hash": "rAosrYeFmC02C4Ze2ojwEOl3BP9wcl1kxG58rH234yQ=",
+  "Hash": "p63Q5hJUhoAo4++ODHQvGHJCHQ1oW2lmqXCIOplS+bw=",
   "Source": "IntegrationModule",
   "BasePath": "_content/IntegrationModule",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "IntegrationModule\\wwwroot",
+      "Source": "IntegrationModule",
+      "ContentRoot": "C:\\Users\\38598\\Documents\\Faks\\4.semestar 2022-23\\RWA\\RWA-MoviesProject\\RWA-MoviesProject\\IntegrationModule\\wwwroot\\",
+      "BasePath": "_content/IntegrationModule",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\38598\\Documents\\Faks\\4.semestar 2022-23\\RWA\\RWA-MoviesProject\\RWA-MoviesProject\\IntegrationModule\\wwwroot\\Notification.js",
+      "SourceId": "IntegrationModule",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\38598\\Documents\\Faks\\4.semestar 2022-23\\RWA\\RWA-MoviesProject\\RWA-MoviesProject\\IntegrationModule\\wwwroot\\",
+      "BasePath": "_content/IntegrationModule",
+      "RelativePath": "Notification.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Notification.js"
+    },
+    {
+      "Identity": "C:\\Users\\38598\\Documents\\Faks\\4.semestar 2022-23\\RWA\\RWA-MoviesProject\\RWA-MoviesProject\\IntegrationModule\\wwwroot\\NotificationPage.html",
+      "SourceId": "IntegrationModule",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\38598\\Documents\\Faks\\4.semestar 2022-23\\RWA\\RWA-MoviesProject\\RWA-MoviesProject\\IntegrationModule\\wwwroot\\",
+      "BasePath": "_content/IntegrationModule",
+      "RelativePath": "NotificationPage.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\NotificationPage.html"
+    }
+  ]
 }

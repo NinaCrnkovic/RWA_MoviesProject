@@ -9,5 +9,5 @@ public partial class BLTag
 
     public string Name { get; set; } = null!;
 
-   
+    public virtual ICollection<BLVideoTag> VideoTags { get; set; } = new List<BLVideoTag>();
 }

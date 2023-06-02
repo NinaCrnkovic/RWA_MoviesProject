@@ -572,3 +572,5 @@ C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-Movie
 C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC-PublicModule\obj\Debug\net6.0\MVC-PublicModule.pdb
 C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC-PublicModule\obj\Debug\net6.0\MVC-PublicModule.genruntimeconfig.cache
 C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC-PublicModule\obj\Debug\net6.0\ref\MVC-PublicModule.dll
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC-PublicModule\bin\Debug\net6.0\xunit.abstractions.dll
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC-PublicModule\bin\Debug\net6.0\xunit.core.dll

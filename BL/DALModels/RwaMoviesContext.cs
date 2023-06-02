@@ -21,7 +21,7 @@ public partial class RwaMoviesContext : DbContext
 
     public virtual DbSet<Image> Images { get; set; }
 
-    public virtual DbSet<BLNotification> Notifications { get; set; }
+    public virtual DbSet<Notification> Notification { get; set; }
 
     public virtual DbSet<Tag> Tags { get; set; }
 
@@ -60,7 +60,7 @@ public partial class RwaMoviesContext : DbContext
             entity.ToTable("Image");
         });
 
-        modelBuilder.Entity<BLNotification>(entity =>
+        modelBuilder.Entity<Notification>(entity =>
         {
             entity.ToTable("Notification");
 
@@ -104,14 +104,14 @@ public partial class RwaMoviesContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(256);
             entity.Property(e => e.StreamingUrl).HasMaxLength(256);
 
-            //entity.HasOne(d => d.Genre).WithMany(p => p.Videos)
-            //    .HasForeignKey(d => d.GenreId)
-            //    .OnDelete(DeleteBehavior.ClientSetNull)
-            //    .HasConstraintName("FK_Video_Genre");
+            entity.HasOne(d => d.Genre).WithMany(p => p.Videos)
+                .HasForeignKey(d => d.GenreId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Video_Genre");
 
-            //entity.HasOne(d => d.Image).WithMany(p => p.Videos)
-            //    .HasForeignKey(d => d.ImageId)
-            //    .HasConstraintName("FK_Video_Images");
+            entity.HasOne(d => d.Image).WithMany(p => p.Videos)
+                .HasForeignKey(d => d.ImageId)
+                .HasConstraintName("FK_Video_Images");
         });
 
         modelBuilder.Entity<VideoTag>(entity =>
@@ -123,10 +123,10 @@ public partial class RwaMoviesContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_VideoTag_Tag");
 
-            //entity.HasOne(d => d.Video).WithMany(p => p.VideoTags)
-            //    .HasForeignKey(d => d.VideoId)
-            //    .OnDelete(DeleteBehavior.ClientSetNull)
-            //    .HasConstraintName("FK_VideoTag_Video");
+            entity.HasOne(d => d.Video).WithMany(p => p.VideoTags)
+                .HasForeignKey(d => d.VideoId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_VideoTag_Video");
         });
 
         OnModelCreatingPartial(modelBuilder);

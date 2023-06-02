@@ -1,4 +1,5 @@
-﻿using BL.BLModels;
+﻿using AutoMapper;
+using BL.BLModels;
 using BL.DALModels;
 using System;
 using System.Collections.Generic;
@@ -12,53 +13,79 @@ namespace BL.Repositories
     {
         IEnumerable<BLNotification> GetAll();
         BLNotification GetById(int id);
-        void Add(BLNotification notification);
-        void Update(BLNotification notification);
+        BLNotification Add(BLNotification notification);
+        BLNotification Update(int id, BLNotification notification);
         void Delete(int id);
     }
 
     public class NotificationRepository : INotificationRepository
     {
         private readonly RwaMoviesContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public NotificationRepository(RwaMoviesContext dbContext)
+        public NotificationRepository(RwaMoviesContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public IEnumerable<BLNotification> GetAll()
         {
-            return _dbContext.Notifications;
+            var dbNotifications = _dbContext.Notification;
+            var blNotifications = _mapper.Map<IEnumerable<BLNotification>>(dbNotifications);
+
+            return blNotifications;
         }
 
         public BLNotification GetById(int id)
         {
-            return _dbContext.Notifications.FirstOrDefault(s => s.Id == id);
+            var dbNotification = _dbContext.Notification.FirstOrDefault(n => n.Id == id);
+            var blNotification = _mapper.Map<BLNotification>(dbNotification);
+
+            return blNotification;
         }
 
-        public void Add(BLNotification notification)
+        public BLNotification Add(BLNotification notification)
         {
-            _dbContext.Notifications.Add(notification);
+            var newDbNotification = _mapper.Map<Notification>(notification);
+            newDbNotification.Id = 0;
+            _dbContext.Notification.Add(newDbNotification);
             _dbContext.SaveChanges();
+
+            var newBlNotification = _mapper.Map<BLNotification>(newDbNotification);
+            return newBlNotification;
         }
 
-        public void Update(BLNotification notification)
+        public BLNotification Update(int id, BLNotification notification)
         {
-            _dbContext.Notifications.Update(notification);
+            var dbNotification = _dbContext.Notification.FirstOrDefault(n => n.Id == id);
+            if (dbNotification == null)
+            {
+                throw new InvalidOperationException("Notification not found");
+            }
+
+            _mapper.Map(notification, dbNotification);
             _dbContext.SaveChanges();
+
+            var updatedBlNotification = _mapper.Map<BLNotification>(dbNotification);
+            return updatedBlNotification;
         }
+
+
 
         public void Delete(int id)
         {
-            var notification = _dbContext.Notifications.FirstOrDefault(s => s.Id == id);
+            var notification = _dbContext.Notification.FirstOrDefault(s => s.Id == id);
             if (notification == null)
             {
                 throw new InvalidOperationException("Notification not found");
             }
 
-            _dbContext.Notifications.Remove(notification);
+            _dbContext.Notification.Remove(notification);
             _dbContext.SaveChanges();
         }
+
+        
     }
 
    

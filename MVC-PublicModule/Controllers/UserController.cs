@@ -68,23 +68,32 @@ namespace MVC_PublicModule.Controllers
         }
 
         [HttpPost]
+    
         public IActionResult Register(VMRegister register)
         {
             if (!ModelState.IsValid)
+            {
+                var blCountry = _countryRepo.GetAll();
+                var vmCountry = _mapper.Map<IEnumerable<VMCountry>>(blCountry);
+                ViewBag.Country = new SelectList(vmCountry, "Id", "Name");
                 return View(register);
+            }
 
-            var user = _userRepo.CreateUser(
+            var user = _userRepo.CreateUserMVC(
+
                 register.Username,
                 register.FirstName,
                 register.LastName,
                 register.Email,
                 register.Phone,
-                register.Password, 
+                register.Password,
                 register.CountryOfResidenceId);
+       
 
-            return RedirectToAction("Video", "Video");
 
+            return RedirectToAction("Login");
         }
+
         public IActionResult ValidateEmail(VMValidateEmail validateEmail)
         {
             if (!ModelState.IsValid)
@@ -104,8 +113,9 @@ namespace MVC_PublicModule.Controllers
             return View();
         }
 
+
         [HttpPost]
-        public IActionResult Login(VMLogin login)
+        public IActionResult Login(VMLogin login, bool staySignedIn)
         {
             if (!ModelState.IsValid)
             {
@@ -124,10 +134,18 @@ namespace MVC_PublicModule.Controllers
 
                 var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Email) };
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var authenticationProperties = new AuthenticationProperties();
+
+                if (staySignedIn)
+                {
+                    // Set a future expiration time for the authentication cookie
+                    authenticationProperties.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30);
+                }
+
                 HttpContext.SignInAsync(
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity),
-                    new AuthenticationProperties()).Wait();
+                    authenticationProperties).Wait();
 
                 return RedirectToAction("Video", "Video");
             }
@@ -137,7 +155,8 @@ namespace MVC_PublicModule.Controllers
                 return View(login);
             }
         }
-    
+
+
 
 
         [HttpPost]
@@ -163,6 +182,11 @@ namespace MVC_PublicModule.Controllers
 
             return RedirectToAction("Video", "Video");
 
+        }
+
+        private string GenerateActivationCode()
+        {
+            return Guid.NewGuid().ToString();
         }
 
     }

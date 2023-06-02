@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BL.DALModels;
 
-public partial class Notification
+public  class Notification
 {
     public int Id { get; set; }
 
@@ -11,9 +11,12 @@ public partial class Notification
 
     public string ReceiverEmail { get; set; } = null!;
 
-    public string Subject { get; set; }
+    public string? Subject { get; set; }
 
     public string Body { get; set; } = null!;
 
-    public DateTime SentAt { get; set; }
+    public DateTime? SentAt { get; set; }
+
+
+   
 }

@@ -19,7 +19,7 @@ namespace BL.Repositories
         void Delete(int id);
 
         IEnumerable<BLVideo> GetFilteredData(string term);
-        IEnumerable<BLVideo> GetPagedData(int page, int size, string orderBy, string direction);
+        IEnumerable<BLVideo> GetPagedData(int page, int size, string orderBy, string direction, string videoName, string genreName);
         int GetTotalCount();
     }
 
@@ -57,10 +57,16 @@ namespace BL.Repositories
             return blVideos;
         }
 
-        public IEnumerable<BLVideo> GetPagedData(int page, int size, string orderBy, string direction)
+        public IEnumerable<BLVideo> GetPagedData(int page, int size, string orderBy, string direction, string videoName, string genreName)
         {
             // All of this should go to repository
             IEnumerable<Video> dbVideo = _dbContext.Videos.AsEnumerable();
+
+            // Filtering by video name
+            if (!string.IsNullOrEmpty(videoName))
+            {
+                dbVideo = dbVideo.Where(x => x.Name.ToLower().Contains(videoName.ToLower()));
+            }
 
             // Ordering
             if (string.Compare(orderBy, "id", true) == 0)
@@ -94,6 +100,7 @@ namespace BL.Repositories
 
             return blVideo;
         }
+
 
         public BLVideo GetById(int id)
         {

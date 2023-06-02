@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Notification Page</title>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <style>
+        #notificationContainer {
+            margin: 20px;
+        }
+
+        #notificationHeader {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        #notificationTable {
+            width: 100%;
+        }
+
+            #notificationTable th {
+                font-weight: bold;
+            }
+
+            #notificationTable td {
+                padding: 5px;
+            }
+
+        #btnSend {
+            margin-top: 20px;
+        }
+
+        #pResponse {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="Notification.js"></script>
+</head>
+<body>
+    <div id="notificationContainer">
+        <h1 id="notificationHeader">Notification Management</h1>
+
+        <div id="notificationCount">
+            Unsent Notifications: <span></span>
+        </div>
+
+        <button id="btnSend">Send Notifications</button>
+
+        <p id="pResponse"></p>
+
+        <table id="notificationTable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Receiver</th>
+                    <th>Subject</th>
+                    <th>Body</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+</html>

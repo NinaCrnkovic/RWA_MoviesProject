@@ -74,14 +74,22 @@ namespace IntegrationModule.Controllers
         }
 
         [HttpPost("[action]")]
-        public ActionResult<Genre> CreateGenre(Genre genre)
+        public ActionResult<Genre> CreateGenre([FromQuery] string name, [FromQuery] string description)
         {
             try
             {
-                if(!ModelState.IsValid)
+                if (string.IsNullOrEmpty(name))
+                    return BadRequest("Name parameter is required.");
+
+                var genre = new Genre
+                {
+                    Name = name,
+                    Description = description
+                };
+
+                if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                genre.Id = 0;
                 var blGenre = _mapper.Map<BLGenre>(genre);
                 var newGenre = _genreRepository.Add(blGenre);
                 var createdGenre = _mapper.Map<Genre>(newGenre);
@@ -96,15 +104,14 @@ namespace IntegrationModule.Controllers
             }
         }
 
-        [HttpPut("[action]/{id}")]
-        public ActionResult<Genre> UpdateGenre(int id, Genre genre)
+
+        [HttpPut("{id}")]
+        public ActionResult<Genre> UpdateGenre(int id, [FromBody] Genre genre)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-
-            
 
                 var blGenre = _mapper.Map<BLGenre>(genre);
                 var updatedGenre = _genreRepository.Update(id, blGenre);

@@ -2,11 +2,12 @@
 
 @{
     ViewData["Title"] = "Video";
+
 }
 
 <section>
     <header>
-      <h2 class="text-white">Our Videos</h2>
+        <h2 class="text-white">Our Videos</h2>
     </header>
 
     <form id="search-form" method="get">
@@ -18,12 +19,6 @@
                 <input type="text" class="form-control" name="videoName" placeholder="Video Name" value="@videoName">
             </div>
             <div class="col">
-                @{
-                    string genreName = (string)ViewData["GenreName"] ?? ViewContext.HttpContext.Request.Cookies["GenreName"];
-                }
-                <input type="text" class="form-control" name="genreName" placeholder="Genre Name" value="@genreName">
-            </div>
-            <div class="col">
                 <button type="submit" class="btn btn-primary btn-create">Search</button>
             </div>
         </div>
@@ -33,73 +28,71 @@
         @Html.Partial("VideoTableBodyPartial", Model)
     </div>
 
-    <nav>
-         <ul class="pagination justify-content-center">
-            @{
-                int currentPage = (int)ViewData["page"];
-                int totalPages = (int)ViewData["totalPages"];
-            }
+   <nav>
+    <ul class="pagination justify-content-center">
+        @{
+            int currentPage = (int)ViewData["page"];
+            int totalPages = (int)ViewData["totalPages"];
+            var size = (int)ViewData["size"];
+            var orderBy = (string)ViewData["orderBy"];
+            var direction = (string)ViewData["direction"];
+        }
 
-            @if (currentPage > 1)
-            {
-                <li class="page-item">
-                    <a class="page-link" href="/Video?page=@(currentPage - 1)&size=@ViewData["size"]&orderBy=@ViewData["orderBy"]&direction=@ViewData["direction"]">Previous</a>
-                </li>
-            }
+        @if (currentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" href="/Video/Video?page=@(currentPage - 1)&size=@size&orderBy=@orderBy&direction=@direction">Previous</a>
+            </li>
+        }
 
-            @for (int i = 1; i <= totalPages; i++)
-            {
-                <li class="page-item @(i == currentPage ? "active" : "")">
-                    <a class="page-link" href="/Video/Video?page=@i&size=@ViewData["size"]&orderBy=@ViewData["orderBy"]&direction=@ViewData["direction"]">@i</a>
-                </li>
-            }
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <li class="page-item @(i == currentPage ? "active" : "")">
+                <a class="page-link" href="/Video/Video?page=@i&size=@size&orderBy=@orderBy&direction=@direction">@i</a>
+            </li>
+        }
 
-            @if (currentPage < totalPages)
-            {
-                <li class="page-item">
-                    <a class="page-link" href="/Video?page=@(currentPage + 1)&size=@ViewData["size"]&orderBy=@ViewData["orderBy"]&direction=@ViewData["direction"]">Next</a>
-                </li>
-            }
-        </ul>
-    </nav>
+        @if (currentPage < totalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" href="/Video/Video?page=@(currentPage + 1)&size=@size&orderBy=@orderBy&direction=@direction">Next</a>
+            </li>
+        }
+    </ul>
+</nav>
+
+@if (totalPages > 1)
+{
+    <p>Page @currentPage of @totalPages</p>
+}
 </section>
 
-@section Scripts 
-{
+@section Scripts {
     <script>
-    $(document).ready(function () {
-        $("#search-form").submit(function (event) {
-            event.preventDefault();
+        $(document).ready(function () {
+            $("#search-form").submit(function (event) {
+                event.preventDefault();
 
-            var videoName = $("input[name=videoName]").val();
-            var genreName = $("input[name=genreName]").val();
-            var orderBy = "@ViewData["orderBy"]";
-            var direction = "@ViewData["direction"]";
+                var videoName = $("input[name=videoName]").val();
+                var orderBy = "@ViewData["orderBy"]";
+                var direction = "@ViewData["direction"]";
 
-            loadVideos(videoName, genreName, orderBy, direction);
+                loadVideos(videoName, orderBy, direction);
+            });
         });
-    });
 
-    function loadVideos(videoName, genreName, orderBy, direction) {
-        $.ajax({
-            type: "GET",
-            url: "/Video/VideoTableBodyPartial",
-            data: { videoName: videoName, genreName: genreName, orderBy: orderBy, direction: direction },
-            success: function (data) {
-                $("#video-container").html(data);
-            },
-            error: function (data) {
-                console.error("Ajax GET error", data);
-            }
-        });
-    }
-</script>
-
-
-
-
-
-
-
-
+        function loadVideos(videoName, orderBy, direction) {
+            $.ajax({
+                type: "GET",
+                url: "/Video/VideoTableBodyPartial",
+                data: { videoName: videoName, orderBy: orderBy, direction: direction },
+                success: function (data) {
+                    $("#video-container").html(data);
+                },
+                error: function (data) {
+                    console.error("Ajax GET error", data);
+                }
+            });
+        }
+    </script>
 }

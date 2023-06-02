@@ -5,7 +5,7 @@ using BL.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MVC.Controllers
+namespace IntegrationModule.Controllers
 {
     [Route("api/tags")]
     [ApiController]

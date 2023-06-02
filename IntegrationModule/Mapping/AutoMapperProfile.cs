@@ -16,19 +16,7 @@ namespace IntegrationModule.Mapping
             CreateMap<BL.BLModels.BLVideoTag, Models.VideoTag>();
 
 
-            CreateMap<BL.BLModels.BLChangePasswordRequest, Models.ChangePasswordRequest>();
-      
-            CreateMap<BL.BLModels.BLUserRegisterRequest, Models.UserRegisterRequest>();
-            CreateMap<BL.BLModels.BLUserRegisterResponse, Models.UserRegisterResponse>();
-            CreateMap<BL.BLModels.BLUserUpdateRequest, Models.UserUpdateRequest>();
-            CreateMap<BL.BLModels.BLJwtTokensRequest, Models.JwtTokensRequest>();
-
-            CreateMap<Models.UserRegisterRequest, BL.BLModels.BLUserRegisterRequest>();
-            CreateMap<Models.UserRegisterResponse, BL.BLModels.BLUserRegisterResponse>();
-            CreateMap<Models.ChangePasswordRequest, BL.BLModels.BLChangePasswordRequest>();
- 
-            CreateMap<Models.UserUpdateRequest, BL.BLModels.BLUserUpdateRequest>();
-            CreateMap<Models.JwtTokensRequest, BL.BLModels.BLJwtTokensRequest>();
+     
 
 
 

@@ -21,9 +21,9 @@ public partial class Video
 
     public int? ImageId { get; set; }
 
-   // public virtual Genre Genre { get; set; } = null!;
+    public virtual Genre Genre { get; set; } = null!;
 
-   // public virtual Image Image { get; set; }
+    public virtual Image Image { get; set; }
 
-   // public virtual ICollection<VideoTag> VideoTags { get; set; } = new List<VideoTag>();
+    public virtual ICollection<VideoTag> VideoTags { get; set; } = new List<VideoTag>();
 }

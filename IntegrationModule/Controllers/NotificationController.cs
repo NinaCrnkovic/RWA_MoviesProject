@@ -6,6 +6,7 @@ using BL.Services;
 using IntegrationModule.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mail;
 
 namespace IntegrationModule.Controllers
 {
@@ -15,15 +16,17 @@ namespace IntegrationModule.Controllers
     {
         private readonly INotificationService _notificationService;
         private readonly IMapper _mapper;
-        private readonly NotificationRepository _notificationRepository;
+        private readonly INotificationRepository _notificationRepository;
+       // private readonly System.Net.Mail.SmtpClient _smtpClient;
 
-        public NotificationController(INotificationService notificationService, IMapper mapper, NotificationRepository notificationRepository)
+        public NotificationController(INotificationService notificationService, IMapper mapper, INotificationRepository notificationRepository)
         {
             _notificationService = notificationService;
             _mapper = mapper;
             _notificationRepository = notificationRepository;
+            //_smtpClient = smtpClient;
         }
-     
+
 
         [HttpGet]
         public ActionResult<IEnumerable<Models.Notification>> GetAll()
@@ -34,11 +37,11 @@ namespace IntegrationModule.Controllers
                 var notifications = _mapper.Map<IEnumerable<BLNotification>>(blNotifications);
                 return Ok(notifications);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    "There has been a problem while fetching the data you requested");
+                    "There has been a problem while fetching the data you requested" + ex);
             }
         }
 
@@ -94,7 +97,7 @@ namespace IntegrationModule.Controllers
 
                 var blNotification = _mapper.Map<BLNotification>(request);
                 blNotification.Id = id;
-                _notificationRepository.Update(blNotification);
+                _notificationRepository.Update(id, blNotification);
                 return Ok();
             }
             catch (Exception)

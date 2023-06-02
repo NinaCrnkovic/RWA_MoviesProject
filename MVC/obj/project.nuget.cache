@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "5KdsEQODI3p3qNii1nHE2nF4kJ0t3aWvgS/Qct5zxYDB8JRytEQormqmzEc6ltSbAO+1KMsvvsUINIlMgrfpbQ==",
+  "dgSpecHash": "GRnXHd99NdJRZVN2+ZTscVnhFPaHzAU2CvnwTSIYVVvr/VLLK1ecHIcMR8XxpFLeWA0pLbYB5wnJWuLimba6BQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\38598\\Documents\\Faks\\4.semestar 2022-23\\RWA\\RWA-MoviesProject\\RWA-MoviesProject\\MVC\\MVC-AdministrativeModule.csproj",
   "expectedPackageFiles": [
@@ -196,7 +196,9 @@
     "C:\\Users\\38598\\.nuget\\packages\\system.threading.timer\\4.3.0\\system.threading.timer.4.3.0.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
     "C:\\Users\\38598\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
-    "C:\\Users\\38598\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512"
+    "C:\\Users\\38598\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
+    "C:\\Users\\38598\\.nuget\\packages\\xunit.abstractions\\2.0.3\\xunit.abstractions.2.0.3.nupkg.sha512",
+    "C:\\Users\\38598\\.nuget\\packages\\xunit.extensibility.core\\2.4.2\\xunit.extensibility.core.2.4.2.nupkg.sha512"
   ],
   "logs": []
 }

@@ -44,11 +44,19 @@ builder.Services.Configure<ApiBehaviorOptions>(options => {
     options.SuppressModelStateInvalidFilter = true;
 });
 
-builder.Services.AddSingleton<IUserService, UserService>();
+
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
+
 builder.Services.AddScoped<IVideoRepository, VideoRepository>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
+
 
 
 
@@ -61,7 +69,20 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 //ako ne radi https onda zakomentirati i u launch setings izbrisati https
+
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path == "/")
+    {
+        context.Response.Redirect("/notifications");
+        return;
+    }
+
+    await next();
+});
+
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();

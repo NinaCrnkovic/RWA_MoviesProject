@@ -91,7 +91,7 @@ namespace MVC.Controllers
             if (!ModelState.IsValid)
                 return View(register);
 
-            var user = _userRepo.CreateUser(
+            var user = _userRepo.CreateUserMVC(
                 register.Username,
                 register.FirstName,
                 register.LastName,
@@ -170,23 +170,7 @@ namespace MVC.Controllers
             return RedirectToAction("Index");
         }
 
-        //[HttpPost]
-        //public IActionResult SoftDelete(int id)
-        //{
-        //    var blUser = _userRepo.GetById(id);
-        //    if (blUser == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-           
-        //        // Perform soft delete
-        //        _userRepo.SoftDeleteUser(blUser.Id);
-            
-         
-
-        //    return RedirectToAction("Index");
-        //}
     }
 }
 

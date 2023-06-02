@@ -25,7 +25,7 @@ namespace MVC.ViewModels
 
         public string PwdSalt { get; set; } = null!;
 
-        public string? Phone { get; set; }
+        public string Phone { get; set; }
 
         public bool IsConfirmed { get; set; }
 

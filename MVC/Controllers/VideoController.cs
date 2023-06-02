@@ -55,8 +55,8 @@ namespace MVC.Controllers
             ViewBag.GenreName = genreName;
 
             // Pohranjivanje filtera u kolačiće
-            if(!string.IsNullOrEmpty(videoName))
-{
+            if (!string.IsNullOrEmpty(videoName))
+            {
                 Response.Cookies.Append("VideoName", videoName);
             }
 
@@ -100,7 +100,7 @@ namespace MVC.Controllers
 
             return View();
         }
- 
+
         [HttpPost]
         public IActionResult Create(VMVideo video)
         {
