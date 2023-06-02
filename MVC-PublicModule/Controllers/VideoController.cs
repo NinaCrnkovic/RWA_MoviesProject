@@ -81,9 +81,44 @@ namespace MVC_PublicModule.Controllers
             return PartialView("VideoTableBodyPartial", vmVideo);
         }
 
+        public IActionResult GetGenreData(string term)
+        {
+            var filteredGenres = _videoRepo.GetFilteredData(term);
+            var labeledValues = filteredGenres.Select(x => new { value = x.Id, label = x.Name });
+
+            return Json(labeledValues);
+        }
+
+        public IActionResult FilterVideos(string videoName)
+        {
+            var blVideos = _videoRepo.GetFilteredData(videoName);
+            var vmVideos = _mapper.Map<IEnumerable<VMVideo>>(blVideos);
+
+            foreach (var video in vmVideos)
+            {
+                var blGenre = _genreRepo.GetById(video.GenreId);
+                video.GenreName = blGenre?.Name;
+
+                var blImage = _imageRepo.GetById(video.ImageId);
+                video.ImageContent = blImage?.Content;
+            }
+
+            ViewData["page"] = 0; // Resetujte stranicu na prvu
+            if (ViewData.ContainsKey("size"))
+            {
+                ViewData["size"] = (int)ViewData["size"]; // Sačuvajte trenutnu veličinu stranice
+            }
+            ViewData["orderBy"] = (string)ViewData["orderBy"]; // Sačuvajte trenutni redosled sortiranja
+            ViewData["direction"] = (string)ViewData["direction"]; // Sačuvajte trenutni smer sortiranja
+            if (ViewData.ContainsKey("size"))
+            {
+                int size = (int)ViewData["size"];
+                ViewData["totalPages"] = _videoRepo.GetTotalCount() / size;
+            }
 
 
-
+            return PartialView("VideoTableBodyPartial", vmVideos);
+        }
 
 
 

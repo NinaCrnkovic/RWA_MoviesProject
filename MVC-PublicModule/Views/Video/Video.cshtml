@@ -16,18 +16,19 @@
     </header>
 
     <form id="search-form" method="get">
-        <div class="form-row">
-            <div class="col">
-                @{
-                    string videoName = (string)ViewData["VideoName"] ?? ViewContext.HttpContext.Request.Cookies["VideoName"];
-                }
-                <input type="text" class="form-control" name="videoName" placeholder="Video Name" value="@videoName">
-            </div>
-            <div class="col">
-                <button type="submit" class="btn btn-primary btn-create">Search</button>
-            </div>
+    <div class="form-row">
+        <div class="col">
+            @{
+                string videoName = (string)ViewData["VideoName"] ?? ViewContext.HttpContext.Request.Cookies["VideoName"];
+            }
+            <input type="text" class="form-control" name="videoName" placeholder="Video Name" value="@videoName">
         </div>
-    </form>
+        <div class="col">
+            <button type="submit" class="btn btn-primary btn-create">Search</button>
+        </div>
+    </div>
+</form>
+
 
     <div id="video-container" class="container">
       @await Html.PartialAsync("VideoTableBodyPartial", Model)
@@ -53,35 +54,23 @@
 </section>
 
 @section Scripts {
+
 <script>
-    $(".pager-btn").click(function (event) {
-        console.log("Pager button clicked");
+    $("#search-form").submit(function (event) {
+        console.log("Search form submitted");
         event.preventDefault();
 
-        // No data was sent to the server, that's why we always get the first page
-        // Let's fix that
-        var page = $(this).data("page");
-
-        var ajaxData = {
-            page: page,
-            size: @size,
-            orderBy: "@orderBy",
-            direction: "@direction",
-            videoName: "@ViewData["VideoName"]"
-        };
+        var videoName = $("input[name='videoName']").val();
 
         $.ajax({
             type: "GET",
-            url: "/Video/VideoTableBodyPartial",
-            data: ajaxData,
+            url: "/Video/FilterVideos",
+            data: { videoName: videoName },
             success: function (data) {
                 $("#video-container").html(data);
 
                 $(".pager-btn").removeClass("btn-primary");
                 $(".pager-btn").addClass("btn-outline-primary");
-
-                $(".pager-btn[data-page=" + page + "]").removeClass("btn-outline-primary");
-                $(".pager-btn[data-page=" + page + "]").addClass("btn-primary");
             },
             error: function (data) {
                 console.error("Ajax GET error", data);
@@ -89,5 +78,6 @@
         });
     });
 </script>
-
 }
+
+
