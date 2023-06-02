@@ -30,7 +30,7 @@ namespace MVC_PublicModule.Controllers
             if (size == 0)
                 size = 3;
 
-            var blVideo = _videoRepo.GetPagedData(page, size, orderBy, direction, videoName?.ToLower(), null);
+            var blVideo = _videoRepo.GetPagedData(page, size, orderBy, direction);
             var vmVideo = _mapper.Map<IEnumerable<VMVideo>>(blVideo);
 
             foreach (var video in vmVideo)
@@ -42,14 +42,16 @@ namespace MVC_PublicModule.Controllers
                 video.ImageContent = blImage?.Content;
             }
 
+            
+
             ViewData["page"] = page;
             ViewData["size"] = size;
             ViewData["orderBy"] = orderBy;
             ViewData["direction"] = direction;
-            ViewData["totalPages"] = (int)Math.Ceiling((double)_videoRepo.GetTotalCount() / size);
-
+            ViewData["totalPages"] = _videoRepo.GetTotalCount() / size;
             return View(vmVideo);
         }
+
 
         public IActionResult VideoTableBodyPartial(int page, int size, string orderBy, string direction, string videoName)
         {
@@ -57,7 +59,7 @@ namespace MVC_PublicModule.Controllers
             if (size == 0)
                 size = 3;
 
-            var blVideo = _videoRepo.GetPagedData(page, size, orderBy, direction, videoName, null);
+            var blVideo = _videoRepo.GetPagedData(page, size, orderBy, direction);
             var vmVideo = _mapper.Map<IEnumerable<VMVideo>>(blVideo);
 
             foreach (var video in vmVideo)
@@ -73,7 +75,8 @@ namespace MVC_PublicModule.Controllers
             ViewData["size"] = size;
             ViewData["orderBy"] = orderBy;
             ViewData["direction"] = direction;
-            ViewData["totalPages"] = (int)Math.Ceiling((double)_videoRepo.GetTotalCount() / size);
+            ViewData["totalPages"] = _videoRepo.GetTotalCount() / size;
+      
 
             return PartialView("VideoTableBodyPartial", vmVideo);
         }

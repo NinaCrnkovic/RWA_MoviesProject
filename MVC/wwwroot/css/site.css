@@ -94,3 +94,9 @@ dl.row {
         background: linear-gradient(to right, rgb(2, 145, 253), rgb(247, 2, 194));
     }
 
+.btn-primary {
+    background-color: rgb(2,66,190) !important;
+}
+.btn-danger {
+    background-color: rgb(241,10,189) !important;
+}

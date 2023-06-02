@@ -16,25 +16,27 @@ namespace MVC_PublicModule.ViewModels
         public DateTime? DeletedAt { get; set; }
 
         [DisplayName("User name")]
-        [Required]
+        [Required(ErrorMessage = "The field is required.")]
+        [StringLength(256)]
         public string Username { get; set; } = null!;
         [DisplayName("First name:")]
-        [Required]
+        [Required(ErrorMessage = "The field is required.")]
+        [StringLength(256)]
         public string FirstName { get; set; } = null!;
         [DisplayName("Last name:")]
-        [Required]
+        [Required(ErrorMessage = "The field is required.")]
+        [StringLength(256)]
         public string LastName { get; set; } = null!;
         [DisplayName("E-mail")]
-        [Required]
+        [Required(ErrorMessage = "The field is required.")]
+        [StringLength(256)]
         public string Email { get; set; } = null!;
 
-
-        [Required]
         public string Phone { get; set; }
 
         public bool IsConfirmed { get; set; }
 
-        public string? SecurityToken { get; set; }
+        public string SecurityToken { get; set; }
 
         [DisplayName("Country")]
         [Required]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace IntegrationModule.Models;
 
@@ -10,13 +11,17 @@ public class User
     public DateTime CreatedAt { get; set; }
 
     public DateTime DeletedAt { get; set; }
-
+    [Required(ErrorMessage = "The field is required.")]
+    [StringLength(256)]
     public string Username { get; set; } = null!;
-
+    [Required(ErrorMessage = "The field is required.")]
+    [StringLength(256)]
     public string FirstName { get; set; } = null!;
-
+    [Required(ErrorMessage = "The field is required.")]
+    [StringLength(256)]
     public string LastName { get; set; } = null!;
-
+    [Required(ErrorMessage = "The field is required.")]
+    [StringLength(256)]
     public string Email { get; set; } = null!;
 
     public string PwdHash { get; set; } = null!;

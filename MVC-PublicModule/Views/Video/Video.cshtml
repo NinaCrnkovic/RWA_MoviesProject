@@ -2,6 +2,11 @@
 
 @{
     ViewData["Title"] = "Video";
+    var page = (int)ViewData["page"];
+    var size = (int)ViewData["size"];
+    var orderBy = (string)ViewData["orderBy"];
+    var direction = (string)ViewData["direction"];
+    var pages = (int)ViewData["totalPages"];
 
 }
 
@@ -25,74 +30,64 @@
     </form>
 
     <div id="video-container" class="container">
-        @Html.Partial("VideoTableBodyPartial", Model)
+      @await Html.PartialAsync("VideoTableBodyPartial", Model)
+
     </div>
 
-   <nav>
-    <ul class="pagination justify-content-center">
-        @{
-            int currentPage = (int)ViewData["page"];
-            int totalPages = (int)ViewData["totalPages"];
-            var size = (int)ViewData["size"];
-            var orderBy = (string)ViewData["orderBy"];
-            var direction = (string)ViewData["direction"];
-        }
 
-        @if (currentPage > 1)
-        {
-            <li class="page-item">
-                <a class="page-link" href="/Video/Video?page=@(currentPage - 1)&size=@size&orderBy=@orderBy&direction=@direction">Previous</a>
-            </li>
-        }
 
-        @for (int i = 1; i <= totalPages; i++)
-        {
-            <li class="page-item @(i == currentPage ? "active" : "")">
-                <a class="page-link" href="/Video/Video?page=@i&size=@size&orderBy=@orderBy&direction=@direction">@i</a>
-            </li>
-        }
+<div class="btn-group">
+    @for (var i = 0; i <= pages; i++)
+    {
+        var currClass = page == i ? "btn-primary" : "btn-outline-primary";
+        <a asp-action="Video" 
+           asp-route-page="@i"
+           asp-route-size="@size"
+           asp-route-orderBy="@orderBy"
+           asp-route-direction="@direction"
+           data-page="@i"
+           class="pager-btn btn @currClass">@(i + 1)</a>
+    }
+</div>
 
-        @if (currentPage < totalPages)
-        {
-            <li class="page-item">
-                <a class="page-link" href="/Video/Video?page=@(currentPage + 1)&size=@size&orderBy=@orderBy&direction=@direction">Next</a>
-            </li>
-        }
-    </ul>
-</nav>
-
-@if (totalPages > 1)
-{
-    <p>Page @currentPage of @totalPages</p>
-}
 </section>
 
 @section Scripts {
-    <script>
-        $(document).ready(function () {
-            $("#search-form").submit(function (event) {
-                event.preventDefault();
+<script>
+    $(".pager-btn").click(function (event) {
+        console.log("Pager button clicked");
+        event.preventDefault();
 
-                var videoName = $("input[name=videoName]").val();
-                var orderBy = "@ViewData["orderBy"]";
-                var direction = "@ViewData["direction"]";
+        // No data was sent to the server, that's why we always get the first page
+        // Let's fix that
+        var page = $(this).data("page");
 
-                loadVideos(videoName, orderBy, direction);
-            });
+        var ajaxData = {
+            page: page,
+            size: @size,
+            orderBy: "@orderBy",
+            direction: "@direction",
+            videoName: "@ViewData["VideoName"]"
+        };
+
+        $.ajax({
+            type: "GET",
+            url: "/Video/VideoTableBodyPartial",
+            data: ajaxData,
+            success: function (data) {
+                $("#video-container").html(data);
+
+                $(".pager-btn").removeClass("btn-primary");
+                $(".pager-btn").addClass("btn-outline-primary");
+
+                $(".pager-btn[data-page=" + page + "]").removeClass("btn-outline-primary");
+                $(".pager-btn[data-page=" + page + "]").addClass("btn-primary");
+            },
+            error: function (data) {
+                console.error("Ajax GET error", data);
+            }
         });
+    });
+</script>
 
-        function loadVideos(videoName, orderBy, direction) {
-            $.ajax({
-                type: "GET",
-                url: "/Video/VideoTableBodyPartial",
-                data: { videoName: videoName, orderBy: orderBy, direction: direction },
-                success: function (data) {
-                    $("#video-container").html(data);
-                },
-                error: function (data) {
-                    console.error("Ajax GET error", data);
-                }
-            });
-        }
-    </script>
 }

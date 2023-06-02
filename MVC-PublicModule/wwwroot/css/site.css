@@ -127,3 +127,11 @@ dl.row dd {
 .navbar-light .navbar-nav .nav-link {
     color: white;
 }
+
+.btn-primary {
+    background-color: rgb(2,66,190) !important;
+}
+
+.btn-danger {
+    background-color: rgb(241,10,189) !important;
+}
