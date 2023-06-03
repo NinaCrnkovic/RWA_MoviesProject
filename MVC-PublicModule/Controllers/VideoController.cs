@@ -81,7 +81,7 @@ namespace MVC_PublicModule.Controllers
             return PartialView("VideoTableBodyPartial", vmVideo);
         }
 
-        public IActionResult GetGenreData(string term)
+        public IActionResult GetVideoData(string term)
         {
             var filteredGenres = _videoRepo.GetFilteredData(term);
             var labeledValues = filteredGenres.Select(x => new { value = x.Id, label = x.Name });
@@ -103,7 +103,7 @@ namespace MVC_PublicModule.Controllers
                 video.ImageContent = blImage?.Content;
             }
 
-            ViewData["page"] = 0; // Resetujte stranicu na prvu
+            ViewData["page"] = 0; 
             if (ViewData.ContainsKey("size"))
             {
                 ViewData["size"] = (int)ViewData["size"]; // Sačuvajte trenutnu veličinu stranice

@@ -24,47 +24,144 @@ namespace MVC.Controllers
             _genreRepo = genreRepo;
             _imageRepo = imageRepo;
         }
-        public IActionResult Video(string videoName, string genreName)
+        //public IActionResult Video(string videoName, string genreName)
+        //{
+        //    var blVideo = _videoRepo.GetAll();
+        //    var vmVideo = _mapper.Map<IEnumerable<VMVideo>>(blVideo);
+
+        //    foreach (var video in vmVideo)
+        //    {
+        //        var blGenre = _genreRepo.GetById(video.GenreId);
+        //        video.GenreName = blGenre.Name;
+
+        //        var blImage = _imageRepo.GetById(video.ImageId);
+        //        video.ImageContent = blImage.Content;
+        //    }
+
+        //    // Filtriranje prema nazivu videosadržaja
+        //    if (!string.IsNullOrEmpty(videoName))
+        //    {
+        //        vmVideo = vmVideo.Where(v => v.Name.IndexOf(videoName, StringComparison.OrdinalIgnoreCase) >= 0);
+        //    }
+
+        //    // Filtriranje prema nazivu žanra
+        //    if (!string.IsNullOrEmpty(genreName))
+        //    {
+        //        vmVideo = vmVideo.Where(v => v.GenreName.IndexOf(genreName, StringComparison.OrdinalIgnoreCase) >= 0);
+        //    }
+
+        //    // Dodaje filtere u ViewBag
+        //    ViewBag.VideoName = videoName;
+        //    ViewBag.GenreName = genreName;
+
+        //    // Pohranjivanje filtera u kolačiće
+        //    if (!string.IsNullOrEmpty(videoName))
+        //    {
+        //        Response.Cookies.Append("VideoName", videoName);
+        //    }
+
+        //    if (!string.IsNullOrEmpty(genreName))
+        //    {
+        //        Response.Cookies.Append("GenreName", genreName);
+        //    }
+        //    return View(vmVideo);
+        //}
+
+
+        public IActionResult Video(int page, int size, string orderBy, string direction, string videoName)
         {
-            var blVideo = _videoRepo.GetAll();
+            // Set up some default values
+            if (size == 0)
+                size = 3;
+
+            var blVideo = _videoRepo.GetPagedData(page, size, orderBy, direction);
             var vmVideo = _mapper.Map<IEnumerable<VMVideo>>(blVideo);
 
             foreach (var video in vmVideo)
             {
                 var blGenre = _genreRepo.GetById(video.GenreId);
-                video.GenreName = blGenre.Name;
+                video.GenreName = blGenre?.Name;
 
                 var blImage = _imageRepo.GetById(video.ImageId);
-                video.ImageContent = blImage.Content;
+                video.ImageContent = blImage?.Content;
             }
 
-            // Filtriranje prema nazivu videosadržaja
-            if (!string.IsNullOrEmpty(videoName))
-            {
-                vmVideo = vmVideo.Where(v => v.Name.IndexOf(videoName, StringComparison.OrdinalIgnoreCase) >= 0);
-            }
 
-            // Filtriranje prema nazivu žanra
-            if (!string.IsNullOrEmpty(genreName))
-            {
-                vmVideo = vmVideo.Where(v => v.GenreName.IndexOf(genreName, StringComparison.OrdinalIgnoreCase) >= 0);
-            }
 
-            // Dodaje filtere u ViewBag
-            ViewBag.VideoName = videoName;
-            ViewBag.GenreName = genreName;
-
-            // Pohranjivanje filtera u kolačiće
-            if (!string.IsNullOrEmpty(videoName))
-            {
-                Response.Cookies.Append("VideoName", videoName);
-            }
-
-            if (!string.IsNullOrEmpty(genreName))
-            {
-                Response.Cookies.Append("GenreName", genreName);
-            }
+            ViewData["page"] = page;
+            ViewData["size"] = size;
+            ViewData["orderBy"] = orderBy;
+            ViewData["direction"] = direction;
+            ViewData["totalPages"] = _videoRepo.GetTotalCount() / size;
             return View(vmVideo);
+        }
+
+
+        public IActionResult VideoTableBodyPartial(int page, int size, string orderBy, string direction, string videoName)
+        {
+            // Set up some default values
+            if (size == 0)
+                size = 3;
+
+            var blVideo = _videoRepo.GetPagedData(page, size, orderBy, direction);
+            var vmVideo = _mapper.Map<IEnumerable<VMVideo>>(blVideo);
+
+            foreach (var video in vmVideo)
+            {
+                var blGenre = _genreRepo.GetById(video.GenreId);
+                video.GenreName = blGenre?.Name;
+
+                var blImage = _imageRepo.GetById(video.ImageId);
+                video.ImageContent = blImage?.Content; // Pridružite URL slike
+            }
+
+            ViewData["page"] = page;
+            ViewData["size"] = size;
+            ViewData["orderBy"] = orderBy;
+            ViewData["direction"] = direction;
+            ViewData["totalPages"] = _videoRepo.GetTotalCount() / size;
+
+
+            return PartialView("VideoTableBodyPartial", vmVideo);
+        }
+
+        public IActionResult GetVideoData(string term)
+        {
+            var filteredGenres = _videoRepo.GetFilteredData(term);
+            var labeledValues = filteredGenres.Select(x => new { value = x.Id, label = x.Name });
+
+            return Json(labeledValues);
+        }
+
+        public IActionResult FilterVideos(string videoName)
+        {
+            var blVideos = _videoRepo.GetFilteredData(videoName);
+            var vmVideos = _mapper.Map<IEnumerable<VMVideo>>(blVideos);
+
+            foreach (var video in vmVideos)
+            {
+                var blGenre = _genreRepo.GetById(video.GenreId);
+                video.GenreName = blGenre?.Name;
+
+                var blImage = _imageRepo.GetById(video.ImageId);
+                video.ImageContent = blImage?.Content;
+            }
+
+            ViewData["page"] = 0;
+            if (ViewData.ContainsKey("size"))
+            {
+                ViewData["size"] = (int)ViewData["size"]; // Sačuvajte trenutnu veličinu stranice
+            }
+            ViewData["orderBy"] = (string)ViewData["orderBy"]; // Sačuvajte trenutni redosled sortiranja
+            ViewData["direction"] = (string)ViewData["direction"]; // Sačuvajte trenutni smer sortiranja
+            if (ViewData.ContainsKey("size"))
+            {
+                int size = (int)ViewData["size"];
+                ViewData["totalPages"] = _videoRepo.GetTotalCount() / size;
+            }
+
+
+            return PartialView("VideoTableBodyPartial", vmVideos);
         }
 
 

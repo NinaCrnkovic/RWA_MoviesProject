@@ -24,12 +24,57 @@ namespace MVC.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Genre()
+
+
+        public IActionResult Genre(int page, int size, string orderBy, string direction)
         {
-            var blGenres = _genreRepo.GetAll();
+            // Set up some default values
+            if (size == 0)
+                size = 4;
+
+            var blGenres = _genreRepo.GetPagedData(page, size, orderBy, direction);
             var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
+
+            ViewData["page"] = page;
+            ViewData["size"] = size;
+            ViewData["orderBy"] = orderBy;
+            ViewData["direction"] = direction;
+            ViewData["Totalpages"] = _genreRepo.GetTotalCount() / size;
+
+
+
             return View(vmGenres);
         }
+
+        public IActionResult GenrePartial(int page, int size, string orderBy, string direction)
+        {
+            // Set up some default values
+            if (size == 0)
+                size = 4;
+
+            var blGenres = _genreRepo.GetPagedData(page, size, orderBy, direction);
+            var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
+
+            ViewData["page"] = page;
+            ViewData["size"] = size;
+            ViewData["orderBy"] = orderBy;
+            ViewData["direction"] = direction;
+            ViewData["Totalpages"] = _genreRepo.GetTotalCount() / size;
+
+            return PartialView("_GenrePartial", vmGenres);
+        }
+
+
+
+
+        public IActionResult GetGenreData(string term)
+        {
+            var filteredGenres = _genreRepo.GetFilteredData(term);
+            var labeledValues = filteredGenres.Select(x => new { value = x.Id, label = x.Name });
+
+            return Json(labeledValues);
+        }
+
 
         public IActionResult Details(int id)
         {

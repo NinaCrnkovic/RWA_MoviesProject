@@ -180,6 +180,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.3.0, )"
+            },
+            "System.Web.Mvc.Extensions.Mvc.4": {
+              "target": "Package",
+              "version": "[1.0.9, )"
             }
           },
           "imports": [

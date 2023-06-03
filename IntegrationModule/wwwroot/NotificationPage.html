@@ -3,8 +3,21 @@
 <head>
     <meta charset="utf-8" />
     <title>Notification Page</title>
+    <link rel="stylesheet" href="jquery.dataTables.min.css" />
+
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <style>
+        body {
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url(/images/back1.jpg);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
         #notificationContainer {
             margin: 20px;
         }
@@ -16,6 +29,7 @@
 
         #notificationTable {
             width: 100%;
+            color: white;
         }
 
             #notificationTable th {
@@ -28,23 +42,59 @@
 
         #btnSend {
             margin-top: 20px;
+            background-color: palevioletred;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
         }
+
+            #btnSend:hover {
+                background-color: darkslateblue;
+            }
 
         #pResponse {
             margin-top: 10px;
             font-weight: bold;
         }
+
+        .container {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+            .container h1,
+            .container div {
+                color: #fff;
+            }
+
+        /* Added CSS styles for DataTables */
+        #notificationTable_wrapper .dataTables_length,
+        #notificationTable_wrapper .dataTables_length select,
+        #notificationTable_wrapper .dataTables_filter input {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+            #notificationTable_wrapper .dataTables_length label,
+            #notificationTable_wrapper .dataTables_filter label {
+                font-weight: normal;
+            }
     </style>
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="Notification.js"></script>
 </head>
 <body>
-    <div id="notificationContainer">
-        <h1 id="notificationHeader">Notification Management</h1>
+    <div id="notificationContainer" class="container">
+        <h1 id="notificationHeader">Notifications</h1>
 
         <div id="notificationCount">
-            Unsent Notifications: <span></span>
+            Unsent Notifications:
         </div>
 
         <button id="btnSend">Send Notifications</button>
@@ -64,3 +114,4 @@
     </div>
 </body>
 </html>
+

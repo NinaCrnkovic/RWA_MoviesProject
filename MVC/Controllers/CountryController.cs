@@ -4,6 +4,7 @@ using BL.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using MVC.ViewModels;
 
+
 namespace MVC.Controllers
 {
     public class CountryController : Controller
@@ -20,17 +21,27 @@ namespace MVC.Controllers
         }
 
 
-  
-        public IActionResult Country()
+
+        public IActionResult Country(int page = 1)
         {
+            int pageSize = 9;
 
-            var blCountry = _countryRepo.GetAll();
-            var vmCountry = _mapper.Map<IEnumerable<VMCountry>>(blCountry);
-            
+            var allCountries = _countryRepo.GetAll();
+            var mappedCountries = _mapper.Map<IEnumerable<VMCountry>>(allCountries);
 
+            var pagedCountries = mappedCountries
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize);
 
-            return View(vmCountry);
+            var totalCountries = mappedCountries.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCountries / pageSize);
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = page;
+
+            return View(pagedCountries);
         }
+
 
         public IActionResult Details(int id)
         {

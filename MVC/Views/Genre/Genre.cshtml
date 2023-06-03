@@ -1,13 +1,33 @@
 ﻿@model IEnumerable<MVC.ViewModels.VMGenre>
 
+
+
 @{
-    ViewData["Title"] = "Genre";
+    var page = (int)ViewData["page"];
+    var size = (int)ViewData["size"];
+    var orderBy = (string)ViewData["orderBy"];
+    var direction = (string)ViewData["direction"];
+    var pages = (int)ViewData["Totalpages"];
 }
 
-<h1>Genre</h1>
+<h1>List of Genres</h1>
+
 <p>
-      <button class="btn btn-primary btn-create" onclick="location.href='@Url.Action("Create")'">Create New Genre</button>
+    <button class="btn btn-primary btn-create" onclick="location.href='@Url.Action("Create")'">Create New Genre</button>
 </p>
+<div class="btn-group">
+    @for (var i = 0; i <= pages; i++)
+    {
+        var currClass = page == i ? "btn-primary" : "btn-outline-primary";
+        <a asp-action="Genre" 
+           asp-route-page="@i"
+           asp-route-size="@size"
+           asp-route-orderBy="@orderBy"
+           asp-route-direction="@direction"
+           data-page="@i"
+           class="pager-btn btn @currClass">@(i + 1)</a>
+    }
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -23,24 +43,47 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                  <button class="btn btn-primary mr-2" onclick="location.href='@Url.Action("Edit", new {id=item.Id})'">Edit</button>
-                <button class="btn btn-primary mr-2" onclick="location.href='@Url.Action("Details", new {id=item.Id})'">Details</button>
-                <button class="btn btn-danger mr-2" onclick="location.href='@Url.Action("Delete",  new {id=item.Id})'">Delete</button>
-            </td>
-        </tr>
-}
+    <tbody id="genre-table-body">
+        <partial name="_GenrePartial" />
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        $(".pager-btn").click(function (event) {
+            console.log("Pager button clicked");
+            event.preventDefault();
+
+            // No data was sent to the server, that's why we always get the first page
+            // Let's fix that
+            var page = $(this).data("page");
+
+            var ajaxData = {
+                page: page,
+                size: @size,
+                orderBy: "@orderBy",
+                direction: "@direction"
+            };
+
+            $.ajax({
+                type: "GET",
+                url: "/Genre/GenrePartial",
+                data: ajaxData,
+                success: function (data) {
+                    $("#genre-table-body").html(data);
+
+                    $(".pager-btn").removeClass("btn-primary");
+                    $(".pager-btn").addClass("btn-outline-primary");
+
+                    $(".pager-btn[data-page=" + page + "]").removeClass("btn-outline-primary");
+                    $(".pager-btn[data-page=" + page + "]").addClass("btn-primary");
+                },
+                error: function (data) {
+                    console.error("Ajax GET error", data);
+                }
+            });
+        });
+    </script>
+}
+
+

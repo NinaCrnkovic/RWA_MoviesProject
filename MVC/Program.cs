@@ -16,14 +16,14 @@ builder.Services.AddAutoMapper(
     typeof(MVC.Mapping.AutomapperProfile),
     typeof(BL.Mapping.AutomapperProfile)
     );
-
- builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
  builder.Services.AddScoped<IGenreRepository, GenreRepository>();
  builder.Services.AddScoped<IVideoRepository, VideoRepository>();
  builder.Services.AddScoped<IImageRepository, ImageRepository>();
  builder.Services.AddScoped<ICountryRepository, CountryRepository>();
  builder.Services.AddScoped<ITagRepository, TagRepository>();
- builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+
 
 
 var app = builder.Build();

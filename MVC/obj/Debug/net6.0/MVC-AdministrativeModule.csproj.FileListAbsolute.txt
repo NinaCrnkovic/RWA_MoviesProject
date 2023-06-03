@@ -574,3 +574,11 @@ C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-Movie
 C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.dll
 C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\bin\Debug\net6.0\xunit.abstractions.dll
 C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\bin\Debug\net6.0\xunit.core.dll
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\bin\Debug\net6.0\System.Web.Mvc.dll
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\bin\Debug\net6.0\System.Web.Razor.dll
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\bin\Debug\net6.0\System.Web.Helpers.dll
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\bin\Debug\net6.0\System.Web.WebPages.Deployment.dll
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\bin\Debug\net6.0\System.Web.WebPages.Razor.dll
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\bin\Debug\net6.0\System.Web.WebPages.dll
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\bin\Debug\net6.0\Microsoft.Web.Infrastructure.dll
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC\bin\Debug\net6.0\System.Web.Mvc.Extensions.dll

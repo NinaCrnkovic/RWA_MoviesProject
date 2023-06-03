@@ -55,6 +55,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VucmVcR2VucmUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/38598/Documents/Faks/4.semestar 2022-23/RWA/RWA-MoviesProject/RWA-MoviesProject/MVC/Views/Genre/_GenrePartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VucmVcX0dlbnJlUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/38598/Documents/Faks/4.semestar 2022-23/RWA/RWA-MoviesProject/RWA-MoviesProject/MVC/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -117,6 +121,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/38598/Documents/Faks/4.semestar 2022-23/RWA/RWA-MoviesProject/RWA-MoviesProject/MVC/Views/Video/Video.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlkZW9cVmlkZW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/38598/Documents/Faks/4.semestar 2022-23/RWA/RWA-MoviesProject/RWA-MoviesProject/MVC/Views/Video/VideoTableBodyPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlkZW9cVmlkZW9UYWJsZUJvZHlQYXJ0aWFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/38598/Documents/Faks/4.semestar 2022-23/RWA/RWA-MoviesProject/RWA-MoviesProject/MVC/Views/_ViewImports.cshtml]

@@ -100,3 +100,25 @@ dl.row {
 .btn-danger {
     background-color: rgb(241,10,189) !important;
 }
+.pagination-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.page-link-container {
+    display: inline-block;
+}
+
+.page-link {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-right: 5px;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+}
+
+    .page-link.active {
+        background-color: #007bff;
+        color: #fff;
+    }

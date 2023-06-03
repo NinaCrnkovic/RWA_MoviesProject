@@ -16,6 +16,10 @@ namespace BL.Repositories
         BLGenre Add(BLGenre genre);
         BLGenre Update(int id, BLGenre genre);
         void Delete(int id);
+        int GetTotalCount();
+        IEnumerable<BLGenre> GetPagedData(int page, int size, string orderBy, string direction);
+
+        IEnumerable<BLGenre> GetFilteredData(string term);
     }
 
     public class GenreRepository : IGenreRepository
@@ -43,6 +47,51 @@ namespace BL.Repositories
             var blGenre = _mapper.Map<BLGenre>(dbGenre);
 
             return blGenre;
+        }
+        public int GetTotalCount() => _dbContext.Genres.Count();
+        public IEnumerable<BLGenre> GetPagedData(int page, int size, string orderBy, string direction)
+        {
+            IEnumerable<Genre> dbGenres = _dbContext.Genres.AsEnumerable();
+
+            // Ordering
+            if (string.Compare(orderBy, "id", true) == 0)
+            {
+                dbGenres = dbGenres.OrderBy(x => x.Id);
+            }
+            else if (string.Compare(orderBy, "name", true) == 0)
+            {
+                dbGenres = dbGenres.OrderBy(x => x.Name);
+            }
+            else
+            {
+                // default: order by Id
+                dbGenres = dbGenres.OrderBy(x => x.Id);
+            }
+
+            // For descending order we just reverse it
+            if (string.Compare(direction, "desc", true) == 0)
+            {
+                dbGenres = dbGenres.Reverse();
+            }
+
+            // Now we can page the correctly ordered items
+            dbGenres = dbGenres.Skip(page * size).Take(size);
+
+            var blGenres = _mapper.Map<IEnumerable<BLGenre>>(dbGenres);
+
+            return blGenres;
+        }
+
+        public IEnumerable<BLGenre> GetFilteredData(string term)
+        {
+            // It seems more flexible to check both name or description for the search term
+            var dbGenres = _dbContext.Genres.Where(x =>
+                x.Name.Contains(term) ||
+                x.Description.Contains(term));
+
+            var blGenres = _mapper.Map<IEnumerable<BLGenre>>(dbGenres);
+
+            return blGenres;
         }
 
         public BLGenre Add(BLGenre genre)
