@@ -44,8 +44,14 @@
         var username = $('#username').val();
         var countryId = $('#countryId').val();
 
-        var url = '@Url.Action("Index")' + '?firstName=' + firstName + '&lastName=' + lastName + '&username=' + username + '&countryId=' + countryId;
-        location.href = url;
+        // Postavljanje vrijednosti filtriranja kao kolačiće
+    document.cookie = "firstName=" + encodeURIComponent(firstName);
+    document.cookie = "lastName=" + encodeURIComponent(lastName);
+    document.cookie = "username=" + encodeURIComponent(username);
+    document.cookie = "countryId=" + encodeURIComponent(countryId);
+
+       var url = '@Url.Action("Index")' + '?firstName=' + firstName + '&lastName=' + lastName + '&username=' + username + '&countryId=' + countryId;
+    location.href = url;
     }
 
     function resetFilters() {

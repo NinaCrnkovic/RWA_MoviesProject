@@ -31,6 +31,10 @@ namespace BL.Mapping
             CreateMap<BLModels.BLVideoTag, DALModels.VideoTag>();
             CreateMap<BLModels.BLCountry, DALModels.Country>();
             CreateMap<BLModels.BLImage, DALModels.Image>();
+
+
+            CreateMap<BL.DALModels.Tag, BL.BLModels.BLVideoTag>();
+
         }
     }
 }

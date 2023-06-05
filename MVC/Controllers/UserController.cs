@@ -21,10 +21,30 @@ namespace MVC.Controllers
             _mapper = mapper;
             _countryRepo = countryRepo;
         }
-
         public IActionResult Index(string firstName, string lastName, string username, int countryId)
         {
             var blUsers = _userRepo.GetAll();
+
+            // Dohvat kolačića za filtriranje
+    if (!string.IsNullOrEmpty(Request.Cookies["firstName"]))
+            {
+                firstName = Request.Cookies["firstName"];
+            }
+
+            if (!string.IsNullOrEmpty(Request.Cookies["lastName"]))
+            {
+                lastName = Request.Cookies["lastName"];
+            }
+
+            if (!string.IsNullOrEmpty(Request.Cookies["username"]))
+            {
+                username = Request.Cookies["username"];
+            }
+
+            if (!string.IsNullOrEmpty(Request.Cookies["countryId"]))
+            {
+                int.TryParse(Request.Cookies["countryId"], out countryId);
+            }
 
             // Primijenite filtre na listu korisnika
             if (!string.IsNullOrEmpty(firstName))
@@ -76,6 +96,7 @@ namespace MVC.Controllers
 
             return View(vmUsers);
         }
+
 
 
 

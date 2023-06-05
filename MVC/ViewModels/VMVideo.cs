@@ -31,6 +31,8 @@
 
         public virtual ICollection<VMVideoTag> VideoTags { get; set; } = new List<VMVideoTag>();
 
-     
+        public List<int> SelectedTagIds { get; set; }
+
+
     }
 }

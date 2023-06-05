@@ -132,7 +132,6 @@ namespace MVC.Controllers
 
 
 
-
         public IActionResult Details(int id)
         {
             var blVideo = _videoRepo.GetById(id);
@@ -140,18 +139,27 @@ namespace MVC.Controllers
             {
                 return NotFound();
             }
+
             var vmVideo = _mapper.Map<VMVideo>(blVideo);
 
-            // Dohvatite naziv žanra i naziv slike
             var genre = _genreRepo.GetById(vmVideo.GenreId);
             var image = _imageRepo.GetById(vmVideo.ImageId);
 
-            // Pohranite nazive u ViewBag
             ViewBag.GenreName = genre?.Name;
             ViewBag.ImageName = image?.Content;
 
+            var videoTags = _videoRepo.GetVideoTagsByVideoId(id);
+            var vmVideoTags = videoTags.ToList();
+
+            ViewBag.VideoTags = vmVideoTags;
+
             return View(vmVideo);
         }
+
+
+
+
+
 
 
         public IActionResult Create()
@@ -166,35 +174,56 @@ namespace MVC.Controllers
 
             var blTags = _tagRepo.GetAll();
             var vmTags = _mapper.Map<IEnumerable<VMTag>>(blTags);
-            ViewBag.Tags = new SelectList(vmTags, "Id", "Name");
+            ViewBag.Tags = new MultiSelectList(vmTags, "Id", "Name");
 
             return View();
         }
 
+
         [HttpPost]
-        public IActionResult Create(VMVideo video)
+        public IActionResult Create(VMVideo video, List<int> selectedTagIds)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    var blGenres = _genreRepo.GetAll();
+                    var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
+                    ViewBag.Genres = new SelectList(vmGenres, "Id", "Name");
+
+                    var blTags = _tagRepo.GetAll();
+                    var vmTags = _mapper.Map<IEnumerable<VMTag>>(blTags);
+                    ViewBag.Tags = new SelectList(vmTags, "Id", "Name");
+
+                    var blImages = _imageRepo.GetAll();
+                    var vmImages = _mapper.Map<IEnumerable<VMImage>>(blImages);
+                    ViewBag.Images = new SelectList(vmImages, "Id", "Content");
+
+                    return View(video);
+                }
+
                 var blVideo = _mapper.Map<BLVideo>(video);
-                           
-               
+
+                // Provjera i spremanje oznaka
+                if (selectedTagIds != null && selectedTagIds.Any())
+                {
+                    blVideo.VideoTags = new List<BLVideoTag>();
+                    foreach (var tagId in selectedTagIds)
+                    {
+                        var videoTag = new BLVideoTag
+                        {
+                            VideoId = blVideo.Id,
+                            TagId = tagId
+                        };
+
+                        blVideo.VideoTags.Add(videoTag);
+                    }
+                }
+
                 var newVideo = _videoRepo.Add(blVideo);
                 var vmVideo = _mapper.Map<VMVideo>(newVideo);
 
-                var blGenres = _genreRepo.GetAll();
-                var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
-                ViewBag.Genres = new SelectList(vmGenres, "Id", "Name");
-
-                var blTags = _tagRepo.GetAll();
-                var vmTags = _mapper.Map<IEnumerable<VMTag>>(blTags);
-                ViewBag.Tags = new SelectList(vmTags, "Id", "Name");
-
-                var blImages = _imageRepo.GetAll();
-                var vmImages = _mapper.Map<IEnumerable<VMImage>>(blImages);
-                ViewBag.Images = new SelectList(vmImages, "Id", "Content");
-
-                return RedirectToAction(nameof(Video));
+                return RedirectToAction("Video");
             }
             catch (Exception)
             {
@@ -218,16 +247,21 @@ namespace MVC.Controllers
 
         public IActionResult Edit(int id)
         {
-            var blVideo = _videoRepo.GetById(id);
-            if (blVideo == null)
+            var video = _videoRepo.GetById(id);
+            if (video == null)
             {
                 return NotFound();
             }
-            var vmVideo = _mapper.Map<VMVideo>(blVideo);
+
+            var vmVideo = _mapper.Map<VMVideo>(video);
 
             var blGenres = _genreRepo.GetAll();
             var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
             ViewBag.Genres = new SelectList(vmGenres, "Id", "Name");
+
+            var blTags = _tagRepo.GetAll();
+            var vmTags = _mapper.Map<IEnumerable<VMTag>>(blTags);
+            ViewBag.Tags = new MultiSelectList(vmTags, "Id", "Name", vmVideo.SelectedTagIds);
 
             var blImages = _imageRepo.GetAll();
             var vmImages = _mapper.Map<IEnumerable<VMImage>>(blImages);
@@ -237,19 +271,70 @@ namespace MVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(int id, VMVideo video)
+        public IActionResult Edit(VMVideo video, List<int> selectedTagIds)
         {
             try
             {
-                var blVideo = _mapper.Map<BLVideo>(video);
-                _videoRepo.Update(id, blVideo);
-                return RedirectToAction(nameof(Video));
+                if (!ModelState.IsValid)
+                {
+                    var blGenres = _genreRepo.GetAll();
+                    var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
+                    ViewBag.Genres = new SelectList(vmGenres, "Id", "Name");
+
+                    var blTags = _tagRepo.GetAll();
+                    var vmTags = _mapper.Map<IEnumerable<VMTag>>(blTags);
+                    ViewBag.Tags = new MultiSelectList(vmTags, "Id", "Name", selectedTagIds);
+
+                    var blImages = _imageRepo.GetAll();
+                    var vmImages = _mapper.Map<IEnumerable<VMImage>>(blImages);
+                    ViewBag.Images = new SelectList(vmImages, "Id", "Content");
+
+                    return View(video);
+                }
+
+                var existingVideo = _videoRepo.GetById(video.Id);
+                if (existingVideo == null)
+                {
+                    return NotFound();
+                }
+
+                // Ažurirajte podatke videa
+                existingVideo.Name = video.Name;
+                existingVideo.Description = video.Description;
+                existingVideo.GenreId = video.GenreId;
+                existingVideo.TotalSeconds = video.TotalSeconds;
+                existingVideo.StreamingUrl = video.StreamingUrl;
+                existingVideo.ImageId = video.ImageId;
+
+                // Ažurirajte listu tagova
+                existingVideo.VideoTags.Clear();
+                if (selectedTagIds != null && selectedTagIds.Any())
+                {
+                    foreach (var tagId in selectedTagIds)
+                    {
+                        var videoTag = new BLVideoTag
+                        {
+                            VideoId = existingVideo.Id,
+                            TagId = tagId
+                        };
+
+                        existingVideo.VideoTags.Add(videoTag);
+                    }
+                }
+
+                _videoRepo.Update(existingVideo.Id, existingVideo);
+
+                return RedirectToAction("Video");
             }
             catch (Exception)
             {
                 var blGenres = _genreRepo.GetAll();
                 var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
                 ViewBag.Genres = new SelectList(vmGenres, "Id", "Name");
+
+                var blTags = _tagRepo.GetAll();
+                var vmTags = _mapper.Map<IEnumerable<VMTag>>(blTags);
+                ViewBag.Tags = new MultiSelectList(vmTags, "Id", "Name", selectedTagIds);
 
                 var blImages = _imageRepo.GetAll();
                 var vmImages = _mapper.Map<IEnumerable<VMImage>>(blImages);
@@ -258,6 +343,8 @@ namespace MVC.Controllers
                 return View(video);
             }
         }
+
+
 
 
 

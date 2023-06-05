@@ -5,56 +5,73 @@
 }
 
 <div class="row justify-content-center">
-<h1>Edit</h1>
+    <h1>Edit</h1>
 
-<h4>Video</h4>
-<hr />
-<div class="row justify-content-center">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <h4>Video</h4>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="GenreId" class="control-label"></label>
+                    <select asp-for="GenreId" asp-items="@ViewBag.Genres" class="form-control"></select>
+                    <span asp-validation-for="GenreId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TotalSeconds" class="control-label"></label>
+                    <input asp-for="TotalSeconds" class="form-control" />
+                    <span asp-validation-for="TotalSeconds" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="StreamingUrl" class="control-label"></label>
+                    <input asp-for="StreamingUrl" class="form-control" />
+                    <span asp-validation-for="StreamingUrl" class="text-danger"></span>
+                </div>
+
+          <div class="form-group">
+                    <label asp-for="ImageId" class="control-label"></label>
+                    <select asp-for="ImageId" asp-items="@ViewBag.Images" class="form-control"></select>
+                    <span asp-validation-for="ImageId" class="text-danger"></span>
+                </div>
+
+        <div class="form-group">
+    <label asp-for="SelectedTagIds" class="control-label"></label>
+    <select asp-for="SelectedTagIds" asp-items="@ViewBag.Tags" class="form-control" multiple></select>
+    <span asp-validation-for="SelectedTagIds" class="text-danger"></span>
+</div>
 
 
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-             <div class="form-group">
-                <label asp-for="GenreId" class="control-label"></label>
-                <select asp-for="GenreId" asp-items="@ViewBag.Genres" class="form-control"></select>
-                <span asp-validation-for="GenreId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TotalSeconds" class="control-label"></label>
-                <input asp-for="TotalSeconds" class="form-control" />
-                <span asp-validation-for="TotalSeconds" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StreamingUrl" class="control-label"></label>
-                <input asp-for="StreamingUrl" class="form-control" />
-                <span asp-validation-for="StreamingUrl" class="text-danger"></span>
-            </div>
-           <div class="form-group">
-                <label asp-for="ImageId" class="control-label"></label>
-                <select asp-for="ImageId" asp-items="@ViewBag.Images" class="form-control"></select>
-                <span asp-validation-for="ImageId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary d-inline-block ml-2" />
-            </div>
-        </form>
-        <button class="btn btn-primary d-inline-block ml-2" onclick="location.href='@Url.Action("Video")'">Back to List</button>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
 
-    
+    <div>
+        <button class="btn btn-primary" onclick="location.href='@Url.Action("Video")'">Back to List</button>
+    </div>
 </div>
-</div>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+

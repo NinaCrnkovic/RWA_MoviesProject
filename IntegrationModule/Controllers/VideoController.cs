@@ -109,40 +109,7 @@ namespace IntegrationModule.Controllers
             }
         }
 
-        //[HttpPost("[action]")]
-        //public ActionResult<Video> CreateVideo([FromBody] Video video)
-        //{
-        //    try
-        //    {
-        //        if (!ModelState.IsValid)
-        //            return BadRequest(ModelState);
 
-        //        video.Id = 0;
-
-        //        // Mapiranje objekata
-        //        var blVideo = _mapper.Map<BLVideo>(video);
-
-        //        // Provjera i spremanje slike
-        //        if (video.Image != null)
-        //        {
-        //            var blImage = _mapper.Map<BLImage>(video.Image);
-        //            var newImage = _imageRepository.Add(blImage);
-        //            blVideo.ImageId = newImage.Id;
-        //        }
-
-        //        // Spremanje videa
-        //        var newVideo = _videoRepository.Add(blVideo);
-        //        var createdVideo = _mapper.Map<Video>(newVideo);
-
-        //        return Ok(createdVideo);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return StatusCode(
-        //            StatusCodes.Status500InternalServerError,
-        //            "There has been a problem while creating the video.");
-        //    }
-        //}
 
 
 

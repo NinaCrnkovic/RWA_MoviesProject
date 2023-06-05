@@ -23,6 +23,7 @@ namespace BL.Repositories
         IEnumerable<BLVideo> GetPagedData(int page, int size, string orderBy, string direction);
         IEnumerable<BLVideo> GetPagedDataAdmin(int page, int size, string orderBy, string direction, IEnumerable<BLVideo> filteredVideos);
         int GetTotalCount();
+        public IEnumerable<string> GetVideoTagsByVideoId(int videoId);
     }
 
     public class VideoRepository : IVideoRepository
@@ -43,6 +44,23 @@ namespace BL.Repositories
 
             return blVideos;
         }
+
+        public IEnumerable<string> GetVideoTagsByVideoId(int videoId)
+        {
+            var videoTags = _dbContext.VideoTags
+                .Where(vt => vt.VideoId == videoId)
+                .Select(vt => vt.TagId)
+                .ToList();
+
+            var tags = _dbContext.Tags
+                .Where(t => videoTags.Contains(t.Id))
+                .Select(t => t.Name)
+                .ToList();
+
+            return tags ?? Enumerable.Empty<string>();
+        }
+
+
 
 
 
@@ -197,6 +215,22 @@ namespace BL.Repositories
             dbVideo.ImageId = video.ImageId;
             dbVideo.TotalSeconds = video.TotalSeconds;
 
+            // Ažuriraj tagove
+            //dbVideo.VideoTags.Clear(); // Ukloni sve postojeće tagove
+
+            foreach (var tag in video.VideoTags)
+            {
+                var dbTag = _dbContext.Tags.FirstOrDefault(t => t.Id == tag.TagId);
+                if (dbTag != null)
+                {
+                    dbVideo.VideoTags.Add(new VideoTag
+                    {
+                        TagId = dbTag.Id,
+                        VideoId = dbVideo.Id
+                    });
+                }
+            }
+
             _dbContext.SaveChanges();
 
             var updatedBlVideo = _mapper.Map<BLVideo>(dbVideo);
@@ -205,15 +239,39 @@ namespace BL.Repositories
 
         public void Delete(int id)
         {
-            var dbVideo = _dbContext.Videos.FirstOrDefault(s => s.Id == id);
-            if (dbVideo == null)
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
-                throw new InvalidOperationException("Video not found");
-            }
+                try
+                {
+                    var dbVideo = _dbContext.Videos.FirstOrDefault(v => v.Id == id);
+                    if (dbVideo == null)
+                    {
+                        throw new InvalidOperationException("Video not found");
+                    }
 
-            _dbContext.Videos.Remove(dbVideo);
-            _dbContext.SaveChanges();
+                    // Retrieve all video tags associated with the video
+                    var videoTags = _dbContext.VideoTags.Where(vt => vt.VideoId == id);
+
+                    // Remove the video tags associated with the video
+                    _dbContext.VideoTags.RemoveRange(videoTags);
+
+                    _dbContext.SaveChanges();
+
+                    // Remove the video
+                    _dbContext.Videos.Remove(dbVideo);
+
+                    _dbContext.SaveChanges();
+
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    throw; // Rethrow the exception to handle it at a higher level
+                }
+            }
         }
+
     }
 
 }

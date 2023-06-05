@@ -9,33 +9,35 @@
     var pages = (int)ViewData["totalPages"];
 }
 
-<section>
-    <header>
-        <h2 class="text-white">Videos</h2>
-    </header>
-    <p>
+<h1>Video</h1>
+
+<p>
     <button class="btn btn-primary btn-create" onclick="location.href='@Url.Action("Create")'">Create New Video</button>
 </p>
-<form id="search-form" method="get">
-    <div class="form-row">
-        <div class="col">
-            @{
-                string videoName = (string)ViewData["VideoName"] ?? ViewContext.HttpContext.Request.Cookies["VideoName"];
-            }
-            <input type="text" class="form-control" name="videoName" placeholder="Video Name" value="@videoName">
+<div class="row justify-content-center">
+    <form id="search-form" method="get">
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-auto mx-auto" style="width: 50%;">
+                @{
+                    string videoName = (string)ViewData["VideoName"] ?? ViewContext.HttpContext.Request.Cookies["VideoName"];
+                }
+                <input type="text" class="form-control" name="videoName" placeholder="Video Name" value="@videoName">
+            </div>
+            <div class="form-group col-md-auto mx-auto" style="width: 50%;">
+                @{
+                    string videoGenre = (string)ViewData["VideoGenre"] ?? ViewContext.HttpContext.Request.Cookies["VideoGenre"];
+                }
+                <input type="text" class="form-control" name="videoGenre" placeholder="Video Genre" value="@videoGenre">
+            </div>
+            <div class="form-group col-md-auto">
+                <button type="submit" class="btn btn-primary btn-create">Apply Filters</button>
+                <button type="button" class="btn btn-secondary btn-create btn-clear">Reset Filters</button>
+            </div>
         </div>
-        <div class="col">
-            @{
-                string videoGenre = (string)ViewData["VideoGenre"] ?? ViewContext.HttpContext.Request.Cookies["VideoGenre"];
-            }
-            <input type="text" class="form-control" name="videoGenre" placeholder="Video Genre" value="@videoGenre">
-        </div>
-        <div class="col">
-            <button type="submit" class="btn btn-primary btn-create">Apply Filters</button>
-            <button type="button" class="btn btn-secondary btn-create">Reset Filters</button>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
+
+
 
 
     <table class="table">
@@ -107,7 +109,7 @@
                class="pager-btn btn @currClass">@(i + 1)</a>
         }
     </div>
-</section>
+
 
 @section Scripts {
     <script>
