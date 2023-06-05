@@ -1,6 +1,9 @@
 ﻿@model IEnumerable<MVC.ViewModels.VMCountry>
 
 <h1>Country</h1>
+<p>
+    <button class="btn btn-primary btn-create" onclick="location.href='@Url.Action("Create")'">Create New Country</button>
+</p>
 
 <div class="row">
     @foreach (var country in Model)

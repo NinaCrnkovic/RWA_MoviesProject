@@ -42,6 +42,6 @@ namespace MVC.ViewModels
         [DisplayName("Country id")]
         public int CountryOfResidenceId { get; set; }
         [DisplayName("Country")]
-        public virtual VMCountry CountryOfResidence { get; set; } = null!;
+        public virtual VMCountry CountryOfResidence { get; set; }
     }
 }

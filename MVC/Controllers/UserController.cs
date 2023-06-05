@@ -49,12 +49,34 @@ namespace MVC.Controllers
 
             var vmUsers = _mapper.Map<IEnumerable<VMUser>>(blUsers);
 
+            // Dohvatite imena država za prikaz u pogledu
+            var countryIds = vmUsers.Select(u => u.CountryOfResidenceId).Distinct();
+            var countryNames = _countryRepo.GetAll()
+                .Where(c => countryIds.Contains(c.Id))
+                .ToDictionary(c => c.Id, c => c.Name);
+
+            // Ažurirajte imena država u modelu korisnika
+            foreach (var user in vmUsers)
+            {
+                if (countryNames.TryGetValue(user.CountryOfResidenceId, out string countryName))
+                {
+                    if (user.CountryOfResidence == null)
+                    {
+                        user.CountryOfResidence = new VMCountry();
+                    }
+
+                    user.CountryOfResidence.Name = countryName;
+                }
+            }
+
+
             var blCountry = _countryRepo.GetAll();
             var vmCountry = _mapper.Map<IEnumerable<VMCountry>>(blCountry);
             ViewBag.Country = new SelectList(vmCountry, "Id", "Name");
 
             return View(vmUsers);
         }
+
 
 
         public IActionResult Details(int id)

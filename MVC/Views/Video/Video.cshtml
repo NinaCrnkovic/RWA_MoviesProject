@@ -6,110 +6,142 @@
     var size = (int)ViewData["size"];
     var orderBy = (string)ViewData["orderBy"];
     var direction = (string)ViewData["direction"];
-    var pages = (int)ViewData["Totalpages"];
+    var pages = (int)ViewData["totalPages"];
 }
 
-<h1>Video</h1>
-
-<p>
+<section>
+    <header>
+        <h2 class="text-white">Videos</h2>
+    </header>
+    <p>
     <button class="btn btn-primary btn-create" onclick="location.href='@Url.Action("Create")'">Create New Video</button>
 </p>
-
-<!-- Forma za filtriranje -->
 <form id="search-form" method="get">
     <div class="form-row">
         <div class="col">
-            <input type="text" class="form-control" name="videoName" placeholder="Video Name" value="@ViewBag.VideoName">
+            @{
+                string videoName = (string)ViewData["VideoName"] ?? ViewContext.HttpContext.Request.Cookies["VideoName"];
+            }
+            <input type="text" class="form-control" name="videoName" placeholder="Video Name" value="@videoName">
         </div>
         <div class="col">
-            <input type="text" class="form-control" name="genreName" placeholder="Genre Name" value="@ViewBag.GenreName">
+            @{
+                string videoGenre = (string)ViewData["VideoGenre"] ?? ViewContext.HttpContext.Request.Cookies["VideoGenre"];
+            }
+            <input type="text" class="form-control" name="videoGenre" placeholder="Video Genre" value="@videoGenre">
         </div>
         <div class="col">
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary btn-create">Apply Filters</button>
+            <button type="button" class="btn btn-secondary btn-create">Reset Filters</button>
         </div>
     </div>
 </form>
-<div class="btn-group">
-    @for (var i = 0; i <= pages; i++)
-    {
-        var currClass = page == i ? "btn-primary" : "btn-outline-primary";
-        <a asp-action="Genre" 
-           asp-route-page="@i"
-           asp-route-size="@size"
-           asp-route-orderBy="@orderBy"
-           asp-route-direction="@direction"
-           data-page="@i"
-           class="pager-btn btn @currClass">@(i + 1)</a>
-    }
-</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GenreName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalSeconds)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StreamingUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageContent)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody id="video-table-body">
-        @Html.Partial("VideoTableBodyPartial", Model)
-    </tbody>
-</table>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedAt)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GenreName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalSeconds)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StreamingUrl)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ImageContent)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody id="video-table-body">
+            @foreach (var video in Model)
+            {
+                <tr>
+                    <td>@video.Id</td>
+                    <td>@video.CreatedAt</td>
+                    <td>@video.Name</td>
+                    <td>@video.Description</td>
+                    <td>@video.GenreName</td>
+                    <td>@video.TotalSeconds</td>
+                    <td>@video.StreamingUrl</td>
+                 
+                    <td>@video.ImageContent</td>
+                    <td style="white-space: nowrap">
+              
+                <button class="btn btn-primary mr-2" onclick="location.href='@Url.Action("Edit", new {id=video.Id})'">Edit</button>
+                <button class="btn btn-primary mr-2" onclick="location.href='@Url.Action("Details", new {id=video.Id})'">Details</button>
+                <button class="btn btn-danger mr-2" onclick="location.href='@Url.Action("Delete",  new {id=video.Id})'">Delete</button>
+      
+            </td>
+                 
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="btn-group">
+        @for (var i = 0; i <= pages; i++)
+        {
+            var currClass = page == i ? "btn-primary" : "btn-outline-primary";
+            <a asp-action="Video"
+               asp-route-page="@i"
+               asp-route-size="@size"
+               asp-route-orderBy="@orderBy"
+               asp-route-direction="@direction"
+               data-page="@i"
+               class="pager-btn btn @currClass">@(i + 1)</a>
+        }
+    </div>
+</section>
 
 @section Scripts {
     <script>
-        $(".pager-btn").click(function (event) {
-            console.log("Pager button clicked");
-            event.preventDefault();
+        $(document).ready(function () {
+            $("#search-form").submit(function (event) {
+                console.log("Search form submitted");
+                event.preventDefault();
 
-            var page = $(this).data("page");
+                var videoName = $("input[name='videoName']").val();
+                var videoGenre = $("input[name='videoGenre']").val();
 
-            var ajaxData = {
-                page: page,
-                size: @ViewData["size"],
-                orderBy: "@ViewData["orderBy"]",
-                direction: "@ViewData["direction"]"
-            };
+                $.ajax({
+                    type: "GET",
+                    url: "/Video/FilterVideos",
+                    data: { videoName: videoName, videoGenre: videoGenre },
+                    success: function (data) {
+                        $("#video-table-body").html(data);
 
-            $.ajax({
-                type: "GET",
-                url: "/Video/VideoTableBodyPartial",
-                data: ajaxData,
-                success: function (data) {
-                    $("#video-table-body").html(data);
+                        $(".pager-btn").removeClass("btn-primary");
+                        $(".pager-btn").addClass("btn-outline-primary");
+                    },
+                    error: function (data) {
+                        console.error("Ajax GET error", data);
+                    }
+                });
+            });
 
-                    $(".pager-btn").removeClass("btn-primary");
-                    $(".pager-btn").addClass("btn-outline-primary");
+            $(".btn-clear").click(function () {
+                $("input[name='videoName']").val("");
+                $("input[name='videoGenre']").val("");
 
-                    $(".pager-btn[data-page=" + page + "]").removeClass("btn-outline-primary");
-                    $(".pager-btn[data-page=" + page + "]").addClass("btn-primary");
-                },
-                error: function (data) {
-                    console.error("Ajax GET error", data);
-                }
+                $("#search-form").submit();
             });
         });
     </script>
 }
+

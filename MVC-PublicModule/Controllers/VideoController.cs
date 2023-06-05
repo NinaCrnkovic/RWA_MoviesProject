@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using BL.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVC_PublicModule.ViewModels;
 
 namespace MVC_PublicModule.Controllers
 {
+
     public class VideoController : Controller
     {
         private readonly ILogger<VideoController> _logger;

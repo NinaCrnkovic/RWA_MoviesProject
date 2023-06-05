@@ -14,58 +14,19 @@ namespace MVC.Controllers
         private readonly IVideoRepository _videoRepo;
         private readonly IGenreRepository _genreRepo;
         private readonly IImageRepository _imageRepo;
+        private readonly ITagRepository _tagRepo;
 
         private readonly IMapper _mapper;
-        public VideoController(ILogger<VideoController> logger, IVideoRepository videoRepo, IGenreRepository genreRepo, IImageRepository imageRepo, IMapper mapper)
+        public VideoController(ILogger<VideoController> logger, IVideoRepository videoRepo, IGenreRepository genreRepo, IImageRepository imageRepo, ITagRepository tagRepository, IMapper mapper)
         {
             _logger = logger;
             _videoRepo = videoRepo;
             _mapper = mapper;
             _genreRepo = genreRepo;
             _imageRepo = imageRepo;
+            _tagRepo  = tagRepository;
         }
-        //public IActionResult Video(string videoName, string genreName)
-        //{
-        //    var blVideo = _videoRepo.GetAll();
-        //    var vmVideo = _mapper.Map<IEnumerable<VMVideo>>(blVideo);
 
-        //    foreach (var video in vmVideo)
-        //    {
-        //        var blGenre = _genreRepo.GetById(video.GenreId);
-        //        video.GenreName = blGenre.Name;
-
-        //        var blImage = _imageRepo.GetById(video.ImageId);
-        //        video.ImageContent = blImage.Content;
-        //    }
-
-        //    // Filtriranje prema nazivu videosadržaja
-        //    if (!string.IsNullOrEmpty(videoName))
-        //    {
-        //        vmVideo = vmVideo.Where(v => v.Name.IndexOf(videoName, StringComparison.OrdinalIgnoreCase) >= 0);
-        //    }
-
-        //    // Filtriranje prema nazivu žanra
-        //    if (!string.IsNullOrEmpty(genreName))
-        //    {
-        //        vmVideo = vmVideo.Where(v => v.GenreName.IndexOf(genreName, StringComparison.OrdinalIgnoreCase) >= 0);
-        //    }
-
-        //    // Dodaje filtere u ViewBag
-        //    ViewBag.VideoName = videoName;
-        //    ViewBag.GenreName = genreName;
-
-        //    // Pohranjivanje filtera u kolačiće
-        //    if (!string.IsNullOrEmpty(videoName))
-        //    {
-        //        Response.Cookies.Append("VideoName", videoName);
-        //    }
-
-        //    if (!string.IsNullOrEmpty(genreName))
-        //    {
-        //        Response.Cookies.Append("GenreName", genreName);
-        //    }
-        //    return View(vmVideo);
-        //}
 
 
         public IActionResult Video(int page, int size, string orderBy, string direction, string videoName)
@@ -125,17 +86,22 @@ namespace MVC.Controllers
             return PartialView("VideoTableBodyPartial", vmVideo);
         }
 
-        public IActionResult GetVideoData(string term)
+
+
+        public IActionResult GetVideo(string video, string genre)
         {
-            var filteredGenres = _videoRepo.GetFilteredData(term);
+            var filteredGenres = _videoRepo.GetFilteredDataNameAndGenre(video, genre);
             var labeledValues = filteredGenres.Select(x => new { value = x.Id, label = x.Name });
 
             return Json(labeledValues);
         }
 
-        public IActionResult FilterVideos(string videoName)
+
+        
+
+        public IActionResult FilterVideos(string videoName, string videoGenre)
         {
-            var blVideos = _videoRepo.GetFilteredData(videoName);
+            var blVideos = _videoRepo.GetFilteredDataNameAndGenre(videoName, videoGenre);
             var vmVideos = _mapper.Map<IEnumerable<VMVideo>>(blVideos);
 
             foreach (var video in vmVideos)
@@ -165,6 +131,8 @@ namespace MVC.Controllers
         }
 
 
+
+
         public IActionResult Details(int id)
         {
             var blVideo = _videoRepo.GetById(id);
@@ -191,9 +159,14 @@ namespace MVC.Controllers
             var blGenres = _genreRepo.GetAll();
             var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
             ViewBag.Genres = new SelectList(vmGenres, "Id", "Name");
+
             var blImages = _imageRepo.GetAll();
             var vmImages = _mapper.Map<IEnumerable<VMImage>>(blImages);
             ViewBag.Images = new SelectList(vmImages, "Id", "Content");
+
+            var blTags = _tagRepo.GetAll();
+            var vmTags = _mapper.Map<IEnumerable<VMTag>>(blTags);
+            ViewBag.Tags = new SelectList(vmTags, "Id", "Name");
 
             return View();
         }
@@ -204,12 +177,19 @@ namespace MVC.Controllers
             try
             {
                 var blVideo = _mapper.Map<BLVideo>(video);
+                           
+               
                 var newVideo = _videoRepo.Add(blVideo);
                 var vmVideo = _mapper.Map<VMVideo>(newVideo);
 
                 var blGenres = _genreRepo.GetAll();
                 var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
                 ViewBag.Genres = new SelectList(vmGenres, "Id", "Name");
+
+                var blTags = _tagRepo.GetAll();
+                var vmTags = _mapper.Map<IEnumerable<VMTag>>(blTags);
+                ViewBag.Tags = new SelectList(vmTags, "Id", "Name");
+
                 var blImages = _imageRepo.GetAll();
                 var vmImages = _mapper.Map<IEnumerable<VMImage>>(blImages);
                 ViewBag.Images = new SelectList(vmImages, "Id", "Content");
@@ -221,6 +201,11 @@ namespace MVC.Controllers
                 var blGenres = _genreRepo.GetAll();
                 var vmGenres = _mapper.Map<IEnumerable<VMGenre>>(blGenres);
                 ViewBag.Genres = new SelectList(vmGenres, "Id", "Name");
+
+                var blTags = _tagRepo.GetAll();
+                var vmTags = _mapper.Map<IEnumerable<VMTag>>(blTags);
+                ViewBag.Tags = new SelectList(vmTags, "Id", "Name");
+
                 var blImages = _imageRepo.GetAll();
                 var vmImages = _mapper.Map<IEnumerable<VMImage>>(blImages);
                 ViewBag.Images = new SelectList(vmImages, "Id", "Content");
@@ -228,6 +213,7 @@ namespace MVC.Controllers
                 return View(video);
             }
         }
+
 
 
         public IActionResult Edit(int id)

@@ -19,14 +19,14 @@ namespace IntegrationModule.Controllers
         private readonly IUserRepository _userRepo;
         private readonly ICountryRepository _countryRepo;
 
-        private readonly IJwtService _jwtService;
+ 
 
-        public UserController(ILogger<UserController> logger, IMapper mapper, IUserRepository userRepo, ICountryRepository countryRepo, IJwtService jwtService)
+        public UserController(ILogger<UserController> logger, IMapper mapper, IUserRepository userRepo, ICountryRepository countryRepo)
         {
             _logger = logger;
             _mapper = mapper;
             _userRepo = userRepo;
-            _jwtService = jwtService;
+   
             _countryRepo = countryRepo;
         }
 
@@ -78,18 +78,19 @@ namespace IntegrationModule.Controllers
                     return BadRequest("Invalid country ID.");
                 }
 
-                var createdUser = _userRepo.CreateUserMVC(request.Username, request.FirstName, request.LastName, request.Email, request.Phone, request.Password, request.CountryId);
-                var createdUserDto = _mapper.Map<User>(createdUser);
+                var BLCreatedUser = _userRepo.CreateUserMVC(request.Username, request.FirstName, request.LastName, request.Email, request.Phone, request.Password, request.CountryId);
+                var createdUser = _mapper.Map<User>(BLCreatedUser);
 
                 // Generiraj JWT token za stvorenog korisnika
-                var jwtToken = _jwtService.GenerateJwtToken(createdUserDto.Email);
+                var jwtToken = _userRepo.GenerateJwtToken(createdUser.Email);
 
-                return CreatedAtAction(nameof(GetById), new { id = createdUserDto.Id }, new { User = createdUserDto, Token = jwtToken });
+                //return CreatedAtAction(nameof(GetById), new { id = createdUser.Id }, new { User = createdUser, Token = jwtToken });
+                return Ok(createdUser);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while creating the user.");
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while creating the user.");
+                _logger.LogError(ex, "An error occurred while creating the user." );
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while creating the user." + ex);
             }
         }
 
@@ -97,7 +98,7 @@ namespace IntegrationModule.Controllers
 
 
         [HttpPut("[action]/{id}")]
-        public IActionResult Update(int id, User user)
+        public IActionResult Update(int id, [FromQuery] string firstName, [FromQuery] string lastName, [FromQuery] string email, [FromQuery] string phone, [FromQuery] int countryId)
         {
             try
             {
@@ -106,14 +107,20 @@ namespace IntegrationModule.Controllers
                 {
                     return NotFound();
                 }
-                _mapper.Map(user, blUser);
+                blUser.FirstName = firstName;
+                blUser.LastName = lastName;
+                blUser.Email = email;
+                blUser.Phone = phone;
+                blUser.CountryOfResidenceId = countryId;
+         
+            
                 _userRepo.UpdateUser(blUser.Id, blUser);
-                return NoContent();
+                return Ok(blUser);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"An error occurred while updating the user with ID {id}.");
-                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while updating the user with ID {id}.");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while updating the user with ID {id}."+ex);
             }
         }
 
@@ -127,8 +134,8 @@ namespace IntegrationModule.Controllers
                 {
                     return NotFound();
                 }
-                _userRepo.SoftDeleteUser(blUser.Id);
-                return NoContent();
+                _userRepo.DeleteUser(blUser.Id);
+                return Ok(blUser);
             }
             catch (Exception ex)
             {
@@ -141,68 +148,9 @@ namespace IntegrationModule.Controllers
 
 
 
-//[HttpPost("[action]")]
-//public ActionResult<User> Register([FromBody] Models.UserRegisterRequest request)
-//{
-//    if (!ModelState.IsValid)
-//        return BadRequest(ModelState);
 
-//    try
-//    {
-//        var newUser = _userRepo.Add(request);
 
-//        return Ok(new Models.UserRegisterResponse
-//        {
-//            Id = newUser.Id,
-//            SecurityToken = newUser.SecurityToken
-//        });
-//    }
-//    catch (InvalidOperationException ex)
-//    {
-//        return BadRequest(ex.Message);
-//    }
-//}
 
-//[HttpPost("[action]")]
-//public ActionResult ValidateEmail([FromBody] Models.ValidateEmailRequest request)
-//{
-//    try
-//    {
-//        _userRepo.ValidateEmail(request);
-//        return Ok();
-//    }
-//    catch (InvalidOperationException ex)
-//    {
-//        return BadRequest(ex.Message);
-//    }
-//}
-
-//[HttpPost("[action]")]
-//public ActionResult<Models.Tokens> JwtTokens([FromBody] Models.JwtTokensRequest request)
-//{
-//    try
-//    {
-//        return Ok(_userRepo.JwtTokens(request));
-//    }
-//    catch (InvalidOperationException ex)
-//    {
-//        return BadRequest(ex.Message);
-//    }
-//}
-
-//[HttpPost("[action]")]
-//public ActionResult ChangePassword([FromBody] Models.ChangePasswordRequest request)
-//{
-//    try
-//    {
-//        _userRepo.ChangePassword(request);
-//        return Ok();
-//    }
-//    catch (InvalidOperationException ex)
-//    {
-//        return BadRequest(ex.Message);
-//    }
-//}
 
 
 

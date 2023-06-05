@@ -19,7 +19,9 @@ namespace BL.Repositories
         void Delete(int id);
 
         IEnumerable<BLVideo> GetFilteredData(string term);
+        IEnumerable<BLVideo> GetFilteredDataNameAndGenre(string name, string genre);
         IEnumerable<BLVideo> GetPagedData(int page, int size, string orderBy, string direction);
+        IEnumerable<BLVideo> GetPagedDataAdmin(int page, int size, string orderBy, string direction, IEnumerable<BLVideo> filteredVideos);
         int GetTotalCount();
     }
 
@@ -56,6 +58,33 @@ namespace BL.Repositories
 
             return blVideos;
         }
+
+        public IEnumerable<BLVideo> GetFilteredDataNameAndGenre(string name, string genre)
+        {
+            // Filtriraj video zapise prema imenu, opisu i žanrovima
+            var dbVideos = _dbContext.Videos.AsQueryable();
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                dbVideos = dbVideos.Where(x => x.Name.Contains(name) || x.Description.Contains(name));
+            }
+
+            if (!string.IsNullOrEmpty(genre))
+            {
+                var genreIds = _dbContext.Genres
+                    .Where(x => x.Name.Contains(genre))
+                    .Select(x => x.Id);
+
+                dbVideos = dbVideos.Where(x => genreIds.Contains(x.GenreId));
+            }
+
+            var blVideos = _mapper.Map<IEnumerable<BLVideo>>(dbVideos);
+
+            return blVideos;
+        }
+
+
+
 
         public IEnumerable<BLVideo> GetPagedData(int page, int size, string orderBy, string direction)
         {
@@ -96,6 +125,42 @@ namespace BL.Repositories
 
             return blVideo;
         }
+
+        public IEnumerable<BLVideo> GetPagedDataAdmin(int page, int size, string orderBy, string direction, IEnumerable<BLVideo> filteredVideos)
+        {
+            // Apply ordering
+            if (string.Compare(orderBy, "id", true) == 0)
+            {
+                filteredVideos = filteredVideos.OrderBy(x => x.Id);
+            }
+            else if (string.Compare(orderBy, "name", true) == 0)
+            {
+                filteredVideos = filteredVideos.OrderBy(x => x.Name);
+            }
+            else if (string.Compare(orderBy, "description", true) == 0)
+            {
+                filteredVideos = filteredVideos.OrderBy(x => x.Description);
+            }
+            else
+            {
+                // Default: order by Id
+                filteredVideos = filteredVideos.OrderBy(x => x.Id);
+            }
+
+            // Apply descending order
+            if (string.Compare(direction, "desc", true) == 0)
+            {
+                filteredVideos = filteredVideos.Reverse();
+            }
+
+            // Apply pagination
+            filteredVideos = filteredVideos.Skip(page * size).Take(size);
+
+            var blVideo = _mapper.Map<IEnumerable<BLVideo>>(filteredVideos);
+
+            return blVideo;
+        }
+
 
 
         public BLVideo GetById(int id)

@@ -84,8 +84,12 @@ namespace BL.Repositories
         }
 
     
-            public BLUser CreateUserMVC(string username, string firstName, string lastName, string email,string phone, string password, int country)
+        public BLUser CreateUserMVC(string username, string firstName, string lastName, string email,string phone, string password, int country)
         {
+            if (_dbContext.Users.Any(u => u.Email == email))
+            {
+                throw new Exception("A user with the same email already exists.");
+            }
             (var salt, var b64Salt) = GenerateSalt();
             var b64Hash = CreateHash(password, salt);
             var b64SecToken = GenerateSecurityToken();
@@ -246,7 +250,8 @@ namespace BL.Repositories
 
         public string GenerateJwtToken(string email)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
+
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
@@ -266,6 +271,9 @@ namespace BL.Repositories
             var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
             return encodedToken;
         }
+
+
+
 
         public BLUser GetAuthenticatedUser(string username, string password)
         {

@@ -30,8 +30,8 @@
             @Html.DropDownList("countryId", countryList, "All", new { @class = "form-control" })
         </div>
         <div class="form-group col-md-12 text-center">
-            <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
-            <button class="btn btn-primary" onclick="resetFilters()">Reset Filters</button>
+            <button class="btn btn-primary btn-create" onclick="applyFilters()">Apply Filters</button>
+            <button class="btn btn-primary btn-create" onclick="resetFilters()">Reset Filters</button>
         </div>
     </div>
 </div>
@@ -128,7 +128,7 @@
             </td>
        
             <td>
-               @Html.Display((string)countryList.FirstOrDefault(c => c.Value == item.CountryOfResidenceId.ToString())?.Text)
+               @Html.DisplayFor(modelItem => item.CountryOfResidence.Name)
             </td>
              <td style="white-space: nowrap">
               

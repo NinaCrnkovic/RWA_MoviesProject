@@ -79,7 +79,9 @@ namespace MVC_PublicModule.Controllers
                 return View(register);
             }
 
-            var user = _userRepo.CreateUserMVC(
+            try
+            {
+                var user = _userRepo.CreateUserMVC(
 
                 register.Username,
                 register.FirstName,
@@ -88,6 +90,17 @@ namespace MVC_PublicModule.Controllers
                 register.Phone,
                 register.Password,
                 register.CountryOfResidenceId);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                var blCountry = _countryRepo.GetAll();
+                var vmCountry = _mapper.Map<IEnumerable<VMCountry>>(blCountry);
+                ViewBag.Country = new SelectList(vmCountry, "Id", "Name");
+                return View(register);
+
+            }
+            
        
 
 
