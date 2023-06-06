@@ -63,6 +63,24 @@
          <dd class="col-sm-10">
             @ViewBag.ImageName
          </dd>
+         <dt class="col-sm-2">
+    Tags
+    </dt>
+    <dd class="col-sm-10">
+             @if (ViewBag.VideoTags != null)
+{
+    <div>
+
+        <ul>
+            @foreach (var tagName in ViewBag.VideoTags)
+            {
+                <li>@tagName</li>
+            }
+        </ul>
+    </div>
+}
+
+</dd>
     </dl>
 </div>
 </div>

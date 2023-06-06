@@ -215,7 +215,7 @@ namespace BL.Repositories
             dbVideo.ImageId = video.ImageId;
             dbVideo.TotalSeconds = video.TotalSeconds;
 
-            // Ažuriraj tagove
+            // Ažuriraj tagove //ostaila za sad da dodaje više tagova
             //dbVideo.VideoTags.Clear(); // Ukloni sve postojeće tagove
 
             foreach (var tag in video.VideoTags)
@@ -249,15 +249,15 @@ namespace BL.Repositories
                         throw new InvalidOperationException("Video not found");
                     }
 
-                    // Retrieve all video tags associated with the video
+                
                     var videoTags = _dbContext.VideoTags.Where(vt => vt.VideoId == id);
 
-                    // Remove the video tags associated with the video
+               
                     _dbContext.VideoTags.RemoveRange(videoTags);
 
                     _dbContext.SaveChanges();
 
-                    // Remove the video
+         
                     _dbContext.Videos.Remove(dbVideo);
 
                     _dbContext.SaveChanges();

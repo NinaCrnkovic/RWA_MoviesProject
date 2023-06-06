@@ -77,13 +77,18 @@ namespace BL.Repositories
 
         public BLUser GetByUsername(string username)
         {
-            var dbUser = _dbContext.Users.FirstOrDefault(x => x.Email == username);
+            var nameParts = username.Split(' ');
+            var firstName = nameParts[0];
+            var lastName = nameParts[1];
+
+            var dbUser = _dbContext.Users.FirstOrDefault(x => x.FirstName == firstName && x.LastName == lastName);
             var blUser = _mapper.Map<BLUser>(dbUser);
 
             return blUser;
         }
 
-    
+
+
         public BLUser CreateUserMVC(string username, string firstName, string lastName, string email,string phone, string password, int country)
         {
             if (_dbContext.Users.Any(u => u.Email == email))

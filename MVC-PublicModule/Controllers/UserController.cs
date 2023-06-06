@@ -117,6 +117,8 @@ namespace MVC_PublicModule.Controllers
                 validateEmail.Email,
                 validateEmail.SecurityToken);
 
+
+
             return RedirectToAction("Video", "Video");
 
         }
@@ -145,7 +147,12 @@ namespace MVC_PublicModule.Controllers
                     return View(login);
                 }
 
-                var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Email) };
+                //var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Email) };
+                var claims = new List<Claim>
+                {
+                        new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+   
+                };
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var authenticationProperties = new AuthenticationProperties();
 

@@ -1,4 +1,7 @@
-﻿namespace MVC.ViewModels
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace MVC.ViewModels
 {
     public class VMVideo
     {
@@ -6,14 +9,21 @@
 
         public DateTime CreatedAt { get; set; }
 
-        public string Name { get; set; } 
+        [DisplayName("Viedo name")]
+        [Required(ErrorMessage = "The field is required.")]
+        [StringLength(256)]
+        public string Name { get; set; }
 
+
+        [Required(ErrorMessage = "The field is required.")]
+        [StringLength(1024)]
         public string Description { get; set; }
-
+        [Required(ErrorMessage = "The field is required.")]
         public int GenreId { get; set; }
-
+        [Required(ErrorMessage = "The field is required.")]
         public int TotalSeconds { get; set; }
-
+        [Required(ErrorMessage = "The field is required.")]
+        [StringLength(256)]
         public string StreamingUrl { get; set; }
 
         public int ImageId { get; set; }
@@ -21,7 +31,7 @@
         public virtual VMGenre Genre { get; set; } 
 
         public virtual VMImage Image { get; set; }
-
+        [DisplayName("Genre name")]
         public string GenreName { get; set; }
         public string ImageContent { get; set; }
 
