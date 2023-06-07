@@ -26,7 +26,7 @@ namespace MVC.Controllers
             var blUsers = _userRepo.GetAll();
 
             // Dohvat kolačića za filtriranje
-    if (!string.IsNullOrEmpty(Request.Cookies["firstName"]))
+            if (!string.IsNullOrEmpty(Request.Cookies["firstName"]))
             {
                 firstName = Request.Cookies["firstName"];
             }

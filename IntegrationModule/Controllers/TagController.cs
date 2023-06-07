@@ -98,15 +98,18 @@ namespace IntegrationModule.Controllers
         }
 
         [HttpPut("[action]/{id}")]
-        public ActionResult<Tag> UpdateTag(int id, Tag tag)
+        public ActionResult<Tag> UpdateTag(int id, [FromQuery] string name)
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+                var blTag = _tagRepository.GetById(id);
+                if (blTag == null)
+                {
+                    return NotFound();
+                }
+                blTag.Name = name;
 
-                var blTag = _mapper.Map<BLTag>(tag);
-                var updatedTag = _tagRepository.Update(id, blTag);
+                var updatedTag = _tagRepository.Update(blTag.Id, blTag);
                 var modifiedTag = _mapper.Map<Tag>(updatedTag);
 
                 return Ok(modifiedTag);

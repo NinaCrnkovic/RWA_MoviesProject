@@ -35,8 +35,25 @@ namespace MVC.Controllers
             if (size == 0)
                 size = 3;
 
-            var blVideo = _videoRepo.GetPagedData(page, size, orderBy, direction);
+           // Check if cookies exist
+            string cookieVideoName = Request.Cookies["videoName"];
+            string cookieVideoGenre = Request.Cookies["videoGenre"];
+
+            IEnumerable<BLVideo> blVideo;
+
+            // Apply filters if cookies exist
+            if (!string.IsNullOrEmpty(cookieVideoName) || !string.IsNullOrEmpty(cookieVideoGenre))
+            {
+                blVideo = _videoRepo.GetFilteredDataNameAndGenre(cookieVideoName, cookieVideoGenre);
+            }
+            else
+            {
+                blVideo = _videoRepo.GetPagedData(page, size, orderBy, direction);
+            }
+
             var vmVideo = _mapper.Map<IEnumerable<VMVideo>>(blVideo);
+
+        
 
             foreach (var video in vmVideo)
             {
@@ -54,8 +71,31 @@ namespace MVC.Controllers
             ViewData["orderBy"] = orderBy;
             ViewData["direction"] = direction;
             ViewData["totalPages"] = _videoRepo.GetTotalCount() / size;
+
+            ViewData["VideoName"] = cookieVideoName;
+            ViewData["VideoGenre"] = cookieVideoGenre;
+
+
             return View(vmVideo);
         }
+
+        public IActionResult FilterVideos(string videoName, string videoGenre)
+        {
+            var blVideos = _videoRepo.GetFilteredDataNameAndGenre(videoName, videoGenre);
+            var vmVideos = _mapper.Map<IEnumerable<VMVideo>>(blVideos);
+
+            foreach (var video in vmVideos)
+            {
+                var blGenre = _genreRepo.GetById(video.GenreId);
+                video.GenreName = blGenre?.Name;
+
+                var blImage = _imageRepo.GetById(video.ImageId);
+                video.ImageContent = blImage?.Content;
+            }
+
+            return PartialView("VideoTableBodyPartial", vmVideos);
+        }
+
 
 
         public IActionResult VideoTableBodyPartial(int page, int size, string orderBy, string direction, string videoName)
@@ -88,6 +128,10 @@ namespace MVC.Controllers
 
 
 
+
+
+
+
         public IActionResult GetVideo(string video, string genre)
         {
             var filteredGenres = _videoRepo.GetFilteredDataNameAndGenre(video, genre);
@@ -99,36 +143,7 @@ namespace MVC.Controllers
 
         
 
-        public IActionResult FilterVideos(string videoName, string videoGenre)
-        {
-            var blVideos = _videoRepo.GetFilteredDataNameAndGenre(videoName, videoGenre);
-            var vmVideos = _mapper.Map<IEnumerable<VMVideo>>(blVideos);
 
-            foreach (var video in vmVideos)
-            {
-                var blGenre = _genreRepo.GetById(video.GenreId);
-                video.GenreName = blGenre?.Name;
-
-                var blImage = _imageRepo.GetById(video.ImageId);
-                video.ImageContent = blImage?.Content;
-            }
-
-            ViewData["page"] = 0;
-            if (ViewData.ContainsKey("size"))
-            {
-                ViewData["size"] = (int)ViewData["size"]; // Sačuvajte trenutnu veličinu stranice
-            }
-            ViewData["orderBy"] = (string)ViewData["orderBy"]; // Sačuvajte trenutni redosled sortiranja
-            ViewData["direction"] = (string)ViewData["direction"]; // Sačuvajte trenutni smer sortiranja
-            if (ViewData.ContainsKey("size"))
-            {
-                int size = (int)ViewData["size"];
-                ViewData["totalPages"] = _videoRepo.GetTotalCount() / size;
-            }
-
-
-            return PartialView("VideoTableBodyPartial", vmVideos);
-        }
 
 
 

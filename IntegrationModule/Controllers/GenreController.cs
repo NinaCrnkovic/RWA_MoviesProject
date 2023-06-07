@@ -105,15 +105,23 @@ namespace IntegrationModule.Controllers
         }
 
 
-        [HttpPut("{id}")]
-        public ActionResult<Genre> UpdateGenre(int id, [FromBody] Genre genre)
+        [HttpPut("[action]/{id}")]
+        public ActionResult<Genre> UpdateGenre(int id, [FromQuery] string name, [FromQuery] string description)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var blGenre = _mapper.Map<BLGenre>(genre);
+                var blGenre = _genreRepository.GetById(id);
+                if (blGenre == null)
+                {
+                    return NotFound();
+                }
+                blGenre.Name = name;
+                blGenre.Description = description;
+
+               
                 var updatedGenre = _genreRepository.Update(id, blGenre);
                 var modifiedGenre = _mapper.Map<Genre>(updatedGenre);
 

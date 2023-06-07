@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "OCY1sypWwl0dgxQdUr4k+SH3eEnKWQJBNKbm1Ra9YUQ=",
+  "Hash": "z6I8rZQb3RdhlRaLDgHFGU17HjevkRJpDFGm7o5VwUs=",
   "Source": "MVC-PublicModule",
   "BasePath": "_content/MVC-PublicModule",
   "Mode": "Default",
@@ -66,23 +66,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
-    },
-    {
-      "Identity": "C:\\Users\\38598\\Documents\\Faks\\4.semestar 2022-23\\RWA\\RWA-MoviesProject\\RWA-MoviesProject\\MVC-PublicModule\\wwwroot\\favicon.png",
-      "SourceId": "MVC-PublicModule",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\38598\\Documents\\Faks\\4.semestar 2022-23\\RWA\\RWA-MoviesProject\\RWA-MoviesProject\\MVC-PublicModule\\wwwroot\\",
-      "BasePath": "_content/MVC-PublicModule",
-      "RelativePath": "favicon.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\favicon.png"
     },
     {
       "Identity": "C:\\Users\\38598\\Documents\\Faks\\4.semestar 2022-23\\RWA\\RWA-MoviesProject\\RWA-MoviesProject\\MVC-PublicModule\\wwwroot\\images\\back1.jpg",

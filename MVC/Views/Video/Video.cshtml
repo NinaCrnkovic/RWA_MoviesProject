@@ -17,13 +17,13 @@
 <div class="row justify-content-center">
     <form id="search-form" method="get">
         <div class="form-row justify-content-center">
-            <div class="form-group col-md-auto mx-auto" style="width: 50%;">
+            <div class="form-group col-md-auto mx-auto" style="width: 40%;">
                 @{
                     string videoName = (string)ViewData["VideoName"] ?? ViewContext.HttpContext.Request.Cookies["VideoName"];
                 }
                 <input type="text" class="form-control" name="videoName" placeholder="Video Name" value="@videoName">
             </div>
-            <div class="form-group col-md-auto mx-auto" style="width: 50%;">
+            <div class="form-group col-md-auto mx-auto" style="width: 40%;">
                 @{
                     string videoGenre = (string)ViewData["VideoGenre"] ?? ViewContext.HttpContext.Request.Cookies["VideoGenre"];
                 }
@@ -113,6 +113,31 @@
 
 @section Scripts {
     <script>
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days*24*60*60*1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+        }
+
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+
+        function eraseCookie(name) {   
+            document.cookie = name+'=; Max-Age=-99999999;';  
+        }
+
         $(document).ready(function () {
             $("#search-form").submit(function (event) {
                 console.log("Search form submitted");
@@ -120,6 +145,9 @@
 
                 var videoName = $("input[name='videoName']").val();
                 var videoGenre = $("input[name='videoGenre']").val();
+
+                setCookie("videoName", videoName, 1); 
+                setCookie("videoGenre", videoGenre, 1); 
 
                 $.ajax({
                     type: "GET",
@@ -141,9 +169,13 @@
                 $("input[name='videoName']").val("");
                 $("input[name='videoGenre']").val("");
 
+                eraseCookie("videoName");
+                eraseCookie("videoGenre");
+
                 $("#search-form").submit();
             });
         });
     </script>
 }
+
 
