@@ -57,7 +57,7 @@ namespace IntegrationModule.Controllers
                 }
 
                 // Straničenje
-                query = query.Skip((page - 1) * pageSize).Take(pageSize);
+                query = query.Skip((page) * pageSize).Take(pageSize);
 
                 videos = query.ToList();
 

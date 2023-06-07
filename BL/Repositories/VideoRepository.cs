@@ -24,6 +24,8 @@ namespace BL.Repositories
         IEnumerable<BLVideo> GetPagedDataAdmin(int page, int size, string orderBy, string direction, IEnumerable<BLVideo> filteredVideos);
         int GetTotalCount();
         public IEnumerable<string> GetVideoTagsByVideoId(int videoId);
+
+        int GetTotalFilteredCount(string videoName, string videoGenre);
     }
 
     public class VideoRepository : IVideoRepository
@@ -102,6 +104,13 @@ namespace BL.Repositories
         }
 
 
+        public int GetTotalFilteredCount(string videoName, string videoGenre)
+        {
+            return _dbContext.Videos
+                .Where(v => (string.IsNullOrEmpty(videoName) || v.Name.Contains(videoName)) &&
+                            (string.IsNullOrEmpty(videoGenre) || v.Genre.Name.Contains(videoGenre)))
+                .Count();
+        }
 
 
         public IEnumerable<BLVideo> GetPagedData(int page, int size, string orderBy, string direction)

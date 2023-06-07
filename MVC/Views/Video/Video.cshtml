@@ -97,7 +97,7 @@
     </table>
 
     <div class="btn-group">
-        @for (var i = 0; i <= pages; i++)
+        @for (var i = 0; i < pages; i++)
         {
             var currClass = page == i ? "btn-primary" : "btn-outline-primary";
             <a asp-action="Video"
@@ -106,7 +106,7 @@
                asp-route-orderBy="@orderBy"
                asp-route-direction="@direction"
                data-page="@i"
-               class="pager-btn btn @currClass">@(i + 1)</a>
+               class="pager-btn btn @currClass">@(i+1)</a>
         }
     </div>
 
