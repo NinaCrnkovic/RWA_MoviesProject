@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using BL.BLModels;
-using BL.DALModels;
+
 using BL.Repositories;
+using IntegrationModule.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

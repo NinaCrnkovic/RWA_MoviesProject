@@ -574,3 +574,8 @@ C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-Movie
 C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC-PublicModule\obj\Debug\net6.0\ref\MVC-PublicModule.dll
 C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC-PublicModule\bin\Debug\net6.0\xunit.abstractions.dll
 C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC-PublicModule\bin\Debug\net6.0\xunit.core.dll
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC-PublicModule\obj\Debug\net6.0\staticwebassets\msbuild.MVC-PublicModule.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC-PublicModule\obj\Debug\net6.0\staticwebassets\msbuild.build.MVC-PublicModule.props
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC-PublicModule\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.MVC-PublicModule.props
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC-PublicModule\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.MVC-PublicModule.props
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\MVC-PublicModule\obj\Debug\net6.0\staticwebassets.pack.json

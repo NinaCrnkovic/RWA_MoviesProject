@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using BL.BLModels;
-using BL.DALModels;
+//using BL.DALModels;
 using BL.Repositories;
+using IntegrationModule.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +36,9 @@ namespace IntegrationModule.Controllers
                     "There has been a problem while fetching the data you requested" +ex);
             }
         }
+
+       
+
 
         [HttpGet("[action]")]
         public ActionResult<IEnumerable<Genre>> SearchGenre(string searchPart)

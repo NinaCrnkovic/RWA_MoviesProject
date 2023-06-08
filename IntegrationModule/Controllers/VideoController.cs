@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using BL.BLModels;
-using BL.DALModels;
+
 using BL.Repositories;
+using IntegrationModule.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -121,7 +122,7 @@ namespace IntegrationModule.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var video = new Video
+                var video = new BLVideo
                 {
                     Id = 0,
                     CreatedAt = DateTime.Now,
@@ -133,7 +134,7 @@ namespace IntegrationModule.Controllers
                     ImageId = imageId,
                     Genre = null,
                     Image = null,
-                    VideoTags = new List<VideoTag>()
+                    VideoTags = new List<BLVideoTag>()
                 };
 
                 // Provjera i spremanje oznaka
@@ -141,7 +142,7 @@ namespace IntegrationModule.Controllers
                 {
                     foreach (var tagId in tagIds)
                     {
-                        var videoTag = new VideoTag
+                        var videoTag = new BLVideoTag
                         {
                             VideoId = video.Id,
                             TagId = tagId
@@ -219,6 +220,8 @@ namespace IntegrationModule.Controllers
             }
         }
 
+
+    
 
         [HttpDelete("[action]/{id}")]
         public ActionResult<Video> DeleteVideo(int id)
