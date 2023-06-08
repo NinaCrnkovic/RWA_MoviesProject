@@ -170,13 +170,41 @@ namespace IntegrationModule.Controllers
 
 
         [HttpPut("[action]/{id}")]
-        public ActionResult<Video> UpdateVideo(int id, Video video)
+        public ActionResult<Video> UpdateVideo(int id, [FromQuery] string name, [FromQuery] string description, [FromQuery] int genreId, [FromQuery] int totalSeconds, [FromQuery] string streamingUrl, [FromQuery] int imageId, [FromQuery] List<int> tagIds)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
+                var video = _videoRepository.GetById(id);
+                if (video == null)
+                    return NotFound();
+
+                video.Name = name;
+                video.Description = description;
+                video.GenreId = genreId;
+                video.TotalSeconds = totalSeconds;
+                video.StreamingUrl = streamingUrl;
+                video.ImageId = imageId;
+                video.VideoTags = new List<BLVideoTag>();
+
+                // Provera i dodavanje tagova
+                if (tagIds != null && tagIds.Any())
+                {
+                    foreach (var tagId in tagIds)
+                    {
+                        var videoTag = new BLVideoTag
+                        {
+                            VideoId = video.Id,
+                            TagId = tagId
+                        };
+
+                        video.VideoTags.Add(videoTag);
+                    }
+                }
+
+                // Ažuriranje videa
                 var blVideo = _mapper.Map<BLVideo>(video);
                 var updatedVideo = _videoRepository.Update(id, blVideo);
                 var modifiedVideo = _mapper.Map<Video>(updatedVideo);
@@ -190,6 +218,7 @@ namespace IntegrationModule.Controllers
                     "There has been a problem while fetching the data you requested" + ex);
             }
         }
+
 
         [HttpDelete("[action]/{id}")]
         public ActionResult<Video> DeleteVideo(int id)

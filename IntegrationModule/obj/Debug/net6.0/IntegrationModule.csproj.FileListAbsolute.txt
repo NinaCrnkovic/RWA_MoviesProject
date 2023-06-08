@@ -89,3 +89,8 @@ C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-Movie
 C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\IntegrationModule\bin\Debug\net6.0\IntegrationModule.staticwebassets.runtime.json
 C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\IntegrationModule\bin\Debug\net6.0\xunit.abstractions.dll
 C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\IntegrationModule\bin\Debug\net6.0\xunit.core.dll
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\IntegrationModule\obj\Debug\net6.0\staticwebassets\msbuild.IntegrationModule.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\IntegrationModule\obj\Debug\net6.0\staticwebassets\msbuild.build.IntegrationModule.props
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\IntegrationModule\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.IntegrationModule.props
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\IntegrationModule\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.IntegrationModule.props
+C:\Users\38598\Documents\Faks\4.semestar 2022-23\RWA\RWA-MoviesProject\RWA-MoviesProject\IntegrationModule\obj\Debug\net6.0\staticwebassets.pack.json
