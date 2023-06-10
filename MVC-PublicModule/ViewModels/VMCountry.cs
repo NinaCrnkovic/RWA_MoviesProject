@@ -13,6 +13,6 @@ namespace MVC_PublicModule.ViewModels
         [StringLength(256, MinimumLength = 1)]
         public string Name { get; set; }
 
-        public virtual ICollection<VMUser> Users { get; set; } = new List<VMUser>();
+
     }
 }

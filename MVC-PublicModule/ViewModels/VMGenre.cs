@@ -12,6 +12,6 @@ namespace MVC_PublicModule.ViewModels
         public string? Description { get; set; }
 
 
-        public virtual ICollection<VMVideo> Videos { get; set; } = new List<VMVideo>();
+   
     }
 }

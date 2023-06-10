@@ -26,6 +26,6 @@ public partial class Video
 
     public virtual Image Image { get; set; }
 
-    public virtual ICollection<VideoTag> VideoTags { get; set; } = new List<VideoTag>();
+   // public virtual ICollection<VideoTag> VideoTags { get; set; } = new List<VideoTag>();
 
 }

@@ -14,5 +14,5 @@ public partial class Genre
   
     public string Description { get; set; }
 
-    public virtual ICollection<Video> Videos { get; set; } = new List<Video>();
+   // public virtual ICollection<Video> Videos { get; set; } = new List<Video>();
 }

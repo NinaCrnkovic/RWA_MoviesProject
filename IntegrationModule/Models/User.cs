@@ -36,5 +36,5 @@ public class User
 
     public int CountryOfResidenceId { get; set; }
 
-    public virtual Country CountryOfResidence { get; set; } = null!;
+    //public virtual Country CountryOfResidence { get; set; } = null!;
 }
